@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Host screen · Cleared for Market</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/data.js"></script>
+<script src="assets/qrcode.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body class="host">
+<header class="host-top">
+  <h1>Cleared for Market</h1>
+  <nav class="route" id="route" aria-label="Phases"></nav>
+</header>
+<main class="host-main">
+  <section id="left"></section>
+  <aside class="side" id="right"></aside>
+</main>
+
+<div class="modal" id="qr" role="dialog" aria-modal="true" aria-label="Table links">
+  <div class="slide">
+    <button class="btn ghost close" id="qrClose">Close</button>
+    <h2>Scan your table's code</h2>
+    <div class="qr-grid" id="qrGrid"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const { G, esc, store, outcome, headlines, roleURL, qrSVG, openDeck } = CFM;
+  const KEY = "cfm-host-v1";
+  const fresh = () => ({ phase: 0, shown: {}, d: {}, wire: [], timer: { left: G.phases[0].minutes * 60, endAt: null } });
+  let S = store.get(KEY, null) || fresh();
+  const save = () => store.set(KEY, S);
+
+  const L = document.getElementById("left"), R = document.getElementById("right");
+
+  /* ---------- Timer ---------- */
+  function timeLeft() { return S.timer.endAt ? Math.round((S.timer.endAt - Date.now()) / 1000) : S.timer.left; }
+  function fmt(s) { const neg = s < 0; s = Math.abs(s); return (neg ? "+" : "") + Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
+  function toggleTimer() {
+    if (S.timer.endAt) { S.timer.left = timeLeft(); S.timer.endAt = null; }
+    else { S.timer.endAt = Date.now() + S.timer.left * 1000; }
+    save(); render();
+  }
+  function resetTimer() { S.timer = { left: G.phases[S.phase].minutes * 60, endAt: null }; save(); render(); }
+  setInterval(() => {
+    const el = document.getElementById("clock");
+    if (!el) return;
+    const t = timeLeft();
+    el.textContent = fmt(t);
+    el.parentElement.classList.toggle("over", t < 0);
+  }, 250);
+
+  function goPhase(n) {
+    if (n < 0 || n >= G.phases.length) return;
+    S.phase = n; S.timer = { left: G.phases[n].minutes * 60, endAt: null };
+    save(); render();
+  }
+
+  /* ---------- Decisions ---------- */
+  function pick(id, v) {
+    S.d[id] = S.d[id] === v ? undefined : v;
+    rebuildWire(); save(); render();
+  }
+  function rebuildWire() {
+    S.wire = [];
+    for (let p = 1; p <= 5; p++) headlines(p, S.d).forEach(h => S.wire.push({ p, t: h.t, alarm: !!h.alarm }));
+  }
+
+  /* ---------- Rendering ---------- */
+  function route() {
+    document.getElementById("route").innerHTML = G.phases.map(p =>
+      `<button class="stop ${p.id < S.phase ? "done" : ""} ${p.id === S.phase ? "now" : ""}" data-go="${p.id}" ${p.id === S.phase ? 'aria-current="step"' : ""}>
+        ${p.id >= 1 && p.id <= 5 ? p.id + " " : ""}${esc(p.name)}</button>`).join("");
+    document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => goPhase(+b.dataset.go));
+  }
+
+  function timerBox() {
+    const t = timeLeft();
+    return `<div class="timer ${t < 0 ? "over" : ""}"><div class="lbl">${S.timer.endAt ? "Time left" : "Paused"}</div><div class="t" id="clock">${fmt(t)}</div></div>`;
+  }
+
+  function controls(extra) {
+    return `<div class="controls">
+      <button class="btn primary" id="tgl">${S.timer.endAt ? "Pause timer" : "Start timer"}</button>
+      <button class="btn" id="rst">Reset timer</button>
+      ${extra || ""}
+      <button class="btn" id="prev" ${S.phase === 0 ? "disabled" : ""}>Previous phase</button>
+      <button class="btn" id="next" ${S.phase === G.phases.length - 1 ? "disabled" : ""}>Next phase</button>
+    </div>
+    <p class="small muted" style="margin-top:10px">Keys: Space starts or pauses the timer. Left and right arrows change phase. W opens the warm-up.</p>`;
+  }
+
+  function leftWarmup() {
+    const p = G.phases[0];
+    return `<div class="phase-num">Before we start</div>
+      <h2 class="phase-title">${esc(p.name)}</h2>
+      <p class="phase-screen">${esc(p.screen)}</p>
+      <div class="code-row">${timerBox()}</div>
+      <ol class="steps">
+        <li>Walk through the warm-up together (about 10 minutes).</li>
+        <li>Each table scans its code to open its role page.</li>
+        <li>Read "Your role" and split the personas.</li>
+      </ol>
+      ${controls(`<button class="btn" id="deck">Open warm-up</button><button class="btn" id="codes">Show table codes</button>`)}`;
+  }
+
+  function leftPhase() {
+    const p = G.phases[S.phase];
+    const shown = !!S.shown[p.id];
+    return `<div class="phase-num">Phase ${p.id} of 5</div>
+      <h2 class="phase-title">${esc(p.name)}</h2>
+      <p class="phase-screen">${esc(p.screen)}</p>
+      <div class="code-row">
+        <div class="codebox ${shown ? "" : "hidden"}"><div class="lbl">Unlock word</div><div class="word" aria-hidden="${!shown}">${shown ? esc(p.code) : "XXXXXXX"}</div></div>
+        ${timerBox()}
+      </div>
+      <ol class="steps">
+        <li>Open Phase ${p.id} on your role page and read what only your table knows.</li>
+        <li>Send delegates to other tables. Negotiate, trade, bluff.</li>
+        <li>When time is up, spokespeople announce their moves.</li>
+      </ol>
+      ${controls(`<button class="btn" id="reveal">${shown ? "Hide unlock word" : "Reveal unlock word"}</button>`)}`;
+  }
+
+  function leftDebrief() {
+    const o = outcome(S.d);
+    const pathway = o.pma ? "PMA" : (S.d.pathway ? "510(k)" : "not recorded");
+    return `<div class="phase-num">After the game</div>
+      <h2 class="phase-title">Debrief</h2>
+      <p class="phase-screen">Our room took the ${pathway} road. Here is what that produced.</p>
+      <div class="stats">
+        <div><div class="n">${o.implanted.toLocaleString()}</div><div class="muted">women implanted</div></div>
+        <div><div class="n">${o.injured.toLocaleString()}</div><div class="muted">with pain, erosion or removal</div></div>
+        <div><div class="n">${o.years}${o.onMarket ? "+" : ""}</div><div class="muted">years until the FDA acted${o.onMarket ? " (still on sale)" : ""}</div></div>
+      </div>
+      <p class="small muted">Numbers are invented for the game, from the decisions recorded on this screen.</p>
+      ${o.court ? `<div class="boxed"><p class="boxed-h">In court</p><p style="margin:0">${esc(o.court)}</p></div>` : ""}
+      <div class="boxed alarm"><p class="boxed-h">${esc(G.device.truthTitle)}</p><ul>${G.device.truth.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>
+      <h3 style="margin-top:22px">What really happened</h3>
+      <ul class="timeline">${G.history.map(h => `<li><b>${esc(h.y)}</b><span>${esc(h.t)}</span></li>`).join("")}</ul>
+      <h3 style="margin-top:22px">Discuss</h3>
+      <ol class="steps">${G.debriefQuestions.map(q => `<li>${esc(q.q)} <span class="muted">(${esc(q.link)})</span></li>`).join("")}</ol>
+      ${controls(`<button class="btn" id="newgame">New session (clear all)</button>`)}`;
+  }
+
+  function right() {
+    const decs = G.decisions[S.phase] || [];
+    let h = "";
+    if (decs.length) {
+      h += `<h2>Moves this phase</h2>` + decs.map(q => `<div class="dec"><div class="q">${esc(q.label)} <span>· ${esc(q.who)}</span></div>
+        <div class="chips">${q.options.map(o => `<button class="chip" aria-pressed="${S.d[q.id] === o.v}" data-dec="${q.id}" data-v="${o.v}">${esc(o.t)}</button>`).join("")}</div></div>`).join("");
+    }
+    if (S.phase === 0) {
+      h += `<h2>The tables</h2><ul class="wire">${G.roles.map(r => `<li><span class="swatch" style="background:${r.color}"></span><b>${esc(r.name)}</b><span class="ph">${esc(r.label)}</span></li>`).join("")}</ul>`;
+    }
+    h += `<h2>News wire</h2>`;
+    h += S.wire.length
+      ? `<ul class="wire">${S.wire.slice().reverse().map(w => `<li class="${w.alarm ? "alarm" : ""}"><span class="ph">Phase ${w.p}</span>${esc(w.t)}</li>`).join("")}</ul>`
+      : `<p class="muted">Headlines appear here as you record each table's move.</p>`;
+    R.innerHTML = h;
+    R.querySelectorAll("[data-dec]").forEach(b => b.onclick = () => pick(b.dataset.dec, b.dataset.v));
+  }
+
+  function render() {
+    route();
+    L.innerHTML = S.phase === 0 ? leftWarmup() : S.phase === 6 ? leftDebrief() : leftPhase();
+    right();
+    const on = (id, f) => { const e = document.getElementById(id); if (e) e.onclick = f; };
+    on("tgl", toggleTimer); on("rst", resetTimer);
+    on("prev", () => goPhase(S.phase - 1)); on("next", () => goPhase(S.phase + 1));
+    on("deck", openDeck); on("codes", openQR);
+    on("reveal", () => { S.shown[S.phase] = !S.shown[S.phase]; save(); render(); });
+    on("newgame", () => { if (window.confirm("Clear all recorded moves and start over?")) { S = fresh(); save(); render(); } });
+  }
+
+  /* ---------- QR modal ---------- */
+  const qr = document.getElementById("qr");
+  function openQR() {
+    document.getElementById("qrGrid").innerHTML = G.roles.map(r => `<div>
+      <b><span class="swatch" style="background:${r.color}"></span>${esc(r.name)}</b>
+      ${qrSVG(roleURL(r))}<div class="url">${esc(roleURL(r))}</div></div>`).join("");
+    qr.classList.add("open");
+  }
+  document.getElementById("qrClose").onclick = () => qr.classList.remove("open");
+  qr.addEventListener("click", e => { if (e.target === qr) qr.classList.remove("open"); });
+
+  document.addEventListener("keydown", e => {
+    if (e.target.closest && e.target.closest("input,textarea")) return;
+    if (document.getElementById("deck") && document.getElementById("deck").classList.contains("open")) return;
+    if (e.key === " " && !e.target.closest("button")) { e.preventDefault(); toggleTimer(); }
+    if (e.key === "ArrowRight") goPhase(S.phase + 1);
+    if (e.key === "ArrowLeft") goPhase(S.phase - 1);
+    if (e.key === "w" || e.key === "W") openDeck();
+    if (e.key === "Escape") qr.classList.remove("open");
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

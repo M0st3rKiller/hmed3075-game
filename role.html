@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Your role · Cleared for Market</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/data.js"></script>
+<script src="assets/qrcode.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function () {
+  const { G, esc, store } = CFM;
+  const key = new URLSearchParams(location.search).get("t");
+  const role = G.roles.find(r => r.key === key);
+  const app = document.getElementById("app");
+
+  if (!role) {
+    app.innerHTML = `<main class="wrap"><h1>Role page not found</h1>
+      <p>This link does not match a table. Scan the code on your table again, or ask your TA for your table's link.</p></main>`;
+    return;
+  }
+  document.title = role.name + " · Cleared for Market";
+  document.documentElement.style.setProperty("--role", role.color);
+
+  const SKEY = "cfm-role-" + role.key;
+  const st = store.get(SKEY, { open: [], tab: 0 });
+  const gamePhases = G.phases.filter(p => p.code);
+
+  function header() {
+    return `<header class="role-band"><div class="wrap">
+      <div class="kicker">${esc(role.label)}</div>
+      <h1>${esc(role.name)}</h1></div></header>`;
+  }
+
+  function overview() {
+    return `<p style="font-size:1.1rem">${esc(role.intro)}</p>
+      <div class="boxed"><p class="boxed-h">The device: ${esc(G.device.name)}</p><p style="margin:0">${esc(G.device.pitch)}</p></div>
+      <h2 style="font-size:1.2rem;margin-top:22px">Split these personas at your table</h2>
+      ${role.personas.map(p => `<div class="persona"><b>${esc(p.name)}</b><span class="muted">${esc(p.note)}</span></div>`).join("")}
+      <div class="boxed alarm"><p class="boxed-h">Your secret objectives</p>
+      <ul>${role.objectives.map(o => `<li>${esc(o)}</li>`).join("")}</ul>
+      <p class="small muted" style="margin:8px 0 0">At the debrief, say which ones you achieved.</p></div>`;
+  }
+
+  function phasePanel(p) {
+    const opened = st.open.includes(p.id);
+    if (!opened) {
+      return `<p><b>Phase ${p.id}: ${esc(p.name)}</b> is locked.</p>
+        <p class="muted">Type the unlock word when it appears on the big screen.</p>
+        <form class="unlock" data-p="${p.id}">
+          <label for="code${p.id}" class="muted small" style="width:100%">Unlock word</label>
+          <input id="code${p.id}" autocomplete="off" autocapitalize="characters" spellcheck="false">
+          <button class="btn primary" type="submit">Unlock</button>
+        </form><div class="err" id="err${p.id}" role="status"></div>`;
+    }
+    const c = role.phases[p.id];
+    return `<h2 style="font-size:1.5rem">Phase ${p.id}: ${esc(p.name)}</h2>
+      <p class="muted">${esc(p.screen)}</p>
+      <div class="boxed"><p class="boxed-h">What only your table knows</p>
+        <ul>${c.brief.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>
+      <div class="move"><b>Your move</b>${esc(c.move)}</div>
+      <p class="small"><b>Worth talking to:</b> ${c.talk.map(esc).join(", ")}</p>`;
+  }
+
+  function render() {
+    const tabs = [{ id: 0, name: "Your role" }].concat(gamePhases);
+    const cur = tabs.find(t => t.id === st.tab) || tabs[0];
+    app.innerHTML = header() + `<main class="wrap">
+      <div class="tabs" role="tablist">${tabs.map(t => {
+        const locked = t.id > 0 && !st.open.includes(t.id);
+        return `<button class="tab" role="tab" aria-selected="${t.id === cur.id}" data-tab="${t.id}">${t.id === 0 ? "Your role" : "Phase " + t.id}${locked ? '<span class="lock">locked</span>' : ""}</button>`;
+      }).join("")}</div>
+      <section class="panel" role="tabpanel">${cur.id === 0 ? overview() : phasePanel(cur)}</section>
+      <details class="rules"><summary>How to play</summary><ul>${G.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul></details>
+    </main>`;
+
+    app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { st.tab = +b.dataset.tab; store.set(SKEY, st); render(); });
+    const f = app.querySelector("form.unlock");
+    if (f) {
+      f.onsubmit = e => {
+        e.preventDefault();
+        const pid = +f.dataset.p;
+        const val = f.querySelector("input").value.trim().toUpperCase();
+        const want = G.phases.find(x => x.id === pid).code;
+        if (val === want) {
+          if (!st.open.includes(pid)) st.open.push(pid);
+          store.set(SKEY, st); render();
+        } else {
+          app.querySelector("#err" + pid).textContent = "That word does not open this phase. Check the big screen and try again.";
+        }
+      };
+      f.querySelector("input").focus();
+    }
+  }
+  render();
+})();
+</script>
+</body>
+</html>
