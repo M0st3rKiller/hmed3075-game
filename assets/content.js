@@ -202,8 +202,8 @@ window.GAME = {
           hide: [{"t": "That the foam is untested.", "why": "It could delay the launch and worry shareholders."}, {"t": "The prescribing data.", "why": "It could be treated as an illegal kickback."}],
           help: ["Patients know how much the noise bothers them.", "Suppliers know how many rented machines come back, and why."],
           source: {"t": "From your own launch announcement: the machine is described as \"quiet, small and light.\"", "src": ["S1"]},
-          question: "The foam's long-term effects have not been tested. How will you get the doctors and the patients' group to back this design?",
-          options: ["A. Use the foam and launch now", "B. Run long-term tests first, then launch", "C. Use a more expensive material and raise the price"]
+          question: "The foam cuts the noise, but no one has tested what it does over years in a warm, humid machine. What do you take to the board?",
+          options: ["A. Launch this fall with the foam, without a long-term test", "B. Delay the launch two years for a long-term inhalation study", "C. Redesign with a costlier sound barrier and raise the price $150"]
         },
         2: {
           film: { t: "Women like Angie Firmalino got Essure because their doctors encouraged it. The film reports that device companies paid doctors $2 billion in 2016.", src: ["F3"] },
@@ -212,8 +212,8 @@ window.GAME = {
           hide: [{"t": "That you have not seen any safety data.", "why": "It could make your recommendation look careless."}, {"t": "How many of your patients fail the 90-day rule.", "why": "It reflects badly on your clinic."}],
           help: ["The company knows which tests it has and has not run.", "Suppliers know how many hours your patients actually use their machines."],
           source: {"t": "Medicare's 90-day usage rule, and the study showing only about half of patients meet it.", "src": ["S3", "S4"]},
-          question: "Many of your patients cannot meet the 90-day rule. What do you ask Philips for?",
-          options: ["A. Support adding the foam", "B. Ask to see safety data first", "C. Recommend a different brand"]
+          question: "About half of your patients fail the 90-day rule, mostly over noise. The Philips sales rep is in your office. What do you say?",
+          options: ["A. Promise to prescribe DreamStation to every new patient", "B. Prescribe it only after Philips sends inhalation safety data", "C. Switch new patients to another brand until the foam is tested"]
         },
         3: {
           film: { t: "Women chose Essure because it promised a quick procedure without surgery, and their doctors recommended it.", src: ["F1", "F3"] },
@@ -222,8 +222,8 @@ window.GAME = {
           hide: [{"t": "That some members use their machines less than the rule requires.", "why": "They could lose coverage."}],
           help: ["The company knows what is in the new machine.", "Researchers know how many hours a night the machine must be worn to work."],
           source: {"t": "Medicare's 90-day usage rule.", "src": ["S3"]},
-          question: "Would you accept an unknown risk in exchange for a quiet machine? Put your conditions to the doctors and the company.",
-          options: ["A. Push for a quiet machine as soon as possible", "B. Demand the material list and test results", "C. Put up with the noise"]
+          question: "The quiet machine is what your members asked for, and its foam is untested. What does the Circle tell Philips and the doctors?",
+          options: ["A. Petition Philips to ship the quiet machine now", "B. Refuse to endorse it until Philips publishes the foam's materials and test results", "C. Advise members to keep their old, loud machines for now"]
         },
         4: {
           film: { t: "An FDA manager moved the da Vinci robot from the PMA route to the easier 510(k) route. All vaginal mesh was cleared through 510(k) without human studies.", src: ["F2", "F4"] },
@@ -232,8 +232,8 @@ window.GAME = {
           hide: [{"t": "That you think leadership is rushing you.", "why": "Going over your bosses' heads can cost you your career. CDRH scientists who complained to Congress in 2008 asked to stay anonymous.", "tag": "H", "src": ["S24"]}, {"t": "Confidential company information.", "why": "You are not allowed to share it."}],
           help: ["The company knows exactly what changed.", "Your leadership, played by the TA, decides on time and staff."],
           source: {"t": "Device makers are required by law to report malfunctions, injuries and deaths to the FDA within 30 days. Patients and others may report voluntarily.", "src": ["S10"]},
-          question: "The design has changed. Should it be reviewed again? Your queue is already months behind.",
-          options: ["A. Accept the company's description", "B. Ask for test data", "C. Require a full new review"]
+          question: "Philips describes the foam as a minor change to a cleared device. Leadership wants the backlog gone this quarter. What do you write on the file?",
+          options: ["A. Sign off: minor change, no new submission needed", "B. Hold the file and request the foam's test data", "C. Recommend a new 510(k) with long-term testing"]
         },
         5: {
           film: { t: "Dr. Rita Redberg, editor of JAMA Internal Medicine, explains how the 510(k) route let metal-on-metal hips onto the market.", src: ["F2", "F4"] },
@@ -242,8 +242,8 @@ window.GAME = {
           hide: [{"t": "That you once applied for a Philips research grant.", "why": "It is a conflict of interest you must disclose.", "tag": "F"}, {"t": "Your unpublished findings.", "why": "Early results are not conclusions."}],
           help: ["Suppliers have nightly usage data.", "Patients know why people give up."],
           source: {"t": "Medicare's 90-day usage rule, and the study showing only about half of patients meet it.", "src": ["S3", "S4"]},
-          question: "Your research shows CPAP works, but only if patients wear it. Which fix will you back?",
-          options: ["A. Publicly support the quieter machine", "B. Propose an inhalation study first", "C. Warn publicly that the foam is untested"]
+          question: "A reporter asks what you think of the new quiet CPAP machine. Half of patients quit the loud ones. What do you say on the record?",
+          options: ["A. Endorse it: quieter machines keep patients on treatment", "B. Decline to comment and apply for funding for an inhalation study", "C. Say on the record that the foam has never been tested long term"]
         },
         6: {
           film: { t: "The film has no distributor. The closest match is the sales push behind da Vinci: surgeons said the robot took far longer to master than they expected.", src: ["F2"] },
@@ -252,19 +252,19 @@ window.GAME = {
           hide: [{"t": "The prescribing data.", "why": "It could be treated as an illegal kickback."}, {"t": "Individual patients' usage data.", "why": "It is personal. You can share overall patterns."}],
           help: ["The company knows the wholesale price.", "Doctors know which brand they will recommend."],
           source: {"t": "The DreamStation brochure pitches the machine to suppliers as good for long-term patient use and good for business efficiency.", "src": ["S2"]},
-          question: "Patients are returning machines and your income is falling. What will you do with the prescribing data Philips gave you?",
-          options: ["A. Push the new machine hard", "B. Stop using the data and tell doctors where it came from", "C. Switch to another brand"]
+          question: "One in three rentals comes back, and Philips has handed you a list of which doctors prescribe CPAP. What do you do with it?",
+          options: ["A. Use the list: pitch DreamStation to every high-volume doctor", "B. Return the list and tell doctors Philips was sharing their prescribing data", "C. Drop Philips and stock a rival brand"]
         }
       },
       outcome: {
         lead: "What happened: Philips Respironics lined its machines with polyester-based polyurethane foam to cut the noise. In October 2015 it launched DreamStation, marketed as quiet, small and light.",
         lines: {
-          1: ["Approved. DreamStation ships on schedule with the foam inside.", "The board says no. Long-term testing would delay the launch by years. The foam goes in.", "The board says no. The expensive material would price DreamStation out of the market. The cheap foam stays."],
-          2: ["Twin Lakes backs the quiet machine. More of its patients meet the 90-day rule, and DreamStation becomes the clinic's default.", "Twin Lakes asks for safety data and gets a one-page summary with no long-term results. They prescribe it anyway. Their patients need a machine they will wear.", "Twin Lakes looks for another brand, but insurers and Lakeside stock DreamStation. Most patients end up on it anyway."],
-          3: ["North Star members line up for the quiet machine. More of them meet the 90-day rule and keep their coverage.", "North Star asks for the material list. Philips calls it proprietary. Members buy the machine anyway.", "Some members keep their loud machines, miss the 90-day rule and lose coverage. They switch."],
-          4: ["CDRH accepts the company's description of the change. No new testing is required.", "CDRH asks for test data. Short-term data arrive, and the change goes through.", "CDRH asks for a full review. Philips argues the change is minor and needs no new submission. By the time the dispute is settled, the machine is on sale."],
-          5: ["The researchers praise quieter machines in the local paper. Their name now stands behind DreamStation.", "The inhalation study waits for funding that never comes.", "The researchers warn in the local paper that the foam is untested. With no data behind it, the warning gets little attention."],
-          6: ["Lakeside pushes DreamStation to every prescriber on its list. Rentals rise and returns fall.", "Lakeside stops using the data and tells doctors. Doctors shrug, rival suppliers keep using theirs, and Lakeside loses referrals. Within months it signs back on.", "Lakeside tries another brand. Its biggest prescribers want DreamStation. It switches back."]
+          1: ["The board approves in one meeting. DreamStation ships on schedule, and the foam's safety file holds short-term tests only.", "The board says no: a two-year study would hand the market to your main rival. The foam goes in untested.", "The board says no: suppliers rent machines out at a fixed Medicare rate and will not pay $150 more. The cheap foam stays."],
+          2: ["Twin Lakes makes DreamStation its default. Within a year more of its patients pass the 90-day rule, and no one at the clinic has seen a safety study.", "Philips sends a one-page summary: short-term tests passed, nothing on long-term use. With patients failing the 90-day rule every week, the clinic prescribes it anyway.", "Lakeside, the only supplier in town, stocks DreamStation and is slow to order anything else. Patients who cannot wait take what is on the shelf."],
+          3: ["Philips quotes the petition in its marketing. Members upgrade, more of them pass the 90-day rule, and nobody asks what the foam is made of.", "Philips replies that the materials are proprietary and the device is FDA-cleared. Members tired of the noise buy it without the Circle's endorsement.", "Members who stay on loud machines wear them less. Several fail the 90-day rule, lose coverage, and requalify on a DreamStation."],
+          4: ["The file closes in a day and counts toward the quarter's target. No one at the agency has seen a test of the foam.", "Philips sends short-term results that meet the standard. No rule requires a long-term test, so you sign, and your supervisor asks why it took six weeks.", "Philips appeals over your head, arguing the change is minor. Leadership agrees with the company and reassigns the file. The machine goes on sale."],
+          5: ["Your quote runs in the paper, then in a Philips brochure. When questions come later, your name is already on the product.", "The grant panel calls the study low priority, because the device is already FDA-cleared. The only other funder is Philips. The study never starts.", "The paper runs your warning on page 12. Philips answers that the device is FDA-cleared, and with no data you have nothing to add."],
+          6: ["Your reps work the list. Referrals climb, returns fall, and Lakeside now depends on a gift it cannot disclose.", "Doctors shrug: they assumed someone had the data. Rival suppliers keep their lists and take your referrals. Within months Lakeside asks Philips for the list back.", "Your biggest prescribers write DreamStation on their orders, and patients ask for it by name. After two slow quarters, Lakeside restocks Philips."]
         },
         rule: "Medicare's 90-day rule stayed in place. A quiet machine was the one patients could keep wearing."
       }
@@ -312,8 +312,8 @@ window.GAME = {
           hide: [{"t": "You hold far more foam complaints than you have reported to the FDA.", "why": "Late reports could bring penalties.", "tag": "H", "src": ["S8", "S10"]}, {"t": "Your foam supplier warned years ago that this foam does not belong in a warm, humid machine.", "why": "It shows you knew.", "tag": "H", "src": ["S6"]}],
           help: ["Suppliers know how many patients use ozone cleaners.", "Researchers know what the particles are made of."],
           source: {"t": "Your foam supplier, in a 2016 email: it \"would not recommend use of polyester foam in such an environment.\"", "src": ["S6"]},
-          question: "The researchers and the patients' group say something may be wrong. How do you respond?",
-          options: ["A. Question their methods and stress there is no proof", "B. Quietly replace the foam during servicing", "C. Report to the FDA"]
+          question: "Complaints about black particles are piling up, and your own tests show the foam can break down. What do you do this month?",
+          options: ["A. Say there is no proof of harm and point to ozone cleaners", "B. Swap the foam during routine servicing, with no announcement", "C. File every overdue complaint with the FDA now"]
         },
         2: {
           film: { t: "The film shows doctors who were often as uninformed as their patients.", src: ["F5"] },
@@ -322,8 +322,8 @@ window.GAME = {
           hide: [{"t": "That you recommended this machine.", "why": "Patients may hold you responsible."}],
           help: ["Researchers are analyzing the specks.", "The company has test results it has not shared."],
           source: {"t": "Philips' recall notice told patients not to stop or change prescribed therapy without consulting their physicians.", "src": ["S13"]},
-          question: "Patients ask whether they should keep using the machine. You have no toxicity data. What do you tell them?",
-          options: ["A. Keep using it", "B. Stop using it", "C. Let each patient decide"]
+          question: "A patient puts tubing with black specks on your desk and asks: do I use this tonight? No one has toxicity data. What do you say?",
+          options: ["A. Keep using it: untreated apnea is the bigger risk", "B. Stop tonight, until someone tests the particles", "C. Lay out both risks and let the patient choose"]
         },
         3: {
           film: { t: "Angie Firmalino started a Facebook group. The \"E-Sisters\" grew to tens of thousands and pressed officials, doctors and the FDA.", src: ["F6"] },
@@ -332,8 +332,8 @@ window.GAME = {
           hide: [{"t": "That many members used ozone cleaners.", "why": "The company could blame them instead of the foam."}],
           help: ["Researchers can tell whether the particles are toxic.", "The FDA knows how many reports it has."],
           source: {"t": "Complaints sent to Philips described \"black particles\" or \"dirt and dust\" inside machines.", "src": ["S14"]},
-          question: "A machine that might be toxic, or a worse machine. Which do you choose?",
-          options: ["A. Keep using it", "B. Stop, or switch to a worse machine", "C. Report to the FDA together and prepare to sue"]
+          question: "Twenty members have photos of black particles, and no one can say what they are. What does the Circle advise tonight?",
+          options: ["A. Keep using the machines until there is proof", "B. Stop using them, or dig out the old loud ones", "C. File FDA reports as a group and hire a lawyer"]
         },
         4: {
           film: { t: "Former FDA commissioner David Kessler says the adverse event reporting system is badly underused because it is voluntary.", src: ["F7"] },
@@ -342,8 +342,8 @@ window.GAME = {
           hide: [{"t": "What you suspect about your director.", "why": "You have no proof, and accusing your boss could end your career."}],
           help: ["Suppliers know which models the particles show up in.", "Your leadership, played by the TA, can act, but you may not like the answer."],
           source: {"t": "Device makers must report within 30 days, but late reports are common, and the FDA has accepted them years later.", "src": ["S10"]},
-          question: "The reports in front of you only say \"contamination.\" How will you decide whether it is the foam?",
-          options: ["A. Investigate", "B. Issue a public safety warning now", "C. Ask the company for more information"]
+          question: "A handful of reports mention \"contamination.\" Your director has told you to let the company handle it. What do you do?",
+          options: ["A. Open a formal investigation and request a plant inspection", "B. Draft a public safety warning now", "C. Do as told: send Philips a letter asking for information"]
         },
         5: {
           film: { t: "Diana Zuckerman of the National Center for Health Research says the approval process for the riskiest devices is not good enough. Bayer's statement attacked her as a paid litigation expert.", src: ["F4", "F9"] },
@@ -352,8 +352,8 @@ window.GAME = {
           hide: [{"t": "How small your sample is.", "why": "The company would use it to dismiss you."}],
           help: ["Patients have particle samples and photos.", "The FDA knows how many reports it has."],
           source: {"t": "A Philips engineer, in a 2018 email unsealed in court: \"The material sheds and is pulled into the ventilator air path.\"", "src": ["S7"]},
-          question: "You only have partial data. Do you go public?",
-          options: ["A. Publish early results", "B. Share your findings with the patients' group", "C. Send it privately to the FDA"]
+          question: "Your lab says the particles are degraded foam. Your sample is twelve machines, and Philips will not share its data. What do you do with the result?",
+          options: ["A. Publish it now as a preliminary finding", "B. Give the lab report to the patients' group", "C. Send it confidentially to the FDA and keep testing"]
         },
         6: {
           film: { t: "Again, no distributor. But patients in the film found insurers covered Essure far more easily than its removal. The money flowed toward putting devices in, not taking them out.", src: ["F8"] },
@@ -362,19 +362,19 @@ window.GAME = {
           hide: [{"t": "That you saw specks early.", "why": "It could make you look complicit."}, {"t": "That you sell ozone cleaners.", "why": "If ozone is part of the cause, you could be pulled in."}],
           help: ["The company will have to explain the cause.", "Patients know what they plan to do."],
           source: {"t": "In April 2021 Philips stopped shipping the machines from its factories but approved continued sales of distributors' inventory.", "src": ["S11"]},
-          question: "Who do you tell about the specks at your counter? Do you keep selling your stock?",
-          options: ["A. Tell patients and doctors, and stop selling", "B. Tell only Philips, and keep selling", "C. Stop selling, but tell no one why"]
+          question: "Speckled machines keep coming back, and Philips says you may keep selling. What do you do with the 200 machines in your warehouse?",
+          options: ["A. Stop selling, and call every patient and doctor", "B. Report it to Philips only, and sell the stock", "C. Pull the stock quietly and say nothing"]
         }
       },
       outcome: {
         lead: "What happened: in April 2021 Philips stopped shipping the machines from its factories. On June 14, 2021, it recalled millions of them. It said the foam could break down, and that unapproved cleaning methods such as ozone, and heat and humidity, might make it worse.",
         lines: {
-          1: ["Philips says there is no evidence its machines are unsafe. The complaints keep coming.", "Philips quietly swaps foam in some of the machines it services. Millions of others are untouched.", "Philips gets ready to file thousands of overdue complaints. Its lawyers say a recall plan has to come first."],
-          2: ["Twin Lakes tells patients to keep using their machines. When the recall comes, patients ask why their doctors said it was safe.", "Twin Lakes tells patients to stop. Some stop treatment altogether.", "Twin Lakes leaves the choice to patients, who have no data either. Most keep using the machines, and some later blame the clinic for not warning them."],
-          3: ["Most North Star members keep using their machines, and keep breathing whatever comes off the foam.", "Some members stop, or go back to older, louder machines.", "North Star files a stack of reports with the FDA and calls a lawyer."],
-          4: ["CDRH opens an inquiry. It takes months.", "CDRH drafts a public warning, but without the company's data it cannot say what the risk is. The warning stalls in internal review.", "CDRH asks Philips for more information. The answers come slowly."],
-          5: ["The researchers publish early results. Philips says the sample is too small.", "The researchers share their findings with North Star. Members post the photos online, and Philips calls the posts unscientific.", "The data go to the FDA, into the same queue."],
-          6: ["Lakeside tells patients and doctors and stops selling. Philips reminds it of its contract.", "Lakeside tells only Philips and sells its stock before the recall.", "Lakeside quietly stops selling and absorbs the loss. Patients already using the machines are never warned."]
+          1: ["Philips' statement says its machines meet all standards and points to ozone cleaners. Doctors repeat it to patients. The complaints keep arriving and stay in your files.", "Machines that come in for service leave with new foam and no explanation. Millions that never come in keep the old foam, and no patient is told.", "Your lawyers stop the filing: thousands of late reports at once would force a recall, so a recall plan must come first. The reports wait. In the real case, Philips filed 30 in ten years."],
+          2: ["Patients keep the machines on. Months later the recall letter arrives, and they ask why their doctor told them to breathe through it.", "Patients stop. Replacement machines are back-ordered, so some go months untreated, and a few never restart.", "Patients hear two risks and no numbers. Most keep using the machine, because the alternative is no sleep. Some later ask why you did not just tell them."],
+          3: ["Members keep the machines on for months more, particles and all. There is still no proof either way.", "Some members go without, and feel it at work and behind the wheel. Others go back to loud machines they could never sleep with.", "Twenty reports reach the FDA in one week. In the real case, Philips filed 30 in ten years. A lawyer starts collecting members' machines as evidence."],
+          4: ["The request needs your director's signature. It sits on the desk for two months, and the inspection is scheduled for next year.", "The draft goes up for clearance. Leadership asks what exactly the risk is, and without the company's data you cannot say. The warning is never issued.", "Philips answers in 60 days: it is looking into the matter. Your director marks the file as handled."],
+          5: ["The preprint makes the news. Philips answers within a day: twelve machines, no peer review, no proof of harm. Your dean gets a phone call.", "North Star posts the report beside members' photos. It is shared thousands of times, and Philips dismisses it as social media, not science.", "The FDA thanks you and logs the report. It joins the \"contamination\" files waiting for follow-up, and no patient hears of it."],
+          6: ["Lakeside makes the calls and eats the cost of 200 machines. A Philips lawyer writes that your contract forbids disparaging the product.", "Philips thanks you and confirms you may keep selling. The last machines leave your shelves weeks before the recall. In the real case, Philips approved exactly that.", "The 200 machines sit in the warehouse as a loss. The patients you already supplied keep breathing through theirs, and no one tells them."]
         },
         rule: "The FDA classifies the recall as Class I, its most serious type.",
         close: "To this day, how many people the foam harmed has not been settled."
