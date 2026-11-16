@@ -19,6 +19,21 @@ window.GAME = {
     { id: "outcome", name: "Outcome", minutes: 1 }
   ],
 
+  /* What the big screen shows during each stage of an act */
+  stageRules: {
+    read: [
+      "Read the story and your table's card on your laptop.",
+      "Find out what you need, and which table has it.",
+      "Stay at your table for now."
+    ],
+    debate: [
+      "Send one or two people to other tables.",
+      "Trade what you know for what you need.",
+      "Share, hold back, or bargain. Nothing is punished.",
+      "Pick your spokesperson before time runs out."
+    ]
+  },
+
   sources: {
     S1: { t: "Philips press release on the Dream Family launch (Oct. 20, 2015)", u: "https://prnewswire.com/news-releases/new-philips-dream-family-solution-gives-sleep-apnea-patients-a-better-nights-sleep-300162910.html" },
     S2: { t: "Philips DreamStation product brochure (2015)", u: "https://images.philips.com/is/content/PhilipsConsumer/PDFDownloads/India/DreamStation%20device%20brochure.pdf" },

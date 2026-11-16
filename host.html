@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794797490">
-<script src="assets/content.js?v=1794797490"></script>
-<script src="assets/app.js?v=1794797490"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794797651">
+<script src="assets/content.js?v=1794797651"></script>
+<script src="assets/app.js?v=1794797651"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -90,11 +90,8 @@
 
   /* ---------- Views ---------- */
   function videoView() {
-    main.className = "hmain single";
-    return `<div class="kicker">Before we start</div>
-      <div class="video" style="margin-top:10px"><iframe src="https://www.youtube-nocookie.com/embed/${esc(G.video.id)}?rel=0" title="${esc(G.video.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
-      <p class="small muted" style="margin-top:8px">${esc(G.video.title)}</p>
-      <div class="row">${timerBox()}</div>${controls()}`;
+    main.className = "hmain single videomode";
+    return `<div class="videofill"><iframe src="https://www.youtube-nocookie.com/embed/${esc(G.video.id)}?rel=0" title="${esc(G.video.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
   }
 
   function warmupView() {
@@ -120,26 +117,37 @@
 
   function actView() {
     const a = G.acts.find(x => x.key === tab().id);
+    const k = stageIdx();
+    const stageId = G.stages[k].id;
     const shown = !!S.shown[a.key];
     const ch = S.choices[a.key];
-    main.className = "hmain";
-    const story = a.shared.map((s, i) => `<div class="story"><h3>${i + 1}. ${esc(s.h)}</h3>${s.p.map(x => `<p class="${x.strong ? "strong" : ""}">${esc(x.t)}</p>`).join("")}</div>`).join("");
-    const leftCol = `<div class="kicker">Act ${a.n === 1 ? "I" : "II"}</div><h2 class="big">${esc(a.title)}</h2>
-      ${stagesBar()}
-      <div class="row">
+    main.className = "hmain single";
+    const head = `<div class="acthead"><div><div class="kicker">Act ${a.n === 1 ? "I" : "II"}</div><h2 class="big">${esc(a.title)}</h2></div>${timerBox()}</div>${stagesBar()}`;
+    let body = "";
+    if (stageId === "read") {
+      body = `<div class="readrow">
+        <ul class="bigrules">${G.stageRules.read.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
         <div class="codebox ${shown ? "" : "hidden"}" data-a="reveal" title="Click to show or hide"><div class="lbl">Unlock word</div><div class="word" aria-hidden="${!shown}">${shown ? esc(G.unlock[a.key]) : "XXXXX"}</div></div>
-        ${timerBox()}
-      </div>
-      ${controls(`<button class="btn" data-a="reveal">${shown ? "Hide unlock word" : "Show unlock word"}</button>`)}
-      <div class="storybox">${story}</div>`;
-    const done = G.tables.every(t => ch[t.n] !== undefined);
-    const rightCol = `<h2>Each table's choice</h2>
-      ${G.tables.map(t => `<div class="choice"><div class="who"><span class="sw" style="background:${t.color}"></span>${t.n}. ${esc(t.name)}</div>
-        <div class="chips">${a.cards[t.n].options.map((o, i) => `<button class="chip" aria-pressed="${ch[t.n] === i}" data-t="${t.n}" data-o="${i}">${esc(o)}</button>`).join("")}</div>
-        ${ch[t.n] !== undefined ? `<p class="result">${esc(a.outcome.lines[t.n][ch[t.n]])}</p>` : ""}</div>`).join("")}
-      ${done ? `<div class="boxed alarm outcome"><p class="bh">What happens next</p><p>${esc(a.outcome.lead)}</p><p><b>${esc(a.outcome.rule)}</b></p>${a.outcome.close ? `<p>${esc(a.outcome.close)}</p>` : ""}</div>`
-             : `<p class="small muted" style="margin-top:12px">Click the option each spokesperson announces. The outcome appears when all six tables have chosen.</p>`}`;
-    return [leftCol, rightCol];
+      </div>`;
+    } else if (stageId === "debate") {
+      body = `<ul class="bigrules">${G.stageRules.debate.map(r => `<li>${esc(r)}</li>`).join("")}</ul>`;
+    } else if (stageId === "choose") {
+      body = `<div class="choicegrid">${G.tables.map(t => `<div class="choicecard" style="--c:${t.color}">
+          <div class="who">${t.n}. ${esc(t.name)}</div>
+          <div class="chips">${a.cards[t.n].options.map((o, i) => `<button class="chip" aria-pressed="${ch[t.n] === i}" data-t="${t.n}" data-o="${i}">${esc(o)}</button>`).join("")}</div>
+          ${ch[t.n] !== undefined ? `<p class="result">${esc(a.outcome.lines[t.n][ch[t.n]])}</p>` : ""}
+        </div>`).join("")}</div>`;
+    } else {
+      const done = G.tables.every(t => ch[t.n] !== undefined);
+      body = `<div class="outcomebig">
+        <p>${esc(a.outcome.lead)}</p>
+        <p class="rule">${esc(a.outcome.rule)}</p>
+        ${a.outcome.close ? `<p>${esc(a.outcome.close)}</p>` : ""}
+        ${done ? "" : `<p class="small muted">Not every table's choice has been recorded.</p>`}
+      </div>`;
+    }
+    const extra = stageId === "read" ? `<button class="btn" data-a="reveal">${shown ? "Hide unlock word" : "Show unlock word"}</button>` : "";
+    return head + body + controls(extra);
   }
 
   function debriefView() {

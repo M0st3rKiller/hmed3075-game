@@ -200,3 +200,27 @@ body.tpage .band h1 { font-size: 1.4rem; }
 .endscreen { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; padding: 20px 10px; }
 .endscreen .kicker { font-weight: 700; color: var(--steel); }
 .endscreen .endbig { font-size: clamp(1.6rem, 3.4vw, 2.8rem); font-weight: 800; line-height: 1.2; max-width: 30ch; margin: 0 0 .5em; }
+
+/* Host: video fills the screen */
+.hmain.videomode { padding: 10px 14px; }
+.videofill { position: relative; margin: 0 auto; width: min(100%, calc((100vh - 90px) * 16 / 9)); aspect-ratio: 16 / 9; background: #000; }
+.videofill iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Host: act stages */
+.acthead { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.acthead .timer { margin-bottom: 4px; }
+.bigrules { list-style: none; padding: 0; margin: 10px 0 0; counter-reset: r; }
+.bigrules li { counter-increment: r; font-size: clamp(1.5rem, 2.8vw, 2.5rem); font-weight: 700; line-height: 1.25; padding: 14px 0 14px 1.6em; position: relative; border-bottom: 1px solid var(--rule); }
+.bigrules li::before { content: counter(r); position: absolute; left: 0; color: var(--blue); font-weight: 800; }
+.readrow { display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; align-items: start; }
+.readrow .codebox { margin-top: 14px; }
+.choicegrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 6px; }
+.choicecard { background: var(--sheet); border: 3px solid var(--ink); border-top: 8px solid var(--c); padding: 10px 14px 12px; }
+.choicecard .who { font-weight: 800; font-size: 1.1rem; margin-bottom: 4px; }
+.choicecard .chips { flex-direction: column; align-items: stretch; }
+.choicecard .chip { text-align: left; border-radius: 6px; font-size: .95rem; }
+.choicecard .result { font-size: 1.05rem; }
+.outcomebig { border: 6px solid var(--alarm); background: var(--sheet); padding: 22px 28px; margin-top: 10px; }
+.outcomebig p { font-size: clamp(1.4rem, 2.6vw, 2.3rem); font-weight: 600; line-height: 1.3; max-width: 46ch; }
+.outcomebig p.rule { font-weight: 800; color: var(--alarm); }
+@media (max-width: 1100px) { .choicegrid { grid-template-columns: repeat(2, 1fr); } .readrow { grid-template-columns: 1fr; } }
