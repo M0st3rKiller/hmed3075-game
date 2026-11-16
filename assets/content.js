@@ -178,25 +178,25 @@ window.GAME = {
         2: {
           film: { t: "Women like Angie Firmalino got Essure because their doctors encouraged it. The film reports that device companies paid doctors $2 billion in 2016.", src: ["F3"] },
           know: [
-            { t: "The main reasons your patients give up are noise and discomfort." },
-            { t: "Which brand you plan to recommend to your patients." }
+            { t: "About half of your patients stop using their machine within a year. Most say it is too loud or the mask is uncomfortable.", tag: "F" },
+            { t: "You recommend Philips machines, and you plan to keep doing so if the new model is quieter." }
           ],
           concerns: [
-            { t: "Individual patient records are private. You can describe overall patterns, but you cannot hand records to the company or the supplier." }
+            { t: "You have not seen any safety data on the new model, so you cannot vouch for it." },
+            { t: "Patient records are private. You can share overall patterns, but not individual files." }
           ],
           need: [
-            { t: "How quiet the new machine really is.", go: 1 },
-            { t: "How many hours your patients actually use their machines. The supplier downloads this data.", go: 6 }
+            { t: "How quiet the new model really is.", go: 1 },
+            { t: "How many hours a night your patients actually use their machines.", go: 6 }
           ],
-          source: { t: "Medicare's 90-day usage rule, and the study showing only about half of patients meet it.", src: ["S3", "S4"] },
-          question: "Your patients cannot get through the 90-day rule. Whose problem is that, and what will you ask Philips for?",
+          question: "Many of your patients cannot meet the 90-day rule. What do you ask Philips for?",
           options: ["A. Support adding the foam", "B. Ask to see safety data first", "C. Recommend a different brand"]
         },
         3: {
           film: { t: "Women chose Essure because it promised a quick procedure without surgery, and their doctors recommended it.", src: ["F1", "F3"] },
           know: [
             { t: "A survey of your members: noise is the top complaint.", tag: "F" },
-            { t: "How much more members would pay for a quieter machine.", tag: "F" }
+            { t: "Most members say they would pay more out of pocket for a quieter machine.", tag: "F" }
           ],
           concerns: [
             { t: "Some members are afraid of losing insurance coverage and will not admit they use their machines less than required. Their health is their own business." }
@@ -212,7 +212,7 @@ window.GAME = {
         4: {
           film: { t: "An FDA manager moved the da Vinci robot from the PMA route to the easier 510(k) route. All vaginal mesh was cleared through 510(k) without human studies.", src: ["F2", "F4"] },
           know: [
-            { t: "What a review normally looks at." },
+            { t: "A change of material usually calls for new safety testing. A company can argue the change is minor and skip a new review." },
             { t: "There have been very few adverse event reports on the older models." }
           ],
           concerns: [
@@ -248,7 +248,7 @@ window.GAME = {
         6: {
           film: { t: "The film has no distributor. The closest match is the sales push behind da Vinci: surgeons said the robot took far longer to master than they expected.", src: ["F2"] },
           know: [
-            { t: "How many patients are returning rented machines, and why." },
+            { t: "About one in three rented machines comes back within 90 days. The most common reason is noise.", tag: "F" },
             { t: "Patients' real nightly usage, downloaded from their machines." },
             { t: "Philips gives you physician prescribing data for free, to help you market to doctors. The doctors do not know.", tag: "H", src: ["S5"], note: "Adapted. In 2022 Respironics paid about $24 million to settle federal allegations that this was an illegal kickback, without admitting wrongdoing." }
           ],
@@ -307,7 +307,7 @@ window.GAME = {
         1: {
           film: { t: "Bayer, Johnson & Johnson and Intuitive Surgical declined to be interviewed. The day the film came out, Bayer answered with a \"fact check\" (worksheet Q6).", src: ["F3", "F9"] },
           know: [
-            { t: "Partial results from your internal tests." },
+            { t: "Your internal tests show the foam can break down into particles." },
             { t: "Ozone cleaners, heat and humidity may speed up foam breakdown." }
           ],
           concerns: [
@@ -328,7 +328,7 @@ window.GAME = {
           film: { t: "The film shows doctors who were often as uninformed as their patients.", src: ["F5"] },
           know: [
             { t: "A patient showed you tubing with black specks in it." },
-            { t: "Overall patterns in your patients' symptoms." }
+            { t: "Several of your patients report headaches, coughs and sore throats." }
           ],
           concerns: [
             { t: "You cannot tell whether the symptoms come from the machine. If you raise the alarm, patients may stop treatment, and that carries risk too." }
