@@ -159,108 +159,61 @@ window.GAME = {
       cards: {
         1: {
           film: { t: "Bayer marketed Essure as a hassle-free alternative to tying the tubes. In the film, as in your game, the company's pitch is about convenience.", src: ["F1"] },
-          know: [
-            { t: "With the foam installed, the machine is much quieter in your own measurements." },
-            { t: "You give Lakeside Home Medical physician prescribing data for free, so they can market to doctors. The doctors do not know.", tag: "H", src: ["S5"], note: "Adapted. In 2022 Respironics paid about $24 million to settle federal allegations that this was an illegal kickback, without admitting wrongdoing." }
-          ],
-          concerns: [
-            { t: "No long-term inhalation testing has been done. Saying so would delay the launch and upset shareholders." },
-            { t: "If the prescribing data becomes known, it could be treated as a kickback." }
-          ],
-          need: [
-            { t: "How much patients really care about noise.", go: 3 },
-            { t: "How many patients are returning rented machines.", go: 6 }
-          ],
-          source: { t: "From your own launch announcement: the machine is described as \"quiet, small and light.\"", src: ["S1"] },
+          facts: [{"t": "With the new foam inside, the machine is much quieter in your own measurements.", "means": "Noise is a top reason patients quit. A quieter machine is your strongest selling point to doctors, suppliers and patients."}, {"t": "No long-term inhalation testing has been done on the foam.", "means": "Testing would delay the launch. Skipping it means no one, including you, knows what patients breathe in over the years."}, {"t": "You give Lakeside Home Medical physician prescribing data for free, so they can market to doctors.", "means": "Suppliers who know which doctors prescribe CPAP sell more of your machines, and they stay tied to you.", "tag": "H", "src": ["S5"], "note": "Adapted. In 2022 Respironics paid about $24 million to settle federal allegations that this was an illegal kickback, without admitting wrongdoing."}],
+          weigh: "A launch that beats competitors now, against testing that would delay it and might turn up a problem.",
+          hide: [{"t": "That the foam has not been tested for long-term breathing safety.", "why": "Saying so could delay the launch and worry doctors and shareholders."}, {"t": "The prescribing data you give the supplier.", "why": "Federal law forbids giving anything of value in exchange for referrals. It could be treated as a kickback."}],
+          help: ["Patients know how much the noise really bothers them, and whether they would accept an unknown risk to be rid of it.", "Suppliers see how many rented machines come back, and why."],
+          source: {"t": "From your own launch announcement: the machine is described as \"quiet, small and light.\"", "src": ["S1"]},
           question: "The foam's long-term effects have not been tested. How will you get the doctors and the patients' group to back this design?",
           options: ["A. Use the foam and launch now", "B. Run long-term tests first, then launch", "C. Use a more expensive material and raise the price"]
         },
         2: {
           film: { t: "Women like Angie Firmalino got Essure because their doctors encouraged it. The film reports that device companies paid doctors $2 billion in 2016.", src: ["F3"] },
-          know: [
-            { t: "About half of your patients stop using their machine within a year. Most say it is too loud or the mask is uncomfortable.", tag: "F" },
-            { t: "You recommend Philips machines, and you plan to keep doing so if the new model is quieter." }
-          ],
-          concerns: [
-            { t: "You have not seen any safety data on the new model, so you cannot vouch for it." },
-            { t: "Patient records are private. You can share overall patterns, but not individual files." }
-          ],
-          need: [
-            { t: "How quiet the new model really is.", go: 1 },
-            { t: "How many hours a night your patients actually use their machines.", go: 6 }
-          ],
+          facts: [{"t": "Medicare pays for the machine only if the patient uses it at least 4 hours a night, on 70% of nights, during 30 days in the first 90 days.", "means": "A patient who cannot get used to the machine loses it and goes back to untreated sleep apnea.", "tag": "H", "src": ["S3"]}, {"t": "Only about half of patients meet that rule. Noise and mask discomfort are among the most common reasons people give up.", "means": "A quieter machine could keep more of your patients on treatment. For them that is a health outcome, not a convenience.", "tag": "H", "src": ["S4"]}, {"t": "The new model uses a foam that has not been tested for long-term breathing safety.", "means": "If you recommend it, you are vouching for something no one has checked."}],
+          weigh: "A known harm today (patients quitting treatment) against an unknown risk later (what the foam might do).",
+          hide: [{"t": "That you have not seen any safety data on the new model.", "why": "Admitting it could make your recommendation look careless."}, {"t": "How many of your own patients fail the 90-day rule.", "why": "It reflects badly on your clinic, and it is private patient information."}],
+          help: ["The company knows how quiet the new model is, and which tests it has and has not run.", "Suppliers download nightly usage data from the machines. They can tell you whether noise is really why patients quit.", "Researchers can tell you whether 4 hours is a medical threshold or just a billing rule."],
+          source: {"t": "Medicare's 90-day usage rule, and the study showing only about half of patients meet it.", "src": ["S3", "S4"]},
           question: "Many of your patients cannot meet the 90-day rule. What do you ask Philips for?",
           options: ["A. Support adding the foam", "B. Ask to see safety data first", "C. Recommend a different brand"]
         },
         3: {
           film: { t: "Women chose Essure because it promised a quick procedure without surgery, and their doctors recommended it.", src: ["F1", "F3"] },
-          know: [
-            { t: "A survey of your members: noise is the top complaint.", tag: "F" },
-            { t: "Most members say they would pay more out of pocket for a quieter machine.", tag: "F" }
-          ],
-          concerns: [
-            { t: "Some members are afraid of losing insurance coverage and will not admit they use their machines less than required. Their health is their own business." }
-          ],
-          need: [
-            { t: "Whether the new machine will cost more.", go: 1 },
-            { t: "How many hours a night the machine has to be worn to work.", go: 5 }
-          ],
-          source: { t: "Medicare's 90-day usage rule.", src: ["S3"] },
+          facts: [{"t": "In a survey of your members, noise is the top complaint.", "means": "Members want a quieter machine, and they are the people the machine is supposed to help. Your voice carries weight.", "tag": "F"}, {"t": "Medicare pays for the machine only if the patient uses it at least 4 hours a night, on 70% of nights, during 30 days in the first 90 days.", "means": "Members who cannot get used to the machine lose their coverage, not just their sleep.", "tag": "H", "src": ["S3"]}, {"t": "Most members say they would pay more out of pocket for a quieter machine.", "means": "The company can charge more for quiet. Asking for it may raise your own costs.", "tag": "F"}],
+          weigh: "A machine you can actually sleep with, against a risk no one has measured.",
+          hide: [{"t": "That some members use their machines less than the rule requires.", "why": "If it comes out, they could lose coverage. Their health is their own business."}],
+          help: ["The company knows what is in the new machine and whether it will cost more.", "Researchers know how many hours a night the machine has to be worn to work.", "Doctors know which brand they plan to recommend."],
+          source: {"t": "Medicare's 90-day usage rule.", "src": ["S3"]},
           question: "Would you accept an unknown risk in exchange for a quiet machine? Put your conditions to the doctors and the company.",
           options: ["A. Push for a quiet machine as soon as possible", "B. Demand the material list and test results", "C. Put up with the noise"]
         },
         4: {
           film: { t: "An FDA manager moved the da Vinci robot from the PMA route to the easier 510(k) route. All vaginal mesh was cleared through 510(k) without human studies.", src: ["F2", "F4"] },
-          know: [
-            { t: "A change of material usually calls for new safety testing. A company can argue the change is minor and skip a new review." },
-            { t: "There have been very few adverse event reports on the older models." }
-          ],
-          concerns: [
-            { t: "Company information under review has to stay confidential." },
-            { t: "Your queue is overflowing and your office is short-staffed." }
-          ],
-          need: [
-            { t: "What exactly changed in the design.", go: 1 },
-            { t: "Whether there is any toxicology literature on this material.", go: 5 }
-          ],
-          source: { t: "Device makers are required by law to report malfunctions, injuries and deaths to the FDA within 30 days. Patients and others may report voluntarily.", src: ["S10"] },
+          facts: [{"t": "The new model changes an internal material.", "means": "A change of material usually calls for new safety testing. A company can argue the change is minor and that no new review is needed."}, {"t": "There have been very few adverse event reports on the older models.", "means": "Few reports can mean the device is safe, or that problems are not being reported. Makers must report. Patients and doctors only may.", "tag": "H", "src": ["S10"]}, {"t": "Your review queue is months behind and your office is short-staffed.", "means": "Every extra review delays something else."}],
+          weigh: "Trusting the company's description so the queue keeps moving, against asking for data that slows everything down.",
+          hide: [{"t": "How far behind your office is.", "why": "It would shake confidence in the agency."}, {"t": "Confidential company information under review.", "why": "You are not allowed to share it, even if others ask."}],
+          help: ["The company knows exactly what changed in the design.", "Researchers know whether there is any toxicology literature on this material."],
+          source: {"t": "Device makers are required by law to report malfunctions, injuries and deaths to the FDA within 30 days. Patients and others may report voluntarily.", "src": ["S10"]},
           question: "The design has changed. Should it be reviewed again? Your queue is already months behind.",
           options: ["A. Accept the company's description", "B. Ask for test data", "C. Put it in the queue for later"]
         },
         5: {
           film: { t: "Dr. Rita Redberg, editor of JAMA Internal Medicine, explains how the 510(k) route let metal-on-metal hips onto the market.", src: ["F2", "F4"] },
-          know: [
-            { t: "CPAP works when it is worn at least 4 hours a night. That is also the threshold Medicare uses.", tag: "H", src: ["S3"] },
-            { t: "There is very little toxicology literature on this material in the airway.", tag: "F" }
-          ],
-          concerns: [
-            { t: "You once applied for a research grant from Philips and must disclose it as a conflict of interest.", tag: "F" },
-            { t: "Unpublished findings are not conclusions." }
-          ],
-          need: [
-            { t: "How many hours patients actually use their machines.", go: 6 },
-            { t: "Why patients give up.", go: 3 }
-          ],
-          source: { t: "Medicare's 90-day usage rule, and the study showing only about half of patients meet it.", src: ["S3", "S4"] },
+          facts: [{"t": "CPAP works when it is worn at least 4 hours a night, and only about half of patients meet Medicare's usage rule.", "means": "Getting patients to wear the machine matters as much as the machine itself. A quieter one could improve outcomes.", "tag": "H", "src": ["S3", "S4"]}, {"t": "There is very little toxicology literature on this foam in the airway.", "means": "No one can say it is safe or unsafe. A lack of evidence is not evidence of safety.", "tag": "F"}],
+          weigh: "Backing a fix that could keep many more patients on treatment, against asking for a study that would delay it.",
+          hide: [{"t": "That you once applied for a research grant from Philips.", "why": "You must disclose it as a conflict of interest, and it may make others doubt your view.", "tag": "F"}, {"t": "Your unpublished findings.", "why": "Early results are not conclusions. Sharing them could mislead."}],
+          help: ["Suppliers download nightly usage data from the machines.", "Patients can tell you why people give up."],
+          source: {"t": "Medicare's 90-day usage rule, and the study showing only about half of patients meet it.", "src": ["S3", "S4"]},
           question: "Your research shows CPAP works, but only if patients wear it. Which fix will you back?",
           options: ["A. Publicly support the quieter machine", "B. Propose an inhalation study first", "C. Stay neutral"]
         },
         6: {
           film: { t: "The film has no distributor. The closest match is the sales push behind da Vinci: surgeons said the robot took far longer to master than they expected.", src: ["F2"] },
-          know: [
-            { t: "About one in three rented machines comes back within 90 days. The most common reason is noise.", tag: "F" },
-            { t: "Patients' real nightly usage, downloaded from their machines." },
-            { t: "Philips gives you physician prescribing data for free, to help you market to doctors. The doctors do not know.", tag: "H", src: ["S5"], note: "Adapted. In 2022 Respironics paid about $24 million to settle federal allegations that this was an illegal kickback, without admitting wrongdoing." }
-          ],
-          concerns: [
-            { t: "Patients' usage data is personal information." },
-            { t: "You have a contract with Philips, and you depend on doctors for referrals." }
-          ],
-          need: [
-            { t: "The new machine's wholesale price.", go: 1 },
-            { t: "Which brand the doctors plan to recommend.", go: 2 }
-          ],
-          source: { t: "The DreamStation brochure pitches the machine to suppliers as good for long-term patient use and good for business efficiency.", src: ["S2"] },
+          facts: [{"t": "About one in three rented machines comes back within 90 days. The most common reason is noise.", "means": "Every returned machine is income you lose. A quieter machine could keep patients on it and keep you paid.", "tag": "F"}, {"t": "You download patients' real nightly usage from their machines.", "means": "You know better than anyone whether patients meet the 90-day rule. Doctors and researchers do not have this data."}, {"t": "Philips gives you physician prescribing data for free, to help you market to doctors. The doctors do not know.", "means": "It helps you find doctors who prescribe CPAP. It also makes you depend on Philips.", "tag": "H", "src": ["S5"], "note": "Adapted. In 2022 Respironics paid about $24 million to settle federal allegations that this was an illegal kickback, without admitting wrongdoing."}],
+          weigh: "Your income depends on patients staying on the machine, and on your relationship with Philips.",
+          hide: [{"t": "The prescribing data Philips gives you.", "why": "Doctors do not know you have it, and it could be treated as an illegal kickback."}, {"t": "Individual patients' usage data.", "why": "It is personal information. You can share overall patterns."}],
+          help: ["The company knows the new machine's wholesale price.", "Doctors know which brand they plan to recommend."],
+          source: {"t": "The DreamStation brochure pitches the machine to suppliers as good for long-term patient use and good for business efficiency.", "src": ["S2"]},
           question: "Patients are returning machines and your income is falling. What will you do with the prescribing data Philips gave you?",
           options: ["A. Push the new machine hard", "B. Wait and see", "C. Switch to another brand"]
         }
@@ -306,112 +259,61 @@ window.GAME = {
       cards: {
         1: {
           film: { t: "Bayer, Johnson & Johnson and Intuitive Surgical declined to be interviewed. The day the film came out, Bayer answered with a \"fact check\" (worksheet Q6).", src: ["F3", "F9"] },
-          know: [
-            { t: "Your internal tests show the foam can break down into particles." },
-            { t: "Ozone cleaners, heat and humidity may speed up foam breakdown." }
-          ],
-          concerns: [
-            { t: "You hold far more foam complaints than you have reported to the FDA. Whether and when to report them is your call.", tag: "H", src: ["S8", "S10"] },
-            { t: "Your foam supplier warned years ago that polyester foam does not belong in a warm, humid environment.", tag: "H", src: ["S6"] },
-            { t: "Two of your own internal health hazard evaluations rated the risk \"unacceptable.\" Another concluded harm was \"possible but improbable.\" Even your own conclusions disagree.", tag: "H", src: ["S12", "S21"] },
-            { t: "Going public could mean a recall." }
-          ],
-          need: [
-            { t: "How many patients use ozone cleaners.", go: 6 },
-            { t: "What data the researchers have.", go: 5 }
-          ],
-          source: { t: "Your foam supplier, in a 2016 email: it \"would not recommend use of polyester foam in such an environment.\"", src: ["S6"] },
+          facts: [{"t": "Your internal tests show the foam can break down into particles. Ozone cleaners, heat and humidity may speed this up.", "means": "The problem may be real, and part of it may come from how patients clean their machines."}, {"t": "Two of your internal health hazard evaluations rated the risk \"unacceptable.\" Another concluded harm was \"possible but improbable.\"", "means": "Even your own experts disagree. You can point to either conclusion.", "tag": "H", "src": ["S12", "S21"]}, {"t": "Your foam supplier warned years ago that polyester foam does not belong in a warm, humid environment.", "means": "If this comes out, it will look as if you were warned and went ahead.", "tag": "H", "src": ["S6"]}],
+          weigh: "Acting now and risking a recall, against waiting for proof while patients keep using the machines.",
+          hide: [{"t": "You hold far more foam complaints than you have reported to the FDA.", "why": "Makers must report within 30 days. Late reports could bring penalties.", "tag": "H", "src": ["S8", "S10"]}, {"t": "Your foam supplier's warning.", "why": "It shows you knew of the risk years ago."}, {"t": "Your internal hazard evaluations.", "why": "The \"unacceptable\" ratings would be used against you."}],
+          help: ["Suppliers know how many patients use ozone cleaners.", "Researchers know what the particles are made of."],
+          source: {"t": "Your foam supplier, in a 2016 email: it \"would not recommend use of polyester foam in such an environment.\"", "src": ["S6"]},
           question: "The researchers and the patients' group say something may be wrong. How do you respond?",
           options: ["A. Question their methods and stress there is no proof", "B. Quietly replace the foam during servicing", "C. Report to the FDA"]
         },
         2: {
           film: { t: "The film shows doctors who were often as uninformed as their patients.", src: ["F5"] },
-          know: [
-            { t: "A patient showed you tubing with black specks in it." },
-            { t: "Several of your patients report headaches, coughs and sore throats." }
-          ],
-          concerns: [
-            { t: "You cannot tell whether the symptoms come from the machine. If you raise the alarm, patients may stop treatment, and that carries risk too." }
-          ],
-          need: [
-            { t: "What the specks actually are.", go: 5 },
-            { t: "The company's test results.", go: 1 }
-          ],
-          source: { t: "Philips' recall notice told patients not to stop or change prescribed therapy without consulting their physicians.", src: ["S13"] },
+          facts: [{"t": "A patient showed you tubing with black specks in it.", "means": "Something is coming out of the machine. You do not know what it is or whether it is harmful."}, {"t": "Several of your patients report headaches, coughs and sore throats.", "means": "These are common symptoms with many causes. They may or may not be linked to the machine."}, {"t": "Untreated sleep apnea raises the risk of heart disease, stroke and accidents.", "means": "Telling patients to stop is not a safe default either."}],
+          weigh: "A machine that might be harmful, against no treatment, which is known to be harmful.",
+          hide: [{"t": "That you cannot tell whether the symptoms come from the machine.", "why": "Admitting it may frighten patients into stopping treatment."}, {"t": "That you recommended this machine.", "why": "If it turns out to be harmful, patients may hold you responsible."}],
+          help: ["Researchers are analyzing the specks.", "The company has test results it has not shared."],
+          source: {"t": "Philips' recall notice told patients not to stop or change prescribed therapy without consulting their physicians.", "src": ["S13"]},
           question: "Patients ask whether they should keep using the machine. You have no toxicity data. What do you tell them?",
           options: ["A. Keep using it", "B. Stop using it", "C. Let each patient decide"]
         },
         3: {
           film: { t: "Angie Firmalino started a Facebook group. The \"E-Sisters\" grew to tens of thousands and pressed officials, doctors and the FDA.", src: ["F6"] },
-          know: [
-            { t: "Photos of black particles from more than twenty members.", tag: "F" },
-            { t: "A list of members' symptoms.", tag: "F" }
-          ],
-          concerns: [
-            { t: "Many members used ozone cleaners and are afraid they will be blamed." }
-          ],
-          need: [
-            { t: "Whether the particles are toxic.", go: 5 },
-            { t: "How many reports the FDA has received.", go: 4 }
-          ],
-          source: { t: "Complaints sent to Philips described \"black particles\" or \"dirt and dust\" inside machines.", src: ["S14"] },
+          facts: [{"t": "More than twenty members have sent photos of black particles from their machines.", "means": "This is not one person's bad luck. It is a pattern.", "tag": "F"}, {"t": "Members report headaches, coughs and sore throats.", "means": "Symptoms alone do not prove the machine caused them. Together with the particles, they are hard to ignore.", "tag": "F"}, {"t": "If members stop using their machines, their sleep apnea goes untreated.", "means": "There is no safe option, only a choice between risks."}],
+          weigh: "A machine that might be toxic, against a worse machine or no treatment.",
+          hide: [{"t": "That many members used ozone cleaners.", "why": "The company could blame them instead of the foam."}],
+          help: ["Researchers can tell whether the particles are toxic.", "The FDA knows how many reports it has received."],
+          source: {"t": "Complaints sent to Philips described \"black particles\" or \"dirt and dust\" inside machines.", "src": ["S14"]},
           question: "A machine that might be toxic, or a worse machine. Which do you choose?",
           options: ["A. Keep using it", "B. Stop, or switch to a worse machine", "C. Report to the FDA together and prepare to sue"]
         },
         4: {
           film: { t: "Former FDA commissioner David Kessler says the adverse event reporting system is badly underused because it is voluntary.", src: ["F7"] },
-          know: [
-            { t: "Your database holds very few foam-related reports. In the real case, Philips filed only 30 between 2011 and April 2021.", tag: "H", src: ["S9"] },
-            { t: "You can ask the company for more information." }
-          ],
-          concerns: [
-            { t: "By long practice, late reports can be filed late, often without a penalty, and a company filing a follow-up may update the date it says it first learned of a problem.", tag: "H", src: ["S10"] },
-            { t: "You cannot announce a conclusion on your own. It has to go through process." },
-            { t: "A few early reports mentioned \"contamination,\" and nobody followed up.", tag: "H", src: ["S10"] }
-          ],
-          need: [
-            { t: "Which models the particles show up in.", go: 6 },
-            { t: "Patients' firsthand accounts.", go: 3 }
-          ],
-          source: { t: "Device makers must report within 30 days, but late reports are common, and the FDA has accepted them years later.", src: ["S10"] },
+          facts: [{"t": "Your database holds very few foam-related reports. In the real case, Philips filed only 30 between 2011 and April 2021.", "means": "Few reports made the problem look small. The database only shows what companies choose to send.", "tag": "H", "src": ["S9"]}, {"t": "A few early reports mentioned \"contamination,\" and nobody followed up.", "means": "The warning signs were already in your files.", "tag": "H", "src": ["S10"]}, {"t": "By long practice, reports can be filed late, often without a penalty.", "means": "Companies have little reason to report on time.", "tag": "H", "src": ["S10"]}],
+          weigh: "Opening an investigation that takes time and staff, against waiting while patients keep breathing through these machines.",
+          hide: [{"t": "That the early \"contamination\" reports were never followed up.", "why": "It would show the agency missed the signs."}, {"t": "How much the agency depends on companies to report on themselves.", "why": "It would shake public trust."}],
+          help: ["Suppliers know which models the particles show up in.", "Patients can give firsthand accounts."],
+          source: {"t": "Device makers must report within 30 days, but late reports are common, and the FDA has accepted them years later.", "src": ["S10"]},
           question: "The reports in front of you only say \"contamination.\" How will you decide whether it is the foam?",
           options: ["A. Investigate", "B. Leave it for now. There is no time", "C. Ask the company for more information"]
         },
         5: {
           film: { t: "Diana Zuckerman of the National Center for Health Research says the approval process for the riskiest devices is not good enough. Bayer's statement attacked her as a paid litigation expert.", src: ["F4", "F9"] },
-          know: [
-            { t: "Early analysis: the particles look like broken-down polyurethane.", tag: "F" },
-            { t: "You asked Philips for its test reports and were refused.", tag: "F", note: "In the real case, journalists had to sue the FDA to get records." }
-          ],
-          concerns: [
-            { t: "Your sample is small and not peer-reviewed. Going public could mislead people, and the company will attack it." }
-          ],
-          need: [
-            { t: "Particle samples and photos.", go: 3 },
-            { t: "Tubing from patients.", go: 2 },
-            { t: "Report counts.", go: 4 }
-          ],
-          source: { t: "A Philips engineer, in a 2018 email unsealed in court: \"The material sheds and is pulled into the ventilator air path.\"", src: ["S7"] },
+          facts: [{"t": "Early analysis: the particles look like broken-down polyurethane foam.", "means": "The foam is the likely source. What breaks off it may be harmful if inhaled."}, {"t": "You asked Philips for its test reports and were refused.", "means": "You cannot check your findings against the company's."}, {"t": "Your sample is small and not peer-reviewed.", "means": "Publishing now could be wrong. Waiting could leave patients exposed."}],
+          weigh: "Going public with partial data, against waiting for proof while patients keep using the machines.",
+          hide: [{"t": "How small your sample is.", "why": "The company would use it to dismiss your findings."}, {"t": "Your earlier grant application to Philips.", "why": "It could make others question your independence.", "tag": "F"}],
+          help: ["Patients have particle samples and photos.", "Doctors have tubing from patients.", "The FDA knows how many reports it has."],
+          source: {"t": "A Philips engineer, in a 2018 email unsealed in court: \"The material sheds and is pulled into the ventilator air path.\"", "src": ["S7"]},
           question: "You only have partial data. Do you go public?",
           options: ["A. Publish early results", "B. Keep collecting data", "C. Send it privately to the FDA"]
         },
         6: {
           film: { t: "Again, no distributor. But patients in the film found insurers covered Essure far more easily than its removal. The money flowed toward putting devices in, not taking them out.", src: ["F8"] },
-          know: [
-            { t: "Machines with black specks keep coming back to your counter, all the same model.", tag: "F" },
-            { t: "You saw specks while changing filters long before anyone complained.", tag: "F" },
-            { t: "Philips has stopped shipping from its factories, but tells you that you may keep selling the stock you already have.", tag: "H", src: ["S11"] }
-          ],
-          concerns: [
-            { t: "Your customer list is personal information. You cannot hand it to the company." },
-            { t: "You sell ozone cleaners in your store, and you could be pulled in.", tag: "F" },
-            { t: "Stock you cannot sell is your loss." }
-          ],
-          need: [
-            { t: "How the company will explain the cause.", go: 1 },
-            { t: "What patients plan to do.", go: 3 }
-          ],
-          source: { t: "In April 2021 Philips stopped shipping the machines from its factories but approved continued sales of distributors' inventory.", src: ["S11"] },
+          facts: [{"t": "Machines with black specks keep coming back to your counter, all the same model.", "means": "You may be the first to see the whole pattern."}, {"t": "You saw specks while changing filters long before anyone complained.", "means": "You knew something was wrong early."}, {"t": "Philips has stopped shipping from its factories, but tells you that you may keep selling the stock you already have.", "means": "If you stop selling, the unsold stock is your loss. If you keep selling, you may be selling a faulty machine.", "tag": "H", "src": ["S11"]}],
+          weigh: "Your business, against telling patients what you have seen.",
+          hide: [{"t": "That you saw specks early.", "why": "It could make you look complicit."}, {"t": "That you sell ozone cleaners.", "why": "If ozone is part of the cause, you could be pulled in."}],
+          help: ["The company will have to explain the cause, one way or another.", "Patients know what they plan to do."],
+          source: {"t": "In April 2021 Philips stopped shipping the machines from its factories but approved continued sales of distributors' inventory.", "src": ["S11"]},
           question: "Who do you tell about the specks at your counter? Do you keep selling your stock?",
           options: ["A. Tell patients and doctors, and stop selling", "B. Tell only Philips, and keep selling", "C. Say nothing"]
         }

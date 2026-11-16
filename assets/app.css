@@ -250,3 +250,11 @@ body.tpage .band h1 { font-size: 1.4rem; }
 .filmbox { border: 3px solid var(--fict); background: #FBF7EE; padding: 8px 12px; margin-top: 12px; font-size: .95rem; }
 .filmbox .bh { font-weight: 800; color: var(--fict); margin: 0 0 4px; }
 .filmbox p { margin: 0; }
+.guide li { margin-bottom: 8px; }
+.guide .means { display: block; margin-top: 2px; padding-left: 10px; border-left: 3px solid #C9D3DE; color: #34414F; font-size: .93em; }
+.weigh { margin: 0 0 6px; }
+.guidebox { margin-top: 18px; }
+.guidegrid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.guidegrid h4:first-child { margin-top: 4px; }
+.cardcol .filmbox { margin-top: 0; }
+@media (max-width: 800px) { .guidegrid { grid-template-columns: 1fr; } }

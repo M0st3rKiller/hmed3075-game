@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your table · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794799946">
-<script src="assets/content.js?v=1794799946"></script>
-<script src="assets/app.js?v=1794799946"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794800222">
+<script src="assets/content.js?v=1794800222"></script>
+<script src="assets/app.js?v=1794800222"></script>
 </head>
 <body class="tpage">
 <div id="app"></div>
@@ -69,21 +69,27 @@
   function actPanel(act) {
     const num = numberer();
     const c = act.cards[T.n];
-    const list = arr => `<ul>${arr.map(x => `<li>${item(x, num)}${x.go ? ` <span class="go">Go to Table ${x.go}: ${esc(table(x.go).name)}</span>` : ""}</li>`).join("")}</ul>`;
+    const facts = `<ul class="guide">${c.facts.map(x => `<li>${item(x, num)}<span class="means"><b>What this means for you:</b> ${esc(x.means)}</span></li>`).join("")}</ul>`;
+    const hide = `<ul class="guide">${c.hide.map(x => `<li>${item(x, num)}<span class="means"><b>Why:</b> ${esc(x.why)}</span></li>`).join("")}</ul>`;
+    const help = `<ul>${c.help.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
     const story = act.shared.map((sec, i) => `<h3>${i + 1}. ${esc(sec.h)}</h3>${sec.p.map(x => `<p class="${x.strong ? "strong" : ""}">${item(x, num)}</p>`).join("")}`).join("");
-    const card = `<div class="boxed tight"><p class="bh">Only your table has this</p>
-        <h4>What you know</h4>${list(c.know)}
-        <h4>Why you might hold back</h4>${list(c.concerns)}
-        <h4>What you need, and who has it</h4>${list(c.need)}
+    const card = `<div class="boxed tight guidebox"><p class="bh">Your decision guide</p>
+        <div class="guidegrid">
+          <div><h4>Key facts</h4>${facts}</div>
+          <div><h4>What you are weighing</h4><p class="weigh">${esc(c.weigh)}</p>
+            <h4>What you might want to keep quiet</h4>${hide}
+            <h4>Where help might come from</h4>${help}</div>
+        </div>
       </div>`;
     const prim = `<p class="prim"><b>Primary source.</b> ${item(c.source, num)}</p>`;
     const film = c.film ? `<div class="filmbox"><p class="bh">In The Bleeding Edge${act.n === 1 ? " (worksheet Q3)" : ""}</p><p>${item(c.film, num)}</p></div>` : "";
     const next = act.key === "act1" ? unlockBox("Act II: Fallout") : `<div class="unlock-end"><button class="btn primary" data-go="end">Finish the game</button></div>`;
     return `<h2 class="acttitle">Act ${act.n === 1 ? "I" : "II"}: ${esc(act.title)}</h2>
       <div class="actgrid">
-        <div><div class="story2 reading">${story}</div>${film}</div>
-        <aside class="cardcol">${card}${prim}</aside>
+        <div class="story2 reading">${story}</div>
+        <aside class="cardcol">${film}${prim}</aside>
       </div>
+      ${card}
       <div class="bottomrow">
         <div>
           <div class="question"><b>Your question</b>${esc(c.question)}</div>
