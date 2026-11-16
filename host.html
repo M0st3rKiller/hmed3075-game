@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794797651">
-<script src="assets/content.js?v=1794797651"></script>
-<script src="assets/app.js?v=1794797651"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794797892">
+<script src="assets/content.js?v=1794797892"></script>
+<script src="assets/app.js?v=1794797892"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -23,9 +23,9 @@
     { id: "warmup", name: "Warm-up", stages: [{ name: "Recap", minutes: 7 }, { name: "Read your role", minutes: 3 }] },
     { id: "act1", name: "Act I: Launch", stages: G.stages },
     { id: "act2", name: "Act II: Fallout", stages: G.stages },
-    { id: "debrief", name: "Debrief", stages: null }
+    { id: "debrief", name: "Debrief", stages: [{ name: "How you played", minutes: 3 }, { name: "What really happened", minutes: 3 }] }
   ];
-  const fresh = () => ({ tab: 0, stage: { video: 0, warmup: 0, act1: 0, act2: 0 }, shown: {}, choices: { act1: {}, act2: {} }, timer: { left: 300, endAt: null } });
+  const fresh = () => ({ tab: 0, stage: { video: 0, warmup: 0, act1: 0, act2: 0, debrief: 0 }, shown: {}, choices: { act1: {}, act2: {} }, timer: { left: 300, endAt: null } });
   let S = store.get(KEY, null) || fresh();
   const save = () => store.set(KEY, S);
   const main = document.getElementById("main");
@@ -152,9 +152,23 @@
 
   function debriefView() {
     main.className = "hmain single";
-    return `<div class="kicker">Debrief</div><h2 class="big">What really happened</h2>
-      <ul class="timeline" style="margin-top:12px">${G.debrief.map(d => `<li><b>${esc(d.y)}</b><span>${esc(d.t)}</span></li>`).join("")}</ul>
-      ${controls(`<button class="btn" data-a="clear">Clear all records</button>`)}`;
+    const k = stageIdx();
+    const head = `<div class="acthead"><div><div class="kicker">Debrief</div><h2 class="big">${k === 0 ? "How you played" : "What really happened"}</h2></div>${timerBox()}</div>${stagesBar()}`;
+    if (k === 0) {
+      const L = "ABC";
+      const c1 = S.choices.act1, c2 = S.choices.act2;
+      const cards = G.tables.map(t => {
+        const a = c1[t.n], b = c2[t.n];
+        const text = a !== undefined && b !== undefined ? G.reflections[t.n][a][b] : "Not every choice was recorded for this table.";
+        return `<div class="choicecard refl" style="--c:${t.color}">
+          <div class="who">${t.n}. ${esc(t.name)}</div>
+          <p class="picks">Act I: ${a !== undefined ? L[a] : "?"} &nbsp; Act II: ${b !== undefined ? L[b] : "?"}</p>
+          <p class="verdict">${esc(text)}</p></div>`;
+      }).join("");
+      return head + `<div class="choicegrid">${cards}</div>` + controls();
+    }
+    return head + `<ul class="timeline" style="margin-top:12px">${G.debrief.map(d => `<li><b>${esc(d.y)}</b><span>${esc(d.t)}</span></li>`).join("")}</ul>` +
+      controls(`<button class="btn" data-a="clear">Clear all records</button>`);
   }
 
   function render() {

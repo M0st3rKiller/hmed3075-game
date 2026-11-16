@@ -404,6 +404,41 @@ window.GAME = {
     }
   ],
 
+
+  /* Debrief reflections: reflections[table][Act I choice][Act II choice], 0 = A, 1 = B, 2 = C */
+  reflections: {
+    1: [
+      ["Launched fast, then attacked the critics. This is close to what really happened.", "Launched fast, then fixed it quietly. A quiet fix leaves no record and no warning for the machines you never touched.", "Launched fast, then came clean. Late honesty is still late: the machines were already in millions of bedrooms."],
+      ["Wanted tests before launch, then attacked the people who found the problem. Which one was the real you?", "Wanted tests, then hid the fix. Caution in private, silence in public.", "Asked for testing and reported the problem. The board overruled you anyway, and the outcome barely moved. That is the point."],
+      ["Ready to pay for a better material, not ready to admit the cheap one failed.", "Tried the expensive fix up front and a quiet one later. Neither reached the patients.", "The most responsible record in the room. The board still shipped the foam."]
+    ],
+    2: [
+      ["Backed the quiet machine and kept patients on it. Your adherence numbers looked great.", "Backed the machine, then pulled patients off it. Some never went back to treatment.", "Backed the machine, then handed the hardest call to patients who knew less than you."],
+      ["Asked for data, got a one-page summary, and kept prescribing. A summary is not data.", "Skeptical from the start and willing to stop. But then who was treating their sleep apnea?", "Asked for data, never got it, and passed the uncertainty on to patients."],
+      ["Tried to avoid the machine, then told patients to keep using it. The market chose for you.", "Tried to avoid it, then told patients to stop. Consistent, and it still did not protect them.", "Tried another brand, then left it to patients. Every exit you tried kept closing."]
+    ],
+    3: [
+      ["You asked for a quiet machine and kept trusting it. That is what most real patients did.", "You asked for it, then gave it up. The cost of quitting fell on you, not on the company.", "You pushed for it, then organized against it. Your reports are the paper trail this story runs on."],
+      ["You asked for the material list, were refused, and kept using the machine. What else could you do?", "You asked the right question early and walked away later. Being right did not come with a better machine.", "You asked early and organized late. The closest thing to oversight in this room came from you."],
+      ["You put up with the noise, lost coverage, switched, and kept using it. The insurance rule made your choice.", "You put up with the noise, then gave up the quiet machine too. Back where you started, minus your coverage.", "You never trusted it and organized when it failed. The insurance rule still pushed most of your members onto it."]
+    ],
+    4: [
+      ["Waved it through, then investigated once it was too late. Months of inquiry, millions of machines.", "Waved it through and left the reports in the queue. This is what the real record looks like.", "Trusted the company twice. When you ask the company, the company sets the timeline."],
+      ["Asked for data, then investigated. The best record available to you, and it still took months.", "Asked once, then let it sit. One good instinct is not a system.", "Asked for data, then asked again. Polite requests were your strongest tool, and they are not very strong."],
+      ["Lost it in the queue, then dug it out later. The queue is the story.", "Queue, then queue. Nobody broke a rule. Nobody stopped anything either.", "Queued it, then asked the company. The paperwork moved. So did the machines."]
+    ],
+    5: [
+      ["Praised the machine, then published the warning. Credible both times, and attacked the second time.", "Praised the machine, then kept collecting. The data piled up while patients kept breathing.", "Praised it in public, warned about it in private. The private warning went into the same queue."],
+      ["Asked for an inhalation study, never got one, then published anyway. The closest thing to science in this story.", "Proposed a study, then kept collecting. Careful at every step, and unheard at every step.", "Proposed a study, then told the FDA quietly. Careful, correct, and invisible."],
+      ["Neutral first, loud later. Better late than never, but late.", "Neutral in Act I, still collecting data in Act II. So what were the researchers for?", "Neutral in public, then a private note to the FDA. Nobody outside the building ever knew."]
+    ],
+    6: [
+      ["Sold it hard, then blew the whistle and took the loss. Late, but you were the only counter that spoke.", "Sold it hard, then sold the last of it before the recall. That is the real distributors' story.", "Sold it hard and said nothing. Your counter saw the specks first."],
+      ["Waited, followed the market, then spoke up. Your silence was short.", "Waited, then told only the company and cleared your shelves. Business as usual.", "Waited, then said nothing. You followed the market all the way down."],
+      ["Tried to leave, came back, then warned patients. The prescribers kept you in, and your conscience got you out.", "Tried to leave, came back, then sold off your stock. The market won twice.", "Tried another brand, came back, and kept quiet. Nobody asked you, and you did not offer."]
+    ]
+  },
+
   /* ---------------- Debrief (all historical) ---------------- */
   debrief: [
     { y: "2021", t: "The FDA inspects Philips' plant. Its report records that Philips had corresponded with its foam supplier about breakdown since 2015, and that a keyword search of complaints since 2008 turned up at least 222,000 possibly related complaints with no formal investigation.", src: ["S8"] },
