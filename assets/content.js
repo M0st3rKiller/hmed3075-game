@@ -63,6 +63,9 @@ window.GAME = {
     S19: { t: "AP: Philips will pay $1.1 billion (April 2024)", u: "https://www.click2houston.com/health/2024/04/29/philips-will-pay-11-billion-to-resolve-us-lawsuits-over-breathing-machines-that-expel-debris/" },
     S20: { t: "MedTech Dive: Philips settles with the Department of Justice (Nov. 2026)", u: "https://www.medtechdive.com/news/philips-settles-with-doj-over-recalled-cpap-machines/873738/" },
     S22: { t: "ProPublica and Pittsburgh Post-Gazette: how they investigated the recall, and Philips' response", u: "https://sleepreviewmag.com/sleep-treatments/therapy-devices/cpap-pap-devices/we-spent-a-year-investigating-the-philips-cpap-recall-heres-how-we-did-it/" },
+    S23: { t: "MedTech Dive: user fees make up nearly half of CDRH's budget (2026)", u: "https://www.medtechdive.com/news/fda-mdufa-user-fee-patient-comments/759905/" },
+    S24: { t: "Union of Concerned Scientists: CDRH scientists say managers pressured them to approve devices", u: "https://www.ucs.org/resources/fda-medical-device-approval-based-politics-not-science" },
+    S25: { t: "MassDevice: FDA admits undue influence in the Menaflex approval (2009)", u: "https://www.massdevice.com/fda-regens-menaflex-our-bad/" },
     S21: { t: "RAPS: FDA inspection turns up more problems for Philips", u: "https://www.raps.org/resource/fda-inspection-turns-up-more-problems-for-philips.html" }
   },
 
@@ -82,7 +85,7 @@ window.GAME = {
       "To choose, your table picks one spokesperson, who tells the TA your choice. The outcome appears on the big screen.",
       "Each act opens when its unlock word appears on the big screen.",
       "You may share what you know, or not. Sharing is never punished, but it can have consequences.",
-      "Your TA plays the insurer and the federal government. Their rules are announced, not negotiated."
+      "Your TA plays the insurer, the federal government and the leadership of the FDA and CDRH. Their rules are announced, not negotiated."
     ]
   },
 
@@ -107,10 +110,10 @@ window.GAME = {
       dilemma: "You need it to stay healthy, and you are afraid it might be making you sick."
     },
     {
-      n: 4, name: "CDRH Staff", label: "The regulator", color: "#4B5563",
-      intro: "You are frontline staff at the FDA's Center for Devices and Radiological Health. You are not a decision-maker. You process reviews and read adverse event reports.",
+      n: 4, name: "CDRH Staff", label: "The reviewers", color: "#4B5563",
+      intro: "You are ordinary reviewers at the FDA's Center for Devices and Radiological Health. You read submissions and adverse event reports. You are not leadership: your bosses, played by the TA, set your workload and have the final say.",
       interest: "Get your work done and do the right thing.",
-      dilemma: "The work never ends, and you have less power than people think."
+      dilemma: "The work never ends, your bosses decide what counts as urgent, and you are not sure whose side they are on."
     },
     {
       n: 5, name: "University of Twin Lakes Medical School", label: "The researchers", color: "#5B4B8A",
@@ -189,10 +192,10 @@ window.GAME = {
         },
         4: {
           film: { t: "An FDA manager moved the da Vinci robot from the PMA route to the easier 510(k) route. All vaginal mesh was cleared through 510(k) without human studies.", src: ["F2", "F4"] },
-          facts: [{"t": "The new model changes an internal material.", "means": "A change of material usually calls for new safety testing. A company can argue the change is minor and that no new review is needed."}, {"t": "There have been very few adverse event reports on the older models.", "means": "Few reports can mean the device is safe, or that problems are not being reported. Makers must report. Patients and doctors only may.", "tag": "H", "src": ["S10"]}, {"t": "Your review queue is months behind and your office is short-staffed.", "means": "Every extra review delays something else."}],
+          facts: [{"t": "The new model changes an internal material.", "means": "A change of material usually calls for new safety testing. A company can argue the change is minor and that no new review is needed."}, {"t": "There have been very few adverse event reports on the older models.", "means": "Few reports can mean the device is safe, or that problems are not being reported. Makers must report. Patients and doctors only may.", "tag": "H", "src": ["S10"]}, {"t": "Device makers pay user fees that now fund nearly half of your center's budget. In return, the agency commits to review-time goals.", "means": "Speed is part of the deal. A slow review is a missed target, and your bosses answer for it.", "tag": "H", "src": ["S23"]}, {"t": "Leadership has told your office to clear the backlog this quarter. No new staff are coming.", "means": "Asking a company for more data is not against the rules, but it is the slowest thing you can do.", "tag": "F"}],
           weigh: "Trusting the company's description so the queue keeps moving, against asking for data that slows everything down.",
-          hide: [{"t": "How far behind your office is.", "why": "It would shake confidence in the agency."}, {"t": "Confidential company information under review.", "why": "You are not allowed to share it, even if others ask."}],
-          help: ["The company knows exactly what changed in the design.", "Researchers know whether there is any toxicology literature on this material."],
+          hide: [{"t": "How far behind your office is.", "why": "It would shake confidence in the agency."}, {"t": "Confidential company information under review.", "why": "You are not allowed to share it, even if others ask."}, {"t": "That you think leadership is rushing you.", "why": "Going over your bosses' heads can cost you your career. When CDRH scientists told Congress in 2008 that managers pressured them to approve devices, they asked to stay anonymous.", "tag": "H", "src": ["S24"]}],
+          help: ["The company knows exactly what changed in the design.", "Researchers know whether there is any toxicology literature on this material.", "Your own leadership, played by the TA. You can ask for more time or staff, but they decide."],
           source: {"t": "Device makers are required by law to report malfunctions, injuries and deaths to the FDA within 30 days. Patients and others may report voluntarily.", "src": ["S10"]},
           question: "The design has changed. Should it be reviewed again? Your queue is already months behind.",
           options: ["A. Accept the company's description", "B. Ask for test data", "C. Require a full new review"]
@@ -289,10 +292,10 @@ window.GAME = {
         },
         4: {
           film: { t: "Former FDA commissioner David Kessler says the adverse event reporting system is badly underused because it is voluntary.", src: ["F7"] },
-          facts: [{"t": "Your database holds very few foam-related reports. In the real case, Philips filed only 30 between 2011 and April 2021.", "means": "Few reports made the problem look small. The database only shows what companies choose to send.", "tag": "H", "src": ["S9"]}, {"t": "A few early reports mentioned \"contamination,\" and nobody followed up.", "means": "The warning signs were already in your files.", "tag": "H", "src": ["S10"]}, {"t": "By long practice, reports can be filed late, often without a penalty.", "means": "Companies have little reason to report on time.", "tag": "H", "src": ["S10"]}],
+          facts: [{"t": "Your database holds very few foam-related reports. In the real case, Philips filed only 30 between 2011 and April 2021.", "means": "Few reports made the problem look small. The database only shows what companies choose to send.", "tag": "H", "src": ["S9"]}, {"t": "A few early reports mentioned \"contamination,\" and nobody followed up.", "means": "The warning signs were already in your files.", "tag": "H", "src": ["S10"]}, {"t": "By long practice, reports can be filed late, often without a penalty.", "means": "Companies have little reason to report on time.", "tag": "H", "src": ["S10"]}, {"t": "Your director recently met privately with Philips executives, then told you to \"let the company handle it.\" People in the office say the director has been offered a job in industry.", "means": "You do not know what was discussed or promised. You only know the instruction, and the rumor.", "tag": "F"}, {"t": "It has happened before: in 2009 the FDA admitted that political pressure, not science, had shaped its clearance of a knee implant over its own reviewers' objections.", "means": "Your bosses overruling you is not paranoia. It is on the record.", "tag": "H", "src": ["S25"]}],
           weigh: "Opening an investigation that takes time and staff, against waiting while patients keep breathing through these machines.",
-          hide: [{"t": "That the early \"contamination\" reports were never followed up.", "why": "It would show the agency missed the signs."}, {"t": "How much the agency depends on companies to report on themselves.", "why": "It would shake public trust."}],
-          help: ["Suppliers know which models the particles show up in.", "Patients can give firsthand accounts."],
+          hide: [{"t": "That the early \"contamination\" reports were never followed up.", "why": "It would show the agency missed the signs."}, {"t": "How much the agency depends on companies to report on themselves.", "why": "It would shake public trust."}, {"t": "What you suspect about your director.", "why": "You have no proof. Accusing your boss without it could end your career, and with it, your ability to push on this case."}],
+          help: ["Suppliers know which models the particles show up in.", "Patients can give firsthand accounts.", "Your own leadership, played by the TA. You can push them to act, but you may not like the answer."],
           source: {"t": "Device makers must report within 30 days, but late reports are common, and the FDA has accepted them years later.", "src": ["S10"]},
           question: "The reports in front of you only say \"contamination.\" How will you decide whether it is the foam?",
           options: ["A. Investigate", "B. Issue a public safety warning now", "C. Ask the company for more information"]
