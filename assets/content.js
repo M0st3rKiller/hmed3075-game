@@ -195,7 +195,7 @@ window.GAME = {
           help: ["The company knows exactly what changed in the design.", "Researchers know whether there is any toxicology literature on this material."],
           source: {"t": "Device makers are required by law to report malfunctions, injuries and deaths to the FDA within 30 days. Patients and others may report voluntarily.", "src": ["S10"]},
           question: "The design has changed. Should it be reviewed again? Your queue is already months behind.",
-          options: ["A. Accept the company's description", "B. Ask for test data", "C. Put it in the queue for later"]
+          options: ["A. Accept the company's description", "B. Ask for test data", "C. Require a full new review"]
         },
         5: {
           film: { t: "Dr. Rita Redberg, editor of JAMA Internal Medicine, explains how the 510(k) route let metal-on-metal hips onto the market.", src: ["F2", "F4"] },
@@ -205,7 +205,7 @@ window.GAME = {
           help: ["Suppliers download nightly usage data from the machines.", "Patients can tell you why people give up."],
           source: {"t": "Medicare's 90-day usage rule, and the study showing only about half of patients meet it.", "src": ["S3", "S4"]},
           question: "Your research shows CPAP works, but only if patients wear it. Which fix will you back?",
-          options: ["A. Publicly support the quieter machine", "B. Propose an inhalation study first", "C. Stay neutral"]
+          options: ["A. Publicly support the quieter machine", "B. Propose an inhalation study first", "C. Warn publicly that the foam is untested"]
         },
         6: {
           film: { t: "The film has no distributor. The closest match is the sales push behind da Vinci: surgeons said the robot took far longer to master than they expected.", src: ["F2"] },
@@ -215,18 +215,18 @@ window.GAME = {
           help: ["The company knows the new machine's wholesale price.", "Doctors know which brand they plan to recommend."],
           source: {"t": "The DreamStation brochure pitches the machine to suppliers as good for long-term patient use and good for business efficiency.", "src": ["S2"]},
           question: "Patients are returning machines and your income is falling. What will you do with the prescribing data Philips gave you?",
-          options: ["A. Push the new machine hard", "B. Wait and see", "C. Switch to another brand"]
+          options: ["A. Push the new machine hard", "B. Stop using the data and tell doctors where it came from", "C. Switch to another brand"]
         }
       },
       outcome: {
         lead: "What happened: Philips Respironics lined its machines with polyester-based polyurethane foam to cut the noise. In October 2015 it launched DreamStation, marketed as quiet, small and light.",
         lines: {
           1: ["Approved. DreamStation ships on schedule with the foam inside.", "The board says no. Long-term testing would delay the launch by years. The foam goes in.", "The board says no. The expensive material would price DreamStation out of the market. The cheap foam stays."],
-          2: ["Twin Lakes backs the quiet machine.", "Twin Lakes asks for safety data and gets a one-page summary with no long-term results. They prescribe it anyway. Their patients need a machine they will wear.", "Twin Lakes looks for another brand, but insurers and Lakeside stock DreamStation. Most patients end up on it anyway."],
-          3: ["North Star members line up for the quiet machine.", "North Star asks for the material list. Philips calls it proprietary. Members buy the machine anyway.", "Some members keep their loud machines, miss the 90-day rule and lose coverage. They switch."],
-          4: ["CDRH accepts the company's description of the change.", "CDRH asks for test data. Short-term data arrive, and the change goes through.", "The file sits in the queue. The machine is already on sale."],
-          5: ["The researchers praise quieter machines in the local paper.", "The inhalation study waits for funding that never comes.", "The researchers stay out of it."],
-          6: ["Lakeside pushes DreamStation to every prescriber on its list.", "Lakeside waits and watches competitors win the referrals. It signs on.", "Lakeside tries another brand. Its biggest prescribers want DreamStation. It switches back."]
+          2: ["Twin Lakes backs the quiet machine. More of its patients meet the 90-day rule, and DreamStation becomes the clinic's default.", "Twin Lakes asks for safety data and gets a one-page summary with no long-term results. They prescribe it anyway. Their patients need a machine they will wear.", "Twin Lakes looks for another brand, but insurers and Lakeside stock DreamStation. Most patients end up on it anyway."],
+          3: ["North Star members line up for the quiet machine. More of them meet the 90-day rule and keep their coverage.", "North Star asks for the material list. Philips calls it proprietary. Members buy the machine anyway.", "Some members keep their loud machines, miss the 90-day rule and lose coverage. They switch."],
+          4: ["CDRH accepts the company's description of the change. No new testing is required.", "CDRH asks for test data. Short-term data arrive, and the change goes through.", "CDRH asks for a full review. Philips argues the change is minor and needs no new submission. By the time the dispute is settled, the machine is on sale."],
+          5: ["The researchers praise quieter machines in the local paper. Their name now stands behind DreamStation.", "The inhalation study waits for funding that never comes.", "The researchers warn in the local paper that the foam is untested. With no data behind it, the warning gets little attention."],
+          6: ["Lakeside pushes DreamStation to every prescriber on its list. Rentals rise and returns fall.", "Lakeside stops using the data and tells doctors. Doctors shrug, rival suppliers keep using theirs, and Lakeside loses referrals. Within months it signs back on.", "Lakeside tries another brand. Its biggest prescribers want DreamStation. It switches back."]
         },
         rule: "Medicare's 90-day rule stayed in place. A quiet machine was the one patients could keep wearing."
       }
@@ -295,7 +295,7 @@ window.GAME = {
           help: ["Suppliers know which models the particles show up in.", "Patients can give firsthand accounts."],
           source: {"t": "Device makers must report within 30 days, but late reports are common, and the FDA has accepted them years later.", "src": ["S10"]},
           question: "The reports in front of you only say \"contamination.\" How will you decide whether it is the foam?",
-          options: ["A. Investigate", "B. Leave it for now. There is no time", "C. Ask the company for more information"]
+          options: ["A. Investigate", "B. Issue a public safety warning now", "C. Ask the company for more information"]
         },
         5: {
           film: { t: "Diana Zuckerman of the National Center for Health Research says the approval process for the riskiest devices is not good enough. Bayer's statement attacked her as a paid litigation expert.", src: ["F4", "F9"] },
@@ -305,7 +305,7 @@ window.GAME = {
           help: ["Patients have particle samples and photos.", "Doctors have tubing from patients.", "The FDA knows how many reports it has."],
           source: {"t": "A Philips engineer, in a 2018 email unsealed in court: \"The material sheds and is pulled into the ventilator air path.\"", "src": ["S7"]},
           question: "You only have partial data. Do you go public?",
-          options: ["A. Publish early results", "B. Keep collecting data", "C. Send it privately to the FDA"]
+          options: ["A. Publish early results", "B. Share your findings with the patients' group", "C. Send it privately to the FDA"]
         },
         6: {
           film: { t: "Again, no distributor. But patients in the film found insurers covered Essure far more easily than its removal. The money flowed toward putting devices in, not taking them out.", src: ["F8"] },
@@ -315,18 +315,18 @@ window.GAME = {
           help: ["The company will have to explain the cause, one way or another.", "Patients know what they plan to do."],
           source: {"t": "In April 2021 Philips stopped shipping the machines from its factories but approved continued sales of distributors' inventory.", "src": ["S11"]},
           question: "Who do you tell about the specks at your counter? Do you keep selling your stock?",
-          options: ["A. Tell patients and doctors, and stop selling", "B. Tell only Philips, and keep selling", "C. Say nothing"]
+          options: ["A. Tell patients and doctors, and stop selling", "B. Tell only Philips, and keep selling", "C. Stop selling, but tell no one why"]
         }
       },
       outcome: {
         lead: "What happened: in April 2021 Philips stopped shipping the machines from its factories. On June 14, 2021, it recalled millions of them. It said the foam could break down, and that unapproved cleaning methods such as ozone, and heat and humidity, might make it worse.",
         lines: {
           1: ["Philips says there is no evidence its machines are unsafe. The complaints keep coming.", "Philips quietly swaps foam in some of the machines it services. Millions of others are untouched.", "Philips gets ready to file thousands of overdue complaints. Its lawyers say a recall plan has to come first."],
-          2: ["Twin Lakes tells patients to keep using their machines.", "Twin Lakes tells patients to stop. Some stop treatment altogether.", "Twin Lakes leaves the choice to patients, who have no data either."],
-          3: ["Most North Star members keep using their machines.", "Some members stop, or go back to older, louder machines.", "North Star files a stack of reports with the FDA and calls a lawyer."],
-          4: ["CDRH opens an inquiry. It takes months.", "The \"contamination\" reports stay in the queue.", "CDRH asks Philips for more information. The answers come slowly."],
-          5: ["The researchers publish early results. Philips says the sample is too small.", "The researchers keep collecting samples.", "The data go to the FDA, into the same queue."],
-          6: ["Lakeside tells patients and doctors and stops selling. Philips reminds it of its contract.", "Lakeside tells only Philips and sells its stock before the recall.", "Lakeside says nothing."]
+          2: ["Twin Lakes tells patients to keep using their machines. When the recall comes, patients ask why their doctors said it was safe.", "Twin Lakes tells patients to stop. Some stop treatment altogether.", "Twin Lakes leaves the choice to patients, who have no data either. Most keep using the machines, and some later blame the clinic for not warning them."],
+          3: ["Most North Star members keep using their machines, and keep breathing whatever comes off the foam.", "Some members stop, or go back to older, louder machines.", "North Star files a stack of reports with the FDA and calls a lawyer."],
+          4: ["CDRH opens an inquiry. It takes months.", "CDRH drafts a public warning, but without the company's data it cannot say what the risk is. The warning stalls in internal review.", "CDRH asks Philips for more information. The answers come slowly."],
+          5: ["The researchers publish early results. Philips says the sample is too small.", "The researchers share their findings with North Star. Members post the photos online, and Philips calls the posts unscientific.", "The data go to the FDA, into the same queue."],
+          6: ["Lakeside tells patients and doctors and stops selling. Philips reminds it of its contract.", "Lakeside tells only Philips and sells its stock before the recall.", "Lakeside quietly stops selling and absorbs the loss. Patients already using the machines are never warned."]
         },
         rule: "The FDA classifies the recall as Class I, its most serious type.",
         close: "To this day, how many people the foam harmed has not been settled."
@@ -353,19 +353,19 @@ window.GAME = {
       ["You put up with the noise, lost coverage, switched, and kept using it. The insurance rule made your choice.", "You put up with the noise, then gave up the quiet machine too. Back where you started, minus your coverage.", "You never trusted it and organized when it failed. The insurance rule still pushed most of your members onto it."]
     ],
     4: [
-      ["Waved it through, then investigated once it was too late. Months of inquiry, millions of machines.", "Waved it through and left the reports in the queue. This is what the real record looks like.", "Trusted the company twice. When you ask the company, the company sets the timeline."],
-      ["Asked for data, then investigated. The best record available to you, and it still took months.", "Asked once, then let it sit. One good instinct is not a system.", "Asked for data, then asked again. Polite requests were your strongest tool, and they are not very strong."],
-      ["Lost it in the queue, then dug it out later. The queue is the story.", "Queue, then queue. Nobody broke a rule. Nobody stopped anything either.", "Queued it, then asked the company. The paperwork moved. So did the machines."]
+      ["Waved it through, then investigated once it was too late. Months of inquiry, millions of machines.", "Waved it through, then tried to warn the public without data. The warning stalled because the agency had nothing to say.", "Trusted the company twice. When you ask the company, the company sets the timeline."],
+      ["Asked for data, then investigated. The best record available to you, and it still took months.", "Asked for data, then tried to warn the public. Without the company's numbers, the warning had no content.", "Asked for data, then asked again. Polite requests were your strongest tool, and they are not very strong."],
+      ["Demanded a full review, lost the argument over whether the change was minor, then investigated. Right twice, and late twice.", "Demanded a review, then a public warning. Both times the company set the terms.", "Demanded a full review, then went back to asking the company. When the company decides what counts as a change, review is optional."]
     ],
     5: [
-      ["Praised the machine, then published the warning. Credible both times, and attacked the second time.", "Praised the machine, then kept collecting. The data piled up while patients kept breathing.", "Praised it in public, warned about it in private. The private warning went into the same queue."],
-      ["Asked for an inhalation study, never got one, then published anyway. The closest thing to science in this story.", "Proposed a study, then kept collecting. Careful at every step, and unheard at every step.", "Proposed a study, then told the FDA quietly. Careful, correct, and invisible."],
-      ["Neutral first, loud later. Better late than never, but late.", "Neutral in Act I, still collecting data in Act II. So what were the researchers for?", "Neutral in public, then a private note to the FDA. Nobody outside the building ever knew."]
+      ["Praised the machine, then published the warning. Credible both times, and attacked the second time.", "Praised the machine, then handed your findings to the patients. Their posts reached more people than a paper would have.", "Praised it in public, warned about it in private. The private warning went into the same queue."],
+      ["Asked for an inhalation study, never got one, then published anyway. The closest thing to science in this story.", "Proposed a study, then gave your data to the patients. The science traveled through a support group because nowhere else would take it.", "Proposed a study, then told the FDA quietly. Careful, correct, and invisible."],
+      ["Warned early that the foam was untested, then published. Right both times, and ignored the first time.", "Warned early, then armed the patients with your data. The company called it unscientific both times.", "Warned in public, then went quiet and wrote to the FDA. Your loudest moment came before you had any evidence."]
     ],
     6: [
-      ["Sold it hard, then blew the whistle and took the loss. Late, but you were the only counter that spoke.", "Sold it hard, then sold the last of it before the recall. That is the real distributors' story.", "Sold it hard and said nothing. Your counter saw the specks first."],
-      ["Waited, followed the market, then spoke up. Your silence was short.", "Waited, then told only the company and cleared your shelves. Business as usual.", "Waited, then said nothing. You followed the market all the way down."],
-      ["Tried to leave, came back, then warned patients. The prescribers kept you in, and your conscience got you out.", "Tried to leave, came back, then sold off your stock. The market won twice.", "Tried another brand, came back, and kept quiet. Nobody asked you, and you did not offer."]
+      ["Sold it hard, then blew the whistle and took the loss. Late, but you were the only counter that spoke.", "Sold it hard, then sold the last of it before the recall. That is the real distributors' story.", "Sold it hard, then quietly stopped selling. You protected new customers, not the ones already breathing through the foam."],
+      ["Gave up the prescribing data, signed back on, then spoke up. The market pulled you back in, and you still got out.", "Gave up the data, signed back on, then cleared your shelves. Your one principled move cost you money and changed nothing.", "Gave up the data, then stopped selling without a word. Clean hands, and patients still unwarned."],
+      ["Tried to leave, came back, then warned patients. The prescribers kept you in, and your conscience got you out.", "Tried to leave, came back, then sold off your stock. The market won twice.", "Tried another brand, came back, then stopped selling without telling anyone. Nobody asked you, and you did not offer."]
     ]
   },
 
