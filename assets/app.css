@@ -247,3 +247,6 @@ body.tpage .band h1 { font-size: 1.4rem; }
 @media (max-width: 1100px) { .tablebtns { grid-template-columns: repeat(3, 1fr); } .bigopts { grid-template-columns: 1fr; } }
 .qs .ws { display: inline-block; font-size: .5em; font-weight: 700; color: var(--blue); background: #E3ECF5; padding: 2px 8px; border-radius: 3px; vertical-align: middle; }
 .qs li { font-size: clamp(1.3rem, 2.3vw, 2rem); }
+.filmbox { border: 3px solid var(--fict); background: #FBF7EE; padding: 8px 12px; margin-top: 12px; font-size: .95rem; }
+.filmbox .bh { font-weight: 800; color: var(--fict); margin: 0 0 4px; }
+.filmbox p { margin: 0; }

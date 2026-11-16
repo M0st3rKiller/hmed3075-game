@@ -33,6 +33,15 @@ window.GAME = {
   },
 
   sources: {
+    F1: { t: "AV Club review of The Bleeding Edge", u: "https://avclub.com/a-documentary-muckraker-takes-on-the-tech-sector-of-hea-1827851315" },
+    F2: { t: "MassDevice: The Bleeding Edge raises big questions for device makers", u: "https://www.massdevice.com/netflixs-the-bleeding-edge-raises-big-questions-for-medical-device-manufacturers/" },
+    F3: { t: "TheWrap review of The Bleeding Edge", u: "https://www.thewrap.com/the-bleeding-edge-film-review-netflix-kirby-dick-essure" },
+    F4: { t: "Women's Health Council review of The Bleeding Edge", u: "https://www.womenshealthcouncil.org.nz/review-of-the-bleeding-edge-documentary-2" },
+    F5: { t: "Irish Times review of The Bleeding Edge", u: "https://www.irishtimes.com/culture/film/shocking-expose-of-dodgy-medical-devices-1.3575099" },
+    F6: { t: "National Center for Health Research on The Bleeding Edge", u: "https://www.center4research.org/?p=9083" },
+    F7: { t: "Medtech Insight: groups use The Bleeding Edge to push device safety", u: "https://www.center4research.org/bleeding-edge-lessons-push-device-safety/" },
+    F8: { t: "ConsumerAffairs on The Bleeding Edge", u: "https://www.consumeraffairs.com/news/the-human-tragedy-of-poorly-regulated-medical-devices-gets-the-spotlight-in-a-netflix-film-072718.html" },
+    F9: { t: "Bayer's \"fact check\" of The Bleeding Edge (July 27, 2018)", u: "https://www.prnewswire.com/news-releases/bayer-fact-checks-netflixs-the-bleeding-edge-300687964.html" },
     S1: { t: "Philips press release on the Dream Family launch (Oct. 20, 2015)", u: "https://prnewswire.com/news-releases/new-philips-dream-family-solution-gives-sleep-apnea-patients-a-better-nights-sleep-300162910.html" },
     S2: { t: "Philips DreamStation product brochure (2015)", u: "https://images.philips.com/is/content/PhilipsConsumer/PDFDownloads/India/DreamStation%20device%20brochure.pdf" },
     S3: { t: "Medicare coverage rules for CPAP (summary)", u: "https://sleepdr.com/blog/medicare-coverage-for-cpap-supplies" },
@@ -149,6 +158,7 @@ window.GAME = {
       ],
       cards: {
         1: {
+          film: { t: "Bayer marketed Essure as a hassle-free alternative to tying the tubes. In the film, as in your game, the company's pitch is about convenience.", src: ["F1"] },
           know: [
             { t: "With the foam installed, the machine is much quieter in your own measurements." },
             { t: "You give Lakeside Home Medical physician prescribing data for free, so they can market to doctors. The doctors do not know.", tag: "H", src: ["S5"], note: "Adapted. In 2022 Respironics paid about $24 million to settle federal allegations that this was an illegal kickback, without admitting wrongdoing." }
@@ -166,6 +176,7 @@ window.GAME = {
           options: ["A. Use the foam and launch now", "B. Run long-term tests first, then launch", "C. Use a more expensive material and raise the price"]
         },
         2: {
+          film: { t: "Women like Angie Firmalino got Essure because their doctors encouraged it. The film reports that device companies paid doctors $2 billion in 2016.", src: ["F3"] },
           know: [
             { t: "The main reasons your patients give up are noise and discomfort." },
             { t: "Which brand you plan to recommend to your patients." }
@@ -182,6 +193,7 @@ window.GAME = {
           options: ["A. Support adding the foam", "B. Ask to see safety data first", "C. Recommend a different brand"]
         },
         3: {
+          film: { t: "Women chose Essure because it promised a quick procedure without surgery, and their doctors recommended it.", src: ["F1", "F3"] },
           know: [
             { t: "A survey of your members: noise is the top complaint.", tag: "F" },
             { t: "How much more members would pay for a quieter machine.", tag: "F" }
@@ -198,6 +210,7 @@ window.GAME = {
           options: ["A. Push for a quiet machine as soon as possible", "B. Demand the material list and test results", "C. Put up with the noise"]
         },
         4: {
+          film: { t: "An FDA manager moved the da Vinci robot from the PMA route to the easier 510(k) route. All vaginal mesh was cleared through 510(k) without human studies.", src: ["F2", "F4"] },
           know: [
             { t: "What a review normally looks at." },
             { t: "There have been very few adverse event reports on the older models." }
@@ -215,6 +228,7 @@ window.GAME = {
           options: ["A. Accept the company's description", "B. Ask for test data", "C. Put it in the queue for later"]
         },
         5: {
+          film: { t: "Dr. Rita Redberg, editor of JAMA Internal Medicine, explains how the 510(k) route let metal-on-metal hips onto the market.", src: ["F2", "F4"] },
           know: [
             { t: "CPAP works when it is worn at least 4 hours a night. That is also the threshold Medicare uses.", tag: "H", src: ["S3"] },
             { t: "There is very little toxicology literature on this material in the airway.", tag: "F" }
@@ -232,6 +246,7 @@ window.GAME = {
           options: ["A. Publicly support the quieter machine", "B. Propose an inhalation study first", "C. Stay neutral"]
         },
         6: {
+          film: { t: "The film has no distributor. The closest match is the sales push behind da Vinci: surgeons said the robot took far longer to master than they expected.", src: ["F2"] },
           know: [
             { t: "How many patients are returning rented machines, and why." },
             { t: "Patients' real nightly usage, downloaded from their machines." },
@@ -290,6 +305,7 @@ window.GAME = {
       ],
       cards: {
         1: {
+          film: { t: "Bayer, Johnson & Johnson and Intuitive Surgical declined to be interviewed. The day the film came out, Bayer answered with a \"fact check\" (worksheet Q6).", src: ["F3", "F9"] },
           know: [
             { t: "Partial results from your internal tests." },
             { t: "Ozone cleaners, heat and humidity may speed up foam breakdown." }
@@ -309,6 +325,7 @@ window.GAME = {
           options: ["A. Question their methods and stress there is no proof", "B. Quietly replace the foam during servicing", "C. Report to the FDA"]
         },
         2: {
+          film: { t: "The film shows doctors who were often as uninformed as their patients.", src: ["F5"] },
           know: [
             { t: "A patient showed you tubing with black specks in it." },
             { t: "Overall patterns in your patients' symptoms." }
@@ -325,6 +342,7 @@ window.GAME = {
           options: ["A. Keep using it", "B. Stop using it", "C. Let each patient decide"]
         },
         3: {
+          film: { t: "Angie Firmalino started a Facebook group. The \"E-Sisters\" grew to tens of thousands and pressed officials, doctors and the FDA.", src: ["F6"] },
           know: [
             { t: "Photos of black particles from more than twenty members.", tag: "F" },
             { t: "A list of members' symptoms.", tag: "F" }
@@ -341,6 +359,7 @@ window.GAME = {
           options: ["A. Keep using it", "B. Stop, or switch to a worse machine", "C. Report to the FDA together and prepare to sue"]
         },
         4: {
+          film: { t: "Former FDA commissioner David Kessler says the adverse event reporting system is badly underused because it is voluntary.", src: ["F7"] },
           know: [
             { t: "Your database holds very few foam-related reports. In the real case, Philips filed only 30 between 2011 and April 2021.", tag: "H", src: ["S9"] },
             { t: "You can ask the company for more information." }
@@ -359,6 +378,7 @@ window.GAME = {
           options: ["A. Investigate", "B. Leave it for now. There is no time", "C. Ask the company for more information"]
         },
         5: {
+          film: { t: "Diana Zuckerman of the National Center for Health Research says the approval process for the riskiest devices is not good enough. Bayer's statement attacked her as a paid litigation expert.", src: ["F4", "F9"] },
           know: [
             { t: "Early analysis: the particles look like broken-down polyurethane.", tag: "F" },
             { t: "You asked Philips for its test reports and were refused.", tag: "F", note: "In the real case, journalists had to sue the FDA to get records." }
@@ -376,6 +396,7 @@ window.GAME = {
           options: ["A. Publish early results", "B. Keep collecting data", "C. Send it privately to the FDA"]
         },
         6: {
+          film: { t: "Again, no distributor. But patients in the film found insurers covered Essure far more easily than its removal. The money flowed toward putting devices in, not taking them out.", src: ["F8"] },
           know: [
             { t: "Machines with black specks keep coming back to your counter, all the same model.", tag: "F" },
             { t: "You saw specks while changing filters long before anyone complained.", tag: "F" },
