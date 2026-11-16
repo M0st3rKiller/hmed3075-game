@@ -9,14 +9,14 @@ window.GAME = {
   video: { id: "Vy0r1m20xzo", title: "Philips DreamStation monitoring David's sleep apnea in Australian Outback (Philips Healthcare, 3:33)" },
 
   /* Unlock words. The host screen shows them, students type them on their table page. */
-  unlock: { act1: "QUIET", act2: "HUMIDITY" },
+  unlock: { act1: "NOISE", act2: "FOAM" },
 
   /* Sub-stages inside each act, in minutes. */
   stages: [
     { id: "read", name: "Read", minutes: 5 },
     { id: "debate", name: "Debate", minutes: 7 },
     { id: "choose", name: "Choose", minutes: 2 },
-    { id: "wrap", name: "Wrap-up", minutes: 1 }
+    { id: "outcome", name: "Outcome", minutes: 1 }
   ],
 
   sources: {
@@ -53,7 +53,8 @@ window.GAME = {
       "This game is adapted from a real case. Philips Respironics and DreamStation are real names. The local people and organizations in the game are fictional. Anything marked Historical comes from the public record. Everything else was written for this discussion. The debrief at the end is entirely real.",
     rules: [
       "Each table plays one side. Open the entry page and type your table number.",
-      "The game has two acts, 15 minutes each: read (5 min), debate with other tables (7 min), choose (2 min), wrap-up (1 min).",
+      "The game has two acts, 15 minutes each: read (5 min), debate with other tables (7 min), choose (2 min), outcome (1 min).",
+      "To choose, your table picks one spokesperson, who tells the TA your choice. The outcome appears on the big screen.",
       "Each act opens when its unlock word appears on the big screen.",
       "You may share what you know, or not. Sharing is never punished, but it can have consequences.",
       "Your TA plays the insurer and the federal government. Their rules are announced, not negotiated."
@@ -230,17 +231,17 @@ window.GAME = {
           options: ["A. Push the new machine hard", "B. Wait and see", "C. Switch to another brand"]
         }
       },
-      wrap: {
+      outcome: {
         lead: "Engineering adds polyester-based polyurethane foam to the machine. DreamStation is quiet, and it goes on sale.",
         lines: {
-          1: ["Philips ships DreamStation on schedule.", "Philips schedules long-term testing, but the launch date does not move.", "The board rejects the more expensive material and keeps the original plan."],
-          2: ["Twin Lakes tells patients the new machine is worth trying.", "Twin Lakes asks for safety data and receives a one-page summary.", "Twin Lakes leans toward another brand, but most of its patients end up on DreamStation anyway."],
-          3: ["North Star urges members to switch to the quiet machine.", "North Star asks for the material list. Philips calls it proprietary.", "Some North Star members keep their old, loud machines."],
-          4: ["CDRH accepts the company's description of the change.", "CDRH asks for test data. The data arrive, and the change goes through.", "The file goes to the bottom of the queue."],
-          5: ["The researchers endorse quieter machines in the local paper.", "The proposed inhalation study waits for funding.", "The researchers stay out of it."],
-          6: ["Lakeside pushes DreamStation to every prescriber on its list.", "Lakeside waits, then follows the market.", "Lakeside tries another brand, but its biggest prescribers want DreamStation."]
+          1: ["Approved. DreamStation ships on schedule with the foam inside.", "The board says no. Long-term testing would delay the launch by years. The foam goes in.", "The board says no. The expensive material would price DreamStation out of the market. The cheap foam stays."],
+          2: ["Twin Lakes backs the quiet machine.", "Twin Lakes asks for safety data and gets a one-page summary with no long-term results. They prescribe it anyway. Their patients need a machine they will wear.", "Twin Lakes looks for another brand, but insurers and Lakeside stock DreamStation. Most patients end up on it anyway."],
+          3: ["North Star members line up for the quiet machine.", "North Star asks for the material list. Philips calls it proprietary. Members buy the machine anyway.", "Some members keep their loud machines, miss the 90-day rule and lose coverage. They switch."],
+          4: ["CDRH accepts the company's description of the change.", "CDRH asks for test data. Short-term data arrive, and the change goes through.", "The file sits in the queue. The machine is already on sale."],
+          5: ["The researchers praise quieter machines in the local paper.", "The inhalation study waits for funding that never comes.", "The researchers stay out of it."],
+          6: ["Lakeside pushes DreamStation to every prescriber on its list.", "Lakeside waits and watches competitors win the referrals. It signs on.", "Lakeside tries another brand. Its biggest prescribers want DreamStation. It switches back."]
         },
-        rule: "As Medicare: the 90-day usage rule stands. Patients who fall short lose coverage."
+        rule: "Medicare: the 90-day usage rule stands. Patients who fall short lose coverage."
       }
     },
 
@@ -372,17 +373,17 @@ window.GAME = {
           options: ["A. Tell patients and doctors, and stop selling", "B. Tell only Philips, and keep selling", "C. Say nothing"]
         }
       },
-      wrap: {
+      outcome: {
         lead: "Philips announces a recall of millions of machines. The company says the foam may break down, and that one possible cause is unapproved cleaning methods, such as ozone, along with heat and humidity.",
         lines: {
-          1: ["Philips says there is no evidence its machines are unsafe.", "Philips quietly swaps foam in some of the machines it services.", "Philips files thousands of overdue complaints. The FDA accepts them without a penalty."],
+          1: ["Philips says there is no evidence its machines are unsafe. The complaints keep coming.", "Philips quietly swaps foam in some of the machines it services. Millions of others are untouched.", "Philips gets ready to file thousands of overdue complaints. Its lawyers say a recall plan has to come first."],
           2: ["Twin Lakes tells patients to keep using their machines.", "Twin Lakes tells patients to stop. Some stop treatment altogether.", "Twin Lakes leaves the choice to patients, who have no data either."],
-          3: ["Many North Star members keep using their machines.", "Some members stop, or go back to older, louder machines.", "North Star files a stack of reports with the FDA and calls a lawyer."],
+          3: ["Most North Star members keep using their machines.", "Some members stop, or go back to older, louder machines.", "North Star files a stack of reports with the FDA and calls a lawyer."],
           4: ["CDRH opens an inquiry. It takes months.", "The \"contamination\" reports stay in the queue.", "CDRH asks Philips for more information. The answers come slowly."],
-          5: ["The researchers publish early results. Philips says the sample is too small.", "The researchers keep collecting samples.", "The researchers send their data to the FDA privately."],
-          6: ["Lakeside tells patients and doctors, and stops selling its stock.", "Lakeside tells only Philips and sells its stock before the recall.", "Lakeside says nothing."]
+          5: ["The researchers publish early results. Philips says the sample is too small.", "The researchers keep collecting samples.", "The data go to the FDA, into the same queue."],
+          6: ["Lakeside tells patients and doctors and stops selling. Philips reminds it of its contract.", "Lakeside tells only Philips and sells its stock before the recall.", "Lakeside says nothing."]
         },
-        rule: "As the federal government: the FDA classifies the recall as Class I, its most serious type.",
+        rule: "The FDA classifies the recall as Class I, its most serious type.",
         close: "To this day, how many people the foam harmed has not been settled."
       }
     }
@@ -396,5 +397,4 @@ window.GAME = {
     { y: "2024", t: "A federal court enters a consent decree that bars Philips from selling new CPAP machines in the U.S. until it meets conditions. The same month, Philips agrees to pay $1.1 billion to settle personal injury claims, without admitting fault. Its stock rises more than 35 percent.", src: ["S18", "S19"] },
     { y: "2026", t: "Philips reaches an agreement in principle with the Justice Department to pay 288 million euros (about $322 million) to resolve criminal and civil investigations.", src: ["S20"] }
   ],
-  finalQuestion: "In this story, did the FDA fail? If it failed, why is it still here?"
 };

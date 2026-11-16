@@ -16,36 +16,34 @@
 <main class="hmain" id="main"></main>
 <script>
 (function () {
-  const { G, store, esc, table, item } = DS;
-  const KEY = "ds-host-v1";
+  const { G, store, esc } = DS;
+  const KEY = "ds-host-v2";
   const TABS = [
-    { id: "video", name: "Promo video", minutes: 5 },
-    { id: "warmup", name: "Warm-up", minutes: 10 },
-    { id: "act1", name: "Act I: Launch" },
-    { id: "act2", name: "Act II: Fallout" },
-    { id: "debrief", name: "Debrief", minutes: 5 }
+    { id: "video", name: "Promo video", stages: [{ name: "Video", minutes: 5 }] },
+    { id: "warmup", name: "Warm-up", stages: [{ name: "Recap", minutes: 7 }, { name: "Read your role", minutes: 3 }] },
+    { id: "act1", name: "Act I: Launch", stages: G.stages },
+    { id: "act2", name: "Act II: Fallout", stages: G.stages },
+    { id: "debrief", name: "Debrief", stages: null }
   ];
-  const fresh = () => ({ tab: 0, stage: { act1: 0, act2: 0 }, shown: {}, choices: { act1: {}, act2: {} }, project: false, reveal: 0, timer: { left: 300, endAt: null } });
+  const fresh = () => ({ tab: 0, stage: { video: 0, warmup: 0, act1: 0, act2: 0 }, shown: {}, choices: { act1: {}, act2: {} }, timer: { left: 300, endAt: null } });
   let S = store.get(KEY, null) || fresh();
   const save = () => store.set(KEY, S);
   const main = document.getElementById("main");
 
-  const curTab = () => TABS[S.tab];
-  const act = () => G.acts.find(a => a.key === curTab().id);
-  function stageMinutes() {
-    const t = curTab();
-    if (t.minutes) return t.minutes;
-    return G.stages[S.stage[t.id]].minutes;
-  }
+  const tab = () => TABS[S.tab];
+  const stageList = () => tab().stages;
+  const stageIdx = () => S.stage[tab().id] || 0;
+  const stageMin = () => stageList() ? stageList()[stageIdx()].minutes : 0;
 
   /* ---------- Timer ---------- */
   const left = () => S.timer.endAt ? Math.round((S.timer.endAt - Date.now()) / 1000) : S.timer.left;
   const fmt = s => (s < 0 ? "+" : "") + Math.floor(Math.abs(s) / 60) + ":" + String(Math.abs(s) % 60).padStart(2, "0");
   function toggleTimer() {
+    if (!stageList()) return;
     if (S.timer.endAt) { S.timer.left = left(); S.timer.endAt = null; } else { S.timer.endAt = Date.now() + S.timer.left * 1000; }
     save(); render();
   }
-  function resetTimer() { S.timer = { left: stageMinutes() * 60, endAt: null }; save(); render(); }
+  function resetTimer() { S.timer = { left: stageMin() * 60, endAt: null }; save(); render(); }
   setInterval(() => {
     const el = document.getElementById("clock");
     if (!el) return;
@@ -56,111 +54,104 @@
 
   function goTab(i) {
     if (i < 0 || i >= TABS.length) return;
-    S.tab = i; S.project = false;
-    S.timer = { left: stageMinutes() * 60, endAt: null };
-    save(); render();
+    S.tab = i;
+    S.timer = { left: stageMin() * 60, endAt: null };
+    save(); render(); window.scrollTo(0, 0);
   }
   function goStage(i) {
-    const id = curTab().id;
-    if (!S.stage.hasOwnProperty(id) || i < 0 || i >= G.stages.length) return;
-    S.stage[id] = i;
-    S.timer = { left: G.stages[i].minutes * 60, endAt: null };
+    const L = stageList();
+    if (!L || i < 0 || i >= L.length) return;
+    S.stage[tab().id] = i;
+    S.timer = { left: L[i].minutes * 60, endAt: null };
     save(); render();
   }
 
   /* ---------- Pieces ---------- */
+  function stagesBar() {
+    const L = stageList(); if (!L || L.length < 2) return "";
+    const k = stageIdx();
+    return `<div class="stages">${L.map((s, i) => `<button class="stage ${i < k ? "done" : ""} ${i === k ? "now" : ""}" data-stage="${i}">${esc(s.name)}<small>${s.minutes} min</small></button>`).join("")}</div>`;
+  }
   function timerBox() {
     const t = left();
     return `<div class="timer ${t < 0 ? "over" : ""}"><div class="lbl">${S.timer.endAt ? "Time left" : "Paused"}</div><div class="t" id="clock">${fmt(t)}</div></div>`;
   }
   function controls(extra) {
+    const L = stageList();
     return `<div class="controls">
-      <button class="btn primary" data-a="timer">${S.timer.endAt ? "Pause timer" : "Start timer"}</button>
-      <button class="btn" data-a="reset">Reset timer</button>
+      ${L ? `<button class="btn primary" data-a="timer">${S.timer.endAt ? "Pause timer" : "Start timer"}</button><button class="btn" data-a="reset">Reset timer</button>` : ""}
+      ${L && L.length > 1 ? `<button class="btn" data-a="nextstage" ${stageIdx() === L.length - 1 ? "disabled" : ""}>Next stage</button>` : ""}
       ${extra || ""}
       <button class="btn" data-a="prev" ${S.tab === 0 ? "disabled" : ""}>Previous section</button>
       <button class="btn" data-a="next" ${S.tab === TABS.length - 1 ? "disabled" : ""}>Next section</button>
-    </div>`;
-  }
-  const keys = t => `<p class="small muted keys">Keys: 1 to 5 jump to a section. Left and right arrows change section. Space starts or pauses the timer.${t ? " " + t : ""}</p>`;
-
-  function wrapText(a) {
-    const ch = S.choices[a.key];
-    const lines = G.tables.map(t => ch[t.n] !== undefined ? a.wrap.lines[t.n][ch[t.n]] : null).filter(Boolean);
-    return `<div class="wraptext"><p>${esc(a.wrap.lead)}</p>${lines.map(l => `<p>${esc(l)}</p>`).join("")}<p class="rule">${esc(a.wrap.rule)}</p>${a.wrap.close ? `<p>${esc(a.wrap.close)}</p>` : ""}</div>`;
+    </div>
+    <p class="small muted keys">Keys: 1 to 5 jump to a section. Left and right arrows change section. Space starts or pauses the timer. N moves to the next stage.${S.stage[tab().id] !== undefined && tab().id.startsWith("act") ? " R shows or hides the unlock word." : ""}</p>`;
   }
 
-  /* ---------- Tabs ---------- */
+  /* ---------- Views ---------- */
   function videoView() {
     main.className = "hmain single";
     return `<div class="kicker">Before we start</div>
       <div class="video" style="margin-top:10px"><iframe src="https://www.youtube-nocookie.com/embed/${esc(G.video.id)}?rel=0" title="${esc(G.video.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
       <p class="small muted" style="margin-top:8px">${esc(G.video.title)}</p>
-      <div class="row">${timerBox()}</div>
-      ${controls()}${keys()}`;
+      <div class="row">${timerBox()}</div>${controls()}`;
   }
 
   function warmupView() {
     main.className = "hmain";
-    return [`<div class="kicker">Warm-up</div>
-      <h2 class="big">Recap: The Bleeding Edge</h2>
-      <p class="lead">Start from your worksheet. Talk with your table.</p>
-      <ol class="qs">${G.warmup.questions.map(q => `<li>${esc(q)}</li>`).join("")}</ol>
-      <div class="row" style="margin-top:18px">${timerBox()}</div>
-      ${controls()}${keys()}`,
-    `<h2>How we play</h2>
-      <ul>${G.warmup.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
-      <div class="boxed"><p class="bh">Before we start</p><p style="margin:0">${esc(G.warmup.statement)}</p></div>
-      <h2>Tables</h2>
+    const k = stageIdx();
+    const leftCol = k === 0
+      ? `<div class="kicker">Warm-up</div><h2 class="big">Recap: The Bleeding Edge</h2>
+         <p class="lead">Start from your worksheet. Talk with your table.</p>
+         ${stagesBar()}
+         <ol class="qs">${G.warmup.questions.map(q => `<li>${esc(q)}</li>`).join("")}</ol>
+         <div class="row" style="margin-top:18px">${timerBox()}</div>${controls()}`
+      : `<div class="kicker">Warm-up</div><h2 class="big">Read your role</h2>
+         <p class="lead">Open the entry page on your laptop, type your table number, and read the "Your role" tab.</p>
+         ${stagesBar()}
+         <div class="boxed"><p class="bh">Before we start</p><p style="margin:0;font-size:1.2rem">${esc(G.warmup.statement)}</p></div>
+         <div class="row" style="margin-top:18px">${timerBox()}</div>${controls()}`;
+    const rightCol = `<h2>Tables</h2>
       <ul class="tables-list">${G.tables.map(t => `<li><b>${t.n}</b>${esc(t.name)} <span class="muted small">${esc(t.label)}</span></li>`).join("")}</ul>
-      <p class="small muted">Students open the entry page and type their table number.</p>`];
+      <h2 style="margin-top:20px">How we play</h2>
+      <ul>${G.warmup.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul>`;
+    return [leftCol, rightCol];
   }
 
   function actView() {
-    const a = act();
-    const sIdx = S.stage[a.key];
+    const a = G.acts.find(x => x.key === tab().id);
     const shown = !!S.shown[a.key];
-    main.className = "hmain";
-    const stagesBar = `<div class="stages">${G.stages.map((s, i) => `<button class="stage ${i < sIdx ? "done" : ""} ${i === sIdx ? "now" : ""}" data-stage="${i}">${esc(s.name)}<small>${s.minutes} min</small></button>`).join("")}</div>`;
-    let leftCol;
-    if (S.project) {
-      leftCol = `<div class="kicker">Act ${a.n === 1 ? "I" : "II"}: ${esc(a.title)}</div><h2 class="big">Wrap-up</h2><div class="projected">${wrapText(a)}</div>
-        <div class="row" style="margin-top:12px">${timerBox()}</div>${controls(`<button class="btn" data-a="project">Hide wrap-up</button>`)}${keys("P shows or hides the wrap-up. N moves to the next stage.")}`;
-    } else {
-      leftCol = `<div class="kicker">Act ${a.n === 1 ? "I" : "II"}</div><h2 class="big">${esc(a.title)}</h2>
-        <p class="lead">${a.shared.map(s => esc(s.h)).join(". ")}.</p>
-        ${stagesBar}
-        <div class="row">
-          <div class="codebox ${shown ? "" : "hidden"}" data-a="reveal" title="Click to show or hide"><div class="lbl">Unlock word</div><div class="word" aria-hidden="${!shown}">${shown ? esc(G.unlock[a.key]) : "XXXXXX"}</div></div>
-          ${timerBox()}
-        </div>
-        ${controls(`<button class="btn" data-a="reveal">${shown ? "Hide unlock word" : "Show unlock word"}</button><button class="btn" data-a="nextstage" ${sIdx === G.stages.length - 1 ? "disabled" : ""}>Next stage</button>`)}
-        ${keys("N moves to the next stage. R shows the unlock word. P shows the wrap-up.")}`;
-    }
     const ch = S.choices[a.key];
-    const rightCol = `<h2>Table choices</h2>
+    main.className = "hmain";
+    const story = a.shared.map((s, i) => `<div class="story"><h3>${i + 1}. ${esc(s.h)}</h3>${s.p.map(x => `<p class="${x.strong ? "strong" : ""}">${esc(x.t)}</p>`).join("")}</div>`).join("");
+    const leftCol = `<div class="kicker">Act ${a.n === 1 ? "I" : "II"}</div><h2 class="big">${esc(a.title)}</h2>
+      ${stagesBar()}
+      <div class="row">
+        <div class="codebox ${shown ? "" : "hidden"}" data-a="reveal" title="Click to show or hide"><div class="lbl">Unlock word</div><div class="word" aria-hidden="${!shown}">${shown ? esc(G.unlock[a.key]) : "XXXXX"}</div></div>
+        ${timerBox()}
+      </div>
+      ${controls(`<button class="btn" data-a="reveal">${shown ? "Hide unlock word" : "Show unlock word"}</button>`)}
+      <div class="storybox">${story}</div>`;
+    const done = G.tables.every(t => ch[t.n] !== undefined);
+    const rightCol = `<h2>Each table's choice</h2>
       ${G.tables.map(t => `<div class="choice"><div class="who"><span class="sw" style="background:${t.color}"></span>${t.n}. ${esc(t.name)}</div>
-        <div class="chips">${a.cards[t.n].options.map((o, i) => `<button class="chip" aria-pressed="${ch[t.n] === i}" data-t="${t.n}" data-o="${i}" title="${esc(o)}">${esc(o)}</button>`).join("")}</div></div>`).join("")}
-      <div class="notes"><div class="bh">TA wrap-up (only you see this until you project it)</div>${wrapText(a)}
-        <button class="btn" data-a="project" style="margin-top:6px">${S.project ? "Hide wrap-up" : "Show wrap-up on screen"}</button></div>`;
+        <div class="chips">${a.cards[t.n].options.map((o, i) => `<button class="chip" aria-pressed="${ch[t.n] === i}" data-t="${t.n}" data-o="${i}">${esc(o)}</button>`).join("")}</div>
+        ${ch[t.n] !== undefined ? `<p class="result">${esc(a.outcome.lines[t.n][ch[t.n]])}</p>` : ""}</div>`).join("")}
+      ${done ? `<div class="boxed alarm outcome"><p class="bh">What happens next</p><p>${esc(a.outcome.lead)}</p><p><b>${esc(a.outcome.rule)}</b></p>${a.outcome.close ? `<p>${esc(a.outcome.close)}</p>` : ""}</div>`
+             : `<p class="small muted" style="margin-top:12px">Click the option each spokesperson announces. The outcome appears when all six tables have chosen.</p>`}`;
     return [leftCol, rightCol];
   }
 
   function debriefView() {
     main.className = "hmain single";
-    const items = G.debrief.slice(0, S.reveal);
-    const done = S.reveal >= G.debrief.length;
-    return `<div class="kicker">Debrief: what really happened</div>
-      <ul class="timeline">${items.map(d => `<li><b>${esc(d.y)}</b><span>${esc(d.t)}</span></li>`).join("")}</ul>
-      ${done ? `<img class="thumb" src="https://img.youtube.com/vi/${esc(G.video.id)}/hqdefault.jpg" alt="Still from the Philips DreamStation promotional video"><p class="final">${esc(G.finalQuestion)}</p>` : ""}
-      <div class="row" style="margin-top:16px">${timerBox()}</div>
-      ${controls(`<button class="btn" data-a="revealnext" ${done ? "disabled" : ""}>Reveal next</button><button class="btn" data-a="revealreset">Start over</button><button class="btn" data-a="clear">Clear all records</button>`)}
-      ${keys("N reveals the next item.")}`;
+    return `<div class="kicker">Debrief</div><h2 class="big">What really happened</h2>
+      <ul class="timeline" style="margin-top:12px">${G.debrief.map(d => `<li><b>${esc(d.y)}</b><span>${esc(d.t)}</span></li>`).join("")}</ul>
+      ${controls(`<button class="btn" data-a="clear">Clear all records</button>`)}`;
   }
 
   function render() {
     document.getElementById("htabs").innerHTML = TABS.map((t, i) => `<button class="htab ${i < S.tab ? "done" : ""} ${i === S.tab ? "now" : ""}" data-tab="${i}" ${i === S.tab ? 'aria-current="step"' : ""}>${i + 1}. ${esc(t.name)}</button>`).join("");
-    const id = curTab().id;
+    const id = tab().id;
     const v = id === "video" ? videoView() : id === "warmup" ? warmupView() : id === "debrief" ? debriefView() : actView();
     main.innerHTML = Array.isArray(v) ? `<section>${v[0]}</section><aside class="side">${v[1]}</aside>` : `<section>${v}</section>`;
   }
@@ -172,35 +163,30 @@
     if (b.dataset.tab !== undefined) return goTab(+b.dataset.tab);
     if (b.dataset.stage !== undefined) return goStage(+b.dataset.stage);
     if (b.dataset.t !== undefined) {
-      const k = curTab().id, t = b.dataset.t, o = +b.dataset.o;
+      const k = tab().id, t = b.dataset.t, o = +b.dataset.o;
       if (S.choices[k][t] === o) delete S.choices[k][t]; else S.choices[k][t] = o;
       save(); return render();
     }
-    const a = b.dataset.a, id = curTab().id;
+    const a = b.dataset.a, id = tab().id;
     if (a === "timer") toggleTimer();
     if (a === "reset") resetTimer();
     if (a === "prev") goTab(S.tab - 1);
     if (a === "next") goTab(S.tab + 1);
+    if (a === "nextstage") goStage(stageIdx() + 1);
     if (a === "reveal") { S.shown[id] = !S.shown[id]; save(); render(); }
-    if (a === "nextstage") goStage(S.stage[id] + 1);
-    if (a === "project") { S.project = !S.project; save(); render(); }
-    if (a === "revealnext") { S.reveal = Math.min(G.debrief.length, S.reveal + 1); save(); render(); }
-    if (a === "revealreset") { S.reveal = 0; save(); render(); }
     if (a === "clear" && window.confirm("Clear all recorded choices and start a new class?")) { S = fresh(); save(); render(); }
   });
   document.addEventListener("keydown", e => {
     if (e.target.closest && e.target.closest("input,textarea")) return;
-    const id = curTab().id;
+    const id = tab().id;
     if (e.key >= "1" && e.key <= "5") goTab(+e.key - 1);
     else if (e.key === "ArrowRight") goTab(S.tab + 1);
     else if (e.key === "ArrowLeft") goTab(S.tab - 1);
     else if (e.key === " ") { e.preventDefault(); toggleTimer(); }
-    else if (e.key === "n" || e.key === "N") { if (id === "debrief") { S.reveal = Math.min(G.debrief.length, S.reveal + 1); save(); render(); } else if (S.stage[id] !== undefined) goStage(S.stage[id] + 1); }
-    else if ((e.key === "r" || e.key === "R") && S.stage[id] !== undefined) { S.shown[id] = !S.shown[id]; save(); render(); }
-    else if ((e.key === "p" || e.key === "P") && S.stage[id] !== undefined) { S.project = !S.project; save(); render(); }
+    else if (e.key === "n" || e.key === "N") goStage(stageIdx() + 1);
+    else if ((e.key === "r" || e.key === "R") && id.startsWith("act")) { S.shown[id] = !S.shown[id]; save(); render(); }
   });
 
-  if (!S.timer || S.timer.left === undefined) S.timer = { left: stageMinutes() * 60, endAt: null };
   render();
 })();
 </script>

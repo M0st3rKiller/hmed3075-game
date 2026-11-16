@@ -81,7 +81,7 @@
       </div></div>`;
     h += `<h3>Primary source</h3><p>${item(c.source, num)}</p>`;
     h += `<div class="question"><b>Your question</b>${esc(c.question)}</div>`;
-    h += `<h3>Your choice (your spokesperson announces it)</h3><ul class="options">${c.options.map(o => `<li>${esc(o)}</li>`).join("")}</ul>`;
+    h += `<h3>Your choice (your spokesperson tells the TA)</h3><ul class="options">${c.options.map(o => `<li>${esc(o)}</li>`).join("")}</ul>`;
     h += srcList(num.order);
     return h;
   }
