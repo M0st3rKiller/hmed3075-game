@@ -14,7 +14,7 @@ window.GAME = {
   /* Sub-stages inside each act, in minutes. */
   stages: [
     { id: "read", name: "Read", minutes: 5 },
-    { id: "debate", name: "Debate", minutes: 7 },
+    { id: "debate", name: "Discussion", minutes: 7 },
     { id: "choose", name: "Choose", minutes: 2 },
     { id: "outcome", name: "Outcome", minutes: 1 }
   ],
@@ -22,15 +22,13 @@ window.GAME = {
   /* What the big screen shows during each stage of an act */
   stageRules: {
     read: [
-      "Read the story and your table's card on your laptop.",
-      "Find out what you need, and which table has it.",
-      "Stay at your table for now."
+      "Read the story and your table's card on your device.",
+      "Sum up what your table knows, and plan what you still need."
     ],
     debate: [
-      "Send one or two people to other tables.",
-      "Trade what you know for what you need.",
-      "Share, hold back, or bargain. Nothing is punished.",
-      "Pick your spokesperson before time runs out."
+      "Talk with your table: what is your group trying to do?",
+      "Ask other tables for the information you need to reach a decision.",
+      "Pick a spokesperson to announce your table's final choice."
     ]
   },
 
@@ -68,7 +66,7 @@ window.GAME = {
       "This game is adapted from a real case. Philips Respironics and DreamStation are real names. The local people and organizations in the game are fictional. Anything marked Historical comes from the public record. Everything else was written for this discussion. The debrief at the end is entirely real.",
     rules: [
       "Each table plays one side. Open the entry page and type your table number.",
-      "The game has two acts, 15 minutes each: read (5 min), debate with other tables (7 min), choose (2 min), outcome (1 min).",
+      "The game has two acts, 15 minutes each: read (5 min), discussion within and across tables (7 min), choose (2 min), outcome (1 min).",
       "To choose, your table picks one spokesperson, who tells the TA your choice. The outcome appears on the big screen.",
       "Each act opens when its unlock word appears on the big screen.",
       "You may share what you know, or not. Sharing is never punished, but it can have consequences.",
@@ -120,6 +118,9 @@ window.GAME = {
   acts: [
     {
       key: "act1", n: 1, title: "Launch",
+      rules: [
+        { h: "Medicare's usage rule", t: "Medicare keeps paying for a CPAP machine only if the patient uses it at least 4 hours a night on 70 percent of nights during 30 days within the first 90 days. Patients who fall short start over with a new sleep study." }
+      ],
       shared: [
         {
           h: "What happened",
@@ -247,7 +248,7 @@ window.GAME = {
         }
       },
       outcome: {
-        lead: "Engineering adds polyester-based polyurethane foam to the machine. DreamStation is quiet, and it goes on sale.",
+        lead: "What happened: Philips Respironics lined its machines with polyester-based polyurethane foam to cut the noise. In October 2015 it launched DreamStation, marketed as quiet, small and light.",
         lines: {
           1: ["Approved. DreamStation ships on schedule with the foam inside.", "The board says no. Long-term testing would delay the launch by years. The foam goes in.", "The board says no. The expensive material would price DreamStation out of the market. The cheap foam stays."],
           2: ["Twin Lakes backs the quiet machine.", "Twin Lakes asks for safety data and gets a one-page summary with no long-term results. They prescribe it anyway. Their patients need a machine they will wear.", "Twin Lakes looks for another brand, but insurers and Lakeside stock DreamStation. Most patients end up on it anyway."],
@@ -256,12 +257,15 @@ window.GAME = {
           5: ["The researchers praise quieter machines in the local paper.", "The inhalation study waits for funding that never comes.", "The researchers stay out of it."],
           6: ["Lakeside pushes DreamStation to every prescriber on its list.", "Lakeside waits and watches competitors win the referrals. It signs on.", "Lakeside tries another brand. Its biggest prescribers want DreamStation. It switches back."]
         },
-        rule: "Medicare: the 90-day usage rule stands. Patients who fall short lose coverage."
+        rule: "Medicare's 90-day rule stayed in place. A quiet machine was the one patients could keep wearing."
       }
     },
 
     {
       key: "act2", n: 2, title: "Fallout",
+      rules: [
+        { h: "FDA reporting rule", t: "Device makers must report deaths, serious injuries and malfunctions to the FDA within 30 days. Doctors, patients and suppliers may report, but they do not have to." }
+      ],
       shared: [
         {
           h: "Problem solved",
@@ -389,7 +393,7 @@ window.GAME = {
         }
       },
       outcome: {
-        lead: "Philips announces a recall of millions of machines. The company says the foam may break down, and that one possible cause is unapproved cleaning methods, such as ozone, along with heat and humidity.",
+        lead: "What happened: in April 2021 Philips stopped shipping the machines from its factories. On June 14, 2021, it recalled millions of them. It said the foam could break down, and that unapproved cleaning methods such as ozone, and heat and humidity, might make it worse.",
         lines: {
           1: ["Philips says there is no evidence its machines are unsafe. The complaints keep coming.", "Philips quietly swaps foam in some of the machines it services. Millions of others are untouched.", "Philips gets ready to file thousands of overdue complaints. Its lawyers say a recall plan has to come first."],
           2: ["Twin Lakes tells patients to keep using their machines.", "Twin Lakes tells patients to stop. Some stop treatment altogether.", "Twin Lakes leaves the choice to patients, who have no data either."],

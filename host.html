@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794797892">
-<script src="assets/content.js?v=1794797892"></script>
-<script src="assets/app.js?v=1794797892"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794798187">
+<script src="assets/content.js?v=1794798187"></script>
+<script src="assets/app.js?v=1794798187"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -124,19 +124,29 @@
     main.className = "hmain single";
     const head = `<div class="acthead"><div><div class="kicker">Act ${a.n === 1 ? "I" : "II"}</div><h2 class="big">${esc(a.title)}</h2></div>${timerBox()}</div>${stagesBar()}`;
     let body = "";
+    const rulesBox = `<div class="rulebox">${a.rules.map(r => `<p class="bh">${esc(r.h)}</p><p>${esc(r.t)}</p>`).join("")}</div>`;
     if (stageId === "read") {
       body = `<div class="readrow">
-        <ul class="bigrules">${G.stageRules.read.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
+        <div><ul class="bigrules">${G.stageRules.read.map(r => `<li>${esc(r)}</li>`).join("")}</ul>${rulesBox}</div>
         <div class="codebox ${shown ? "" : "hidden"}" data-a="reveal" title="Click to show or hide"><div class="lbl">Unlock word</div><div class="word" aria-hidden="${!shown}">${shown ? esc(G.unlock[a.key]) : "XXXXX"}</div></div>
       </div>`;
     } else if (stageId === "debate") {
-      body = `<ul class="bigrules">${G.stageRules.debate.map(r => `<li>${esc(r)}</li>`).join("")}</ul>`;
+      body = `<ul class="bigrules">${G.stageRules.debate.map(r => `<li>${esc(r)}</li>`).join("")}</ul>${rulesBox}`;
     } else if (stageId === "choose") {
-      body = `<div class="choicegrid">${G.tables.map(t => `<div class="choicecard" style="--c:${t.color}">
+      const sel = S.sel && S.sel[a.key];
+      const L = "ABC";
+      const buttons = `<div class="tablebtns">${G.tables.map(t => `<button class="tablebtn ${sel === t.n ? "on" : ""}" style="--c:${t.color}" data-sel="${t.n}">
+          <span class="tn">${t.n}</span><span class="tname">${esc(t.name)}</span><span class="tpick">${ch[t.n] !== undefined ? "Chose " + L[ch[t.n]] : "Not chosen yet"}</span></button>`).join("")}</div>`;
+      let panel = `<p class="lead" style="margin-top:18px">Click a table to show its options.</p>`;
+      if (sel) {
+        const t = G.tables.find(x => x.n === sel);
+        panel = `<div class="selpanel" style="--c:${t.color}">
           <div class="who">${t.n}. ${esc(t.name)}</div>
-          <div class="chips">${a.cards[t.n].options.map((o, i) => `<button class="chip" aria-pressed="${ch[t.n] === i}" data-t="${t.n}" data-o="${i}">${esc(o)}</button>`).join("")}</div>
-          ${ch[t.n] !== undefined ? `<p class="result">${esc(a.outcome.lines[t.n][ch[t.n]])}</p>` : ""}
-        </div>`).join("")}</div>`;
+          <div class="bigopts">${a.cards[t.n].options.map((o, i) => `<button class="bigopt" aria-pressed="${ch[t.n] === i}" data-t="${t.n}" data-o="${i}">${esc(o)}</button>`).join("")}</div>
+          ${ch[t.n] !== undefined ? `<p class="bigresult">${esc(a.outcome.lines[t.n][ch[t.n]])}</p>` : ""}
+        </div>`;
+      }
+      body = buttons + panel;
     } else {
       const done = G.tables.every(t => ch[t.n] !== undefined);
       body = `<div class="outcomebig">
@@ -180,10 +190,15 @@
 
   /* ---------- Events ---------- */
   document.addEventListener("click", e => {
-    const b = e.target.closest("[data-tab],[data-a],[data-stage],[data-t]");
+    const b = e.target.closest("[data-tab],[data-a],[data-stage],[data-t],[data-sel]");
     if (!b) return;
     if (b.dataset.tab !== undefined) return goTab(+b.dataset.tab);
     if (b.dataset.stage !== undefined) return goStage(+b.dataset.stage);
+    if (b.dataset.sel !== undefined) {
+      S.sel = S.sel || {}; const k = tab().id;
+      S.sel[k] = S.sel[k] === +b.dataset.sel ? undefined : +b.dataset.sel;
+      save(); return render();
+    }
     if (b.dataset.t !== undefined) {
       const k = tab().id, t = b.dataset.t, o = +b.dataset.o;
       if (S.choices[k][t] === o) delete S.choices[k][t]; else S.choices[k][t] = o;
