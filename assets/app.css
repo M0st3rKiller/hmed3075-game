@@ -273,3 +273,13 @@ input { background: var(--paper); color: var(--ink); }
 .timer.floating { position: fixed; top: 76px; right: 24px; z-index: 50; cursor: grab; user-select: none; touch-action: none; box-shadow: 0 6px 24px rgba(0,0,0,.55); }
 .timer.floating.drag { cursor: grabbing; }
 .timer.floating[hidden] { display: none; }
+
+.mainq { font-size: clamp(1.6rem, 3vw, 2.6rem); font-weight: 800; line-height: 1.25; margin: 18px 0 0; }
+.moreq { margin: 4px 0 0; padding-left: 1.2em; color: var(--steel); font-size: clamp(1rem, 1.3vw, 1.2rem); }
+.moreq li { margin: 4px 0; }
+.concepts { grid-template-columns: repeat(3, 1fr); }
+.mainq .ws { display: block; font-size: 1rem; font-weight: 600; color: var(--steel); margin-top: 8px; }
+body.host .hmain > aside.side { padding-top: 150px; }
+.timer.floating { top: 72px; padding: 6px 20px 10px; }
+.timer.floating .t { font-size: clamp(2.2rem, 4.2vw, 4rem); }
+body.host .hmain > aside.side { padding-top: 125px; }

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your table · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794852186">
-<script src="assets/content.js?v=1794852186"></script>
-<script src="assets/app.js?v=1794852186"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794862322">
+<script src="assets/content.js?v=1794862322"></script>
+<script src="assets/app.js?v=1794862322"></script>
 </head>
 <body class="tpage">
 <div id="app"></div>
@@ -23,8 +23,8 @@
   document.title = `Table ${T.n}: ${T.name} · DreamStation`;
   document.documentElement.style.setProperty("--role", T.color);
 
-  const KEY = "ds-table-v2-" + T.n;
-  const ORDER = ["role", "act1", "act2", "end"];
+  const KEY = "ds-table-v3-" + T.n;
+  const ORDER = ["role", "game", "end"];
   const st = store.get(KEY, { at: "role" });
   if (!ORDER.includes(st.at)) st.at = "role";
 
@@ -61,7 +61,7 @@
         <h2>How to play</h2>
         <ul class="rules">${G.warmup.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
         <p class="small muted"><span class="tag H">Historical</span> comes from the public record, with a numbered source link. <span class="tag F">Fictional</span> was written for this game.</p>
-        ${unlockBox("Act I: Launch")}
+        ${unlockBox("Start the game")}
       </div>
     </div>`;
   }
@@ -75,7 +75,8 @@
     const story = act.shared.map((sec, i) => `<h3>${i + 1}. ${esc(sec.h)}</h3>${sec.p.map(x => `<p class="${x.strong ? "strong" : ""}">${item(x, num)}</p>`).join("")}`).join("");
     const card = `<div class="boxed tight guidebox"><p class="bh">Your decision guide</p>
         <div class="guidegrid">
-          <div><h4>Key facts</h4>${facts}
+          <div><h4>What your side did at launch</h4><p class="weigh">${item(c.past, num)}</p>
+            <h4>Key facts</h4>${facts}
             <h4>How your recommendation touches other tables</h4><ul>${c.links.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
           <div><h4>What you are weighing</h4><p class="weigh">${esc(c.weigh)}</p>
             <h4>What you might want to keep quiet</h4>${hide}
@@ -83,9 +84,9 @@
         </div>
       </div>`;
     const prim = `<p class="prim"><b>Primary source.</b> ${item(c.source, num)}</p>`;
-    const film = c.film ? `<div class="filmbox"><p class="bh">In The Bleeding Edge${act.n === 1 ? " (worksheet Q3)" : ""}</p><p>${item(c.film, num)}</p></div>` : "";
-    const next = act.key === "act1" ? unlockBox("Act II: Fallout") : `<div class="unlock-end"><button class="btn primary" data-go="end">Finish the game</button></div>`;
-    return `<h2 class="acttitle">Act ${act.n === 1 ? "I" : "II"}: ${esc(act.title)}</h2>
+    const film = c.film ? `<div class="filmbox"><p class="bh">In The Bleeding Edge</p><p>${item(c.film, num)}</p></div>` : "";
+    const next = `<div class="unlock-end"><button class="btn primary" data-go="end">Finish the game</button></div>`;
+    return `<h2 class="acttitle">${esc(act.title)}</h2>
       <div class="actgrid">
         <div class="story2 reading">${story}</div>
         <aside class="cardcol">${film}${prim}</aside>
@@ -105,7 +106,7 @@
   function endPanel() {
     return `<div class="endscreen">
       <p class="kicker">End of the game</p>
-      <p class="endbig">Your recommendations are in. The machines are being recalled.</p>
+      <p class="endbig">Your recommendation is in. The machines are being recalled.</p>
       <p class="endbig">Now look up at the big screen to see what really happened.</p>
     </div>`;
   }
@@ -113,20 +114,20 @@
   function render() {
     const i = ORDER.indexOf(st.at);
     const body = st.at === "role" ? rolePanel() : st.at === "end" ? endPanel() : actPanel(G.acts.find(a => a.key === st.at));
-    const back = i > 0 ? `<button class="backlink" data-go="${ORDER[i - 1]}">Back to ${st.at === "act1" ? "your role" : st.at === "act2" ? "Act I" : "Act II"}</button>` : "";
+    const back = i > 0 ? `<button class="backlink" data-go="${ORDER[i - 1]}">Back to ${st.at === "game" ? "your role" : "the game"}</button>` : "";
     app.innerHTML = `<header class="band"><div class="in"><span class="num">${T.n}</span><h1>${esc(T.name)}</h1><span class="lbl">${esc(T.label)}</span></div></header>
       <main class="tp">${back}<section class="tp-panel">${body}</section></main>`;
 
     app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { st.at = b.dataset.go; store.set(KEY, st); render(); window.scrollTo(0, 0); });
     const f = document.getElementById("uf");
     if (f) {
-      const next = st.at === "role" ? "act1" : "act2";
+      const next = "game";
       f.onsubmit = e => {
         e.preventDefault();
         if (document.getElementById("code").value.trim().toUpperCase() === G.unlock[next]) {
           st.at = next; store.set(KEY, st); render(); window.scrollTo(0, 0);
         } else {
-          document.getElementById("uerr").textContent = "That word does not open the next act. Check the big screen and try again.";
+          document.getElementById("uerr").textContent = "That word does not open the game. Check the big screen and try again.";
         }
       };
     }
