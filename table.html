@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your table · DreamStation</title>
+<link rel="stylesheet" href="assets/app.css">
+<script src="assets/content.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function () {
+  const { G, store, esc, table, item } = DS;
+  const n = new URLSearchParams(location.search).get("t");
+  const T = table(n);
+  const app = document.getElementById("app");
+  if (!T) {
+    app.innerHTML = `<main class="wrap"><h1>Table not found</h1><p>Go back to the <a href="index.html">entry page</a> and type a table number from 1 to 6.</p></main>`;
+    return;
+  }
+  document.title = `Table ${T.n}: ${T.name} · DreamStation`;
+  document.documentElement.style.setProperty("--role", T.color);
+
+  const KEY = "ds-table-" + T.n;
+  const st = store.get(KEY, { open: [], tab: "role" });
+  const tabs = [
+    { id: "role", name: "Your role" },
+    { id: "act1", name: "Act I: Launch", lock: true },
+    { id: "act2", name: "Act II: Fallout", lock: true },
+    { id: "debrief", name: "Debrief" }
+  ];
+
+  function srcList(keys) {
+    if (!keys.length) return "";
+    return `<div class="sources"><b>Sources</b><ol>${keys.map(k => `<li><a href="${esc(G.sources[k].u)}" target="_blank" rel="noopener">${esc(G.sources[k].t)}</a></li>`).join("")}</ol></div>`;
+  }
+  function numberer() {
+    const order = [];
+    const fn = k => { if (!order.includes(k)) order.push(k); return order.indexOf(k) + 1; };
+    fn.order = order;
+    return fn;
+  }
+
+  function rolePanel() {
+    return `<h2>${esc(T.name)}</h2>
+      <p style="font-size:1.1rem">${esc(T.intro)}</p>
+      <div class="card3">
+        <section><h4>What you want</h4><p style="margin:0">${esc(T.interest)}</p></section>
+        <section><h4>Your dilemma</h4><p style="margin:0">${esc(T.dilemma)}</p></section>
+      </div>
+      <div class="boxed"><p class="bh">Before we start</p><p style="margin:0">${esc(G.warmup.statement)}</p></div>
+      <h3>How to play</h3>
+      <ul>${G.warmup.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
+      <p class="small muted"><span class="tag H">Historical</span> comes from the public record, with a numbered source link. <span class="tag F">Fictional</span> was written for this game.</p>`;
+  }
+
+  function lockedPanel(t) {
+    return `<h2>${esc(t.name)}</h2>
+      <p>This act is locked. Type the unlock word when it appears on the big screen.</p>
+      <form class="unlock" id="uf">
+        <label for="code" class="small muted" style="width:100%">Unlock word</label>
+        <input id="code" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        <button class="btn primary" type="submit">Unlock</button>
+      </form>
+      <div class="err" id="uerr" role="status"></div>`;
+  }
+
+  function actPanel(act) {
+    const num = numberer();
+    const c = act.cards[T.n];
+    const list = arr => `<ul>${arr.map(x => `<li>${item(x, num)}${x.go ? ` <span class="go">Go to Table ${x.go}: ${esc(table(x.go).name)}</span>` : ""}</li>`).join("")}</ul>`;
+    let h = `<h2>Act ${act.n === 1 ? "I" : "II"}: ${esc(act.title)}</h2>`;
+    h += act.shared.map((s, i) => `<div class="reading"><h3>${i + 1}. ${esc(s.h)}</h3>${s.p.map(x => `<p class="${x.strong ? "strong" : ""}">${item(x, num)}</p>`).join("")}</div>`).join("");
+    h += `<div class="boxed"><p class="bh">Only your table has this</p>
+      <div class="card3" style="border-top:0;margin-top:0">
+        <section><h4>What you know</h4>${list(c.know)}</section>
+        <section><h4>Why you might hold back</h4>${list(c.concerns)}</section>
+        <section style="border-bottom:0"><h4>What you need, and who has it</h4>${list(c.need)}</section>
+      </div></div>`;
+    h += `<h3>Primary source</h3><p>${item(c.source, num)}</p>`;
+    h += `<div class="question"><b>Your question</b>${esc(c.question)}</div>`;
+    h += `<h3>Your choice (your spokesperson announces it)</h3><ul class="options">${c.options.map(o => `<li>${esc(o)}</li>`).join("")}</ul>`;
+    h += srcList(num.order);
+    return h;
+  }
+
+  function debriefPanel() {
+    return `<h2>Debrief</h2><p>The debrief happens on the big screen. Everything in it is historical.</p>`;
+  }
+
+  function render() {
+    const cur = tabs.find(t => t.id === st.tab) || tabs[0];
+    let body;
+    if (cur.id === "role") body = rolePanel();
+    else if (cur.id === "debrief") body = debriefPanel();
+    else body = st.open.includes(cur.id) ? actPanel(G.acts.find(a => a.key === cur.id)) : lockedPanel(cur);
+
+    app.innerHTML = `<header class="band"><div class="in"><span class="num">${T.n}</span><h1>${esc(T.name)}</h1><span class="lbl">${esc(T.label)}</span></div></header>
+      <main class="wrap">
+        <div class="tabs" role="tablist">${tabs.map(t => `<button class="tab" role="tab" aria-selected="${t.id === cur.id}" data-tab="${t.id}">${esc(t.name)}${t.lock && !st.open.includes(t.id) ? '<span class="lock">locked</span>' : ""}</button>`).join("")}</div>
+        <section class="panel" role="tabpanel">${body}</section>
+      </main>`;
+
+    app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { st.tab = b.dataset.tab; store.set(KEY, st); render(); window.scrollTo(0, 0); });
+    const f = document.getElementById("uf");
+    if (f) {
+      const input = document.getElementById("code");
+      input.focus();
+      f.onsubmit = e => {
+        e.preventDefault();
+        const want = G.unlock[cur.id];
+        if (input.value.trim().toUpperCase() === want) {
+          if (!st.open.includes(cur.id)) st.open.push(cur.id);
+          store.set(KEY, st); render();
+        } else {
+          document.getElementById("uerr").textContent = "That word does not open this act. Check the big screen and try again.";
+        }
+      };
+    }
+  }
+  render();
+})();
+</script>
+</body>
+</html>

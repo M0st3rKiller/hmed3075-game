@@ -1,37 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Cleared for Market · HMED 3075</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<script src="assets/data.js"></script>
-<script src="assets/qrcode.js"></script>
-<script src="assets/app.js"></script>
+<title>DreamStation · HMED 3075</title>
+<link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
-<main class="wrap">
-  <p class="muted" style="font-weight:600">HMED 3075 discussion</p>
-  <h1 style="font-size:clamp(2.4rem,7vw,4rem);font-weight:800;letter-spacing:-.02em">Cleared for Market</h1>
-  <p style="font-size:1.25rem;max-width:38ch">A role-play on <i>The Bleeding Edge</i>. Six tables push a new medical device toward market, or try to stop it.</p>
-
-  <div class="boxed" id="device"></div>
-
-  <p style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px">
-    <button class="btn primary" id="warm">Start the warm-up</button>
-    <a class="btn" href="host.html">Open the host screen</a>
-    <a class="btn ghost" href="cards.html">Print table cards</a>
-  </p>
-  <p class="muted small" style="margin-top:28px">Students: scan the code on your table to open your role page. The device, companies and people in this game are fictional.</p>
+<main class="entry">
+  <form class="entry-card" id="f" novalidate>
+    <p class="muted" style="font-weight:600;margin:0">HMED 3075 discussion</p>
+    <h1>DreamStation</h1>
+    <p>A role-play on medical device regulation.</p>
+    <label for="n">Your table number</label>
+    <div class="entry-row">
+      <input id="n" inputmode="numeric" autocomplete="off" maxlength="2" autofocus aria-describedby="err">
+      <button class="btn primary" type="submit">Enter</button>
+    </div>
+    <div class="err" id="err" role="status"></div>
+  </form>
 </main>
 <script>
-  const G = CFM.G;
-  document.getElementById("device").innerHTML =
-    `<p class="boxed-h">The device: ${CFM.esc(G.device.name)} by ${CFM.esc(G.device.maker)}</p><p style="margin:0">${CFM.esc(G.device.pitch)}</p>`;
-  document.getElementById("warm").onclick = CFM.openDeck;
+  document.getElementById("f").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = document.getElementById("n").value.trim();
+    if (/^[1-6]$/.test(v)) location.href = "table.html?t=" + v;
+    else document.getElementById("err").textContent = "Enter a table number from 1 to 6.";
+  });
 </script>
 </body>
 </html>
