@@ -23,14 +23,10 @@
   document.title = `Table ${T.n}: ${T.name} · DreamStation`;
   document.documentElement.style.setProperty("--role", T.color);
 
-  const KEY = "ds-table-" + T.n;
-  const st = store.get(KEY, { open: [], tab: "role" });
-  const tabs = [
-    { id: "role", name: "Your role" },
-    { id: "act1", name: "Act I: Launch", lock: true },
-    { id: "act2", name: "Act II: Fallout", lock: true },
-    { id: "debrief", name: "Debrief" }
-  ];
+  const KEY = "ds-table-v2-" + T.n;
+  const ORDER = ["role", "act1", "act2", "debrief"];
+  const st = store.get(KEY, { at: "role" });
+  if (!ORDER.includes(st.at)) st.at = "role";
 
   function srcList(keys) {
     if (!keys.length) return "";
@@ -42,9 +38,16 @@
     fn.order = order;
     return fn;
   }
+  function unlockBox(label) {
+    return `<form class="unlock-end" id="uf">
+      <label for="code"><b>${esc(label)}</b><span class="muted small"> Type the unlock word from the big screen and press Enter.</span></label>
+      <div class="unlock"><input id="code" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn primary" type="submit">Unlock</button></div>
+      <div class="err" id="uerr" role="status"></div>
+    </form>`;
+  }
 
   function rolePanel() {
-    return `<h2>${esc(T.name)}</h2>
+    return `<h2>Your role</h2>
       <p style="font-size:1.1rem">${esc(T.intro)}</p>
       <div class="card3">
         <section><h4>What you want</h4><p style="margin:0">${esc(T.interest)}</p></section>
@@ -53,18 +56,8 @@
       <div class="boxed"><p class="bh">Before we start</p><p style="margin:0">${esc(G.warmup.statement)}</p></div>
       <h3>How to play</h3>
       <ul>${G.warmup.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
-      <p class="small muted"><span class="tag H">Historical</span> comes from the public record, with a numbered source link. <span class="tag F">Fictional</span> was written for this game.</p>`;
-  }
-
-  function lockedPanel(t) {
-    return `<h2>${esc(t.name)}</h2>
-      <p>This act is locked. Type the unlock word when it appears on the big screen.</p>
-      <form class="unlock" id="uf">
-        <label for="code" class="small muted" style="width:100%">Unlock word</label>
-        <input id="code" autocomplete="off" autocapitalize="characters" spellcheck="false">
-        <button class="btn primary" type="submit">Unlock</button>
-      </form>
-      <div class="err" id="uerr" role="status"></div>`;
+      <p class="small muted"><span class="tag H">Historical</span> comes from the public record, with a numbered source link. <span class="tag F">Fictional</span> was written for this game.</p>
+      ${unlockBox("Act I: Launch")}`;
   }
 
   function actPanel(act) {
@@ -83,39 +76,32 @@
     h += `<div class="question"><b>Your question</b>${esc(c.question)}</div>`;
     h += `<h3>Your choice (your spokesperson tells the TA)</h3><ul class="options">${c.options.map(o => `<li>${esc(o)}</li>`).join("")}</ul>`;
     h += srcList(num.order);
+    h += act.key === "act1" ? unlockBox("Act II: Fallout") : `<div class="unlock-end"><button class="btn primary" data-go="debrief">Go to the debrief</button></div>`;
     return h;
   }
 
   function debriefPanel() {
-    return `<h2>Debrief</h2><p>The debrief happens on the big screen. Everything in it is historical.</p>`;
+    return `<h2>Debrief: what really happened</h2>
+      <ul class="timeline">${G.debrief.map(d => `<li><b>${esc(d.y)}</b><span>${esc(d.t)}</span></li>`).join("")}</ul>`;
   }
 
   function render() {
-    const cur = tabs.find(t => t.id === st.tab) || tabs[0];
-    let body;
-    if (cur.id === "role") body = rolePanel();
-    else if (cur.id === "debrief") body = debriefPanel();
-    else body = st.open.includes(cur.id) ? actPanel(G.acts.find(a => a.key === cur.id)) : lockedPanel(cur);
-
+    const i = ORDER.indexOf(st.at);
+    const body = st.at === "role" ? rolePanel() : st.at === "debrief" ? debriefPanel() : actPanel(G.acts.find(a => a.key === st.at));
+    const back = i > 0 ? `<button class="backlink" data-go="${ORDER[i - 1]}">Back to ${st.at === "act1" ? "your role" : st.at === "act2" ? "Act I" : "Act II"}</button>` : "";
     app.innerHTML = `<header class="band"><div class="in"><span class="num">${T.n}</span><h1>${esc(T.name)}</h1><span class="lbl">${esc(T.label)}</span></div></header>
-      <main class="wrap">
-        <div class="tabs" role="tablist">${tabs.map(t => `<button class="tab" role="tab" aria-selected="${t.id === cur.id}" data-tab="${t.id}">${esc(t.name)}${t.lock && !st.open.includes(t.id) ? '<span class="lock">locked</span>' : ""}</button>`).join("")}</div>
-        <section class="panel" role="tabpanel">${body}</section>
-      </main>`;
+      <main class="wrap">${back}<section class="panel solo">${body}</section></main>`;
 
-    app.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { st.tab = b.dataset.tab; store.set(KEY, st); render(); window.scrollTo(0, 0); });
+    app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { st.at = b.dataset.go; store.set(KEY, st); render(); window.scrollTo(0, 0); });
     const f = document.getElementById("uf");
     if (f) {
-      const input = document.getElementById("code");
-      input.focus();
+      const next = st.at === "role" ? "act1" : "act2";
       f.onsubmit = e => {
         e.preventDefault();
-        const want = G.unlock[cur.id];
-        if (input.value.trim().toUpperCase() === want) {
-          if (!st.open.includes(cur.id)) st.open.push(cur.id);
-          store.set(KEY, st); render();
+        if (document.getElementById("code").value.trim().toUpperCase() === G.unlock[next]) {
+          st.at = next; store.set(KEY, st); render(); window.scrollTo(0, 0);
         } else {
-          document.getElementById("uerr").textContent = "That word does not open this act. Check the big screen and try again.";
+          document.getElementById("uerr").textContent = "That word does not open the next act. Check the big screen and try again.";
         }
       };
     }
