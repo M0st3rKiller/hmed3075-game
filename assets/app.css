@@ -270,3 +270,6 @@ input { background: var(--paper); color: var(--ink); }
 .bigresult .verdict { display: inline-block; font-weight: 800; text-transform: none; padding: 0 12px; margin-right: 12px; border: 3px solid currentColor; }
 .bigresult.ok { border-left-color: #6FCF97; } .bigresult.ok .verdict { color: #6FCF97; }
 .bigresult.no .verdict { color: var(--alarm); }
+.timer.floating { position: fixed; top: 76px; right: 24px; z-index: 50; cursor: grab; user-select: none; touch-action: none; box-shadow: 0 6px 24px rgba(0,0,0,.55); }
+.timer.floating.drag { cursor: grabbing; }
+.timer.floating[hidden] { display: none; }

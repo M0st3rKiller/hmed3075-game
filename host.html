@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794852068">
-<script src="assets/content.js?v=1794852068"></script>
-<script src="assets/app.js?v=1794852068"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794852186">
+<script src="assets/content.js?v=1794852186"></script>
+<script src="assets/app.js?v=1794852186"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -14,6 +14,7 @@
   <nav class="htabs" id="htabs" aria-label="Class sections"></nav>
 </header>
 <main class="hmain" id="main"></main>
+<div class="timer floating" id="ftimer" title="Drag to move. Double-click to start or pause."><div class="lbl" id="flbl">Paused</div><div class="t" id="clock">0:00</div></div>
 <script>
 (function () {
   const { G, store, esc } = DS;
@@ -45,12 +46,33 @@
   }
   function resetTimer() { S.timer = { left: stageMin() * 60, endAt: null }; save(); render(); }
   setInterval(() => {
-    const el = document.getElementById("clock");
-    if (!el) return;
-    const t = left();
-    el.textContent = fmt(t);
-    el.parentElement.classList.toggle("over", t < 0);
+    paintTimer();
   }, 250);
+  const ft = document.getElementById("ftimer");
+  function paintTimer() {
+    ft.hidden = !stageList() || tab().id === "video";
+    const t = left();
+    document.getElementById("clock").textContent = fmt(t);
+    document.getElementById("flbl").textContent = S.timer.endAt ? "Time left" : "Paused";
+    ft.classList.toggle("over", t < 0);
+  }
+  /* Drag the timer anywhere; its position is remembered. */
+  (function () {
+    const place = p => {
+      const x = Math.max(0, Math.min(window.innerWidth - ft.offsetWidth, p.x)), y = Math.max(0, Math.min(window.innerHeight - ft.offsetHeight, p.y));
+      ft.style.left = x + "px"; ft.style.top = y + "px"; ft.style.right = "auto";
+      return { x, y };
+    };
+    const saved = store.get("ds-host-timerpos");
+    if (saved && typeof saved.x === "number") requestAnimationFrame(() => place(saved));
+    let d = null;
+    ft.addEventListener("pointerdown", e => { const r = ft.getBoundingClientRect(); d = { dx: e.clientX - r.left, dy: e.clientY - r.top }; ft.setPointerCapture(e.pointerId); ft.classList.add("drag"); e.preventDefault(); });
+    ft.addEventListener("pointermove", e => { if (d) d.pos = place({ x: e.clientX - d.dx, y: e.clientY - d.dy }); });
+    const end = () => { if (d && d.pos) store.set("ds-host-timerpos", d.pos); d = null; ft.classList.remove("drag"); };
+    ft.addEventListener("pointerup", end); ft.addEventListener("pointercancel", end);
+    ft.addEventListener("dblclick", () => toggleTimer());
+    window.addEventListener("resize", () => { if (ft.style.left) place({ x: parseFloat(ft.style.left), y: parseFloat(ft.style.top) }); });
+  })();
 
   function verdict(line) {
     const m = line.match(/^(Adopted|Overruled)\.\s*([\s\S]*)$/);
@@ -77,10 +99,7 @@
     const k = stageIdx();
     return `<div class="stages">${L.map((s, i) => `<button class="stage ${i < k ? "done" : ""} ${i === k ? "now" : ""}" data-stage="${i}">${esc(s.name)}<small>${s.minutes} min</small></button>`).join("")}</div>`;
   }
-  function timerBox() {
-    const t = left();
-    return `<div class="timer ${t < 0 ? "over" : ""}"><div class="lbl">${S.timer.endAt ? "Time left" : "Paused"}</div><div class="t" id="clock">${fmt(t)}</div></div>`;
-  }
+  function timerBox() { return ""; }
   function controls(extra) {
     const L = stageList();
     return `<div class="controls">
@@ -107,18 +126,18 @@
          <p class="lead">Start from your worksheet. Talk with your table.</p>
          ${stagesBar()}
          <ol class="qs">${G.warmup.questions.map(q => `<li>${esc(q.q)} <span class="ws">${esc(q.ws)}</span></li>`).join("")}</ol>
-         <div class="row" style="margin-top:18px">${timerBox()}</div>${controls()}`
+         ${controls()}`
       : k === 1
       ? `<div class="kicker">Warm-up</div><h2 class="big">Key concepts</h2>
          ${stagesBar()}
          <div class="concepts">${G.warmup.concepts.map(c => `<div class="concept"><h3>${esc(c.term)}</h3><p>${DS.item(c, () => "source")}</p></div>`).join("")}</div>
          <ol class="qs cq">${G.warmup.conceptQs.map(q => `<li>${DS.item(q, () => "source")}</li>`).join("")}</ol>
-         <div class="row" style="margin-top:18px">${timerBox()}</div>${controls()}`
+         ${controls()}`
       : `<div class="kicker">Warm-up</div><h2 class="big">Read your role</h2>
          <p class="lead">Open the entry page on your laptop, type your table number, and read the "Your role" tab.</p>
          ${stagesBar()}
          <div class="boxed"><p class="bh">Before we start</p><p style="margin:0;font-size:1.2rem">${esc(G.warmup.statement)}</p></div>
-         <div class="row" style="margin-top:18px">${timerBox()}</div>${controls()}`;
+         ${controls()}`;
     const rightCol = `<h2>Tables</h2>
       <ul class="tables-list">${G.tables.map(t => `<li><b>${t.n}</b>${esc(t.name)} <span class="muted small">${esc(t.label)}</span></li>`).join("")}</ul>
       <h2 style="margin-top:20px">How we play</h2>
@@ -197,6 +216,7 @@
     const id = tab().id;
     const v = id === "video" ? videoView() : id === "warmup" ? warmupView() : id === "debrief" ? debriefView() : actView();
     main.innerHTML = Array.isArray(v) ? `<section>${v[0]}</section><aside class="side">${v[1]}</aside>` : `<section>${v}</section>`;
+    paintTimer();
   }
 
   /* ---------- Events ---------- */
