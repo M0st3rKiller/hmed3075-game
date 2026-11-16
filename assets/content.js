@@ -66,6 +66,9 @@ window.GAME = {
     S23: { t: "MedTech Dive: user fees make up nearly half of CDRH's budget (2026)", u: "https://www.medtechdive.com/news/fda-mdufa-user-fee-patient-comments/759905/" },
     S24: { t: "Union of Concerned Scientists: CDRH scientists say managers pressured them to approve devices", u: "https://www.ucs.org/resources/fda-medical-device-approval-based-politics-not-science" },
     S25: { t: "MassDevice: FDA admits undue influence in the Menaflex approval (2009)", u: "https://www.massdevice.com/fda-regens-menaflex-our-bad/" },
+    S26: { t: "FDA 510(k) record for DreamStation 2: a Class II device cleared as substantially equivalent (2020)", u: "https://fda.innolitics.com/device/K200480" },
+    S27: { t: "MassDevice: FDA designates the Philips CPAP recall Class I (2021)", u: "https://www.massdevice.com/?p=86262" },
+    S28: { t: "FDA recall record for DreamStation Auto CPAP, listing 510(k) K131982", u: "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfRes/res.cfm?id=214847" },
     S21: { t: "RAPS: FDA inspection turns up more problems for Philips", u: "https://www.raps.org/resource/fda-inspection-turns-up-more-problems-for-philips.html" }
   },
 
@@ -75,6 +78,17 @@ window.GAME = {
       { q: "In your own words, what was The Bleeding Edge about? What is its central argument?", ws: "Worksheet Q1" },
       { q: "What do the devices in the film have in common? What does that pattern reveal about how the system works?", ws: "Worksheet Q3" },
       { q: "What reforms or solutions does the film propose? Is that a step in the right direction?", ws: "Worksheet Q5" }
+    ],
+
+    concepts: [
+      { term: "510(k) clearance", t: "Clearance by comparison. The company shows its device is \"substantially equivalent\" to one already on the market, called a predicate. Usually no clinical trial. Most moderate-risk devices, CPAP machines included, go this way.", src: ["S26"] },
+      { term: "Premarket approval (PMA)", t: "Approval on evidence. For the highest-risk devices, it usually requires clinical data showing the device is safe and effective. Essure went this way." },
+      { term: "Adverse event reporting", t: "Once a device is on the market, makers must report deaths, serious injuries and malfunctions to the FDA within 30 days. Doctors and patients may report, but do not have to.", src: ["S10"] },
+      { term: "Recall", t: "Usually started by the company. The FDA classifies it. Class I is the most serious: the device could cause serious harm or death.", src: ["S27"] }
+    ],
+    conceptQs: [
+      { t: "Essure went through PMA, the strictest path, and still harmed thousands of women. Where did the system break down?" },
+      { t: "FDA recall records list DreamStation under 510(k) K131982, a clearance for an earlier Philips model. What does that tell you about how a \"new\" device reaches the market?", src: ["S28"] }
     ],
 
     statement:

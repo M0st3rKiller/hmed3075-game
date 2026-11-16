@@ -262,3 +262,8 @@ body.tpage .band h1 { font-size: 1.4rem; }
 
 input { background: var(--paper); color: var(--ink); }
 .btn.primary:hover { background: #3A6898; border-color: #3A6898; }
+.concepts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 6px 0 10px; }
+.concept { border: 3px solid var(--frame); background: var(--sheet); padding: 10px 16px; }
+.concept h3 { margin: 0 0 4px; color: var(--blue); font-size: clamp(1.15rem, 1.7vw, 1.5rem); }
+.concept p { margin: 0; font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.4; }
+.qs.cq li { font-size: clamp(1.1rem, 1.6vw, 1.45rem); padding: 8px 0 8px 1.6em; }

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794800950">
-<script src="assets/content.js?v=1794800950"></script>
-<script src="assets/app.js?v=1794800950"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794801459">
+<script src="assets/content.js?v=1794801459"></script>
+<script src="assets/app.js?v=1794801459"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -20,7 +20,7 @@
   const KEY = "ds-host-v2";
   const TABS = [
     { id: "video", name: "Promo video", stages: [{ name: "Video", minutes: 5 }] },
-    { id: "warmup", name: "Warm-up", stages: [{ name: "Recap", minutes: 7 }, { name: "Read your role", minutes: 3 }] },
+    { id: "warmup", name: "Warm-up", stages: [{ name: "Recap", minutes: 4 }, { name: "Key concepts", minutes: 3 }, { name: "Read your role", minutes: 3 }] },
     { id: "act1", name: "Act I: Launch", stages: G.stages },
     { id: "act2", name: "Act II: Fallout", stages: G.stages },
     { id: "debrief", name: "Debrief", stages: [{ name: "How you played", minutes: 3 }, { name: "What really happened", minutes: 3 }] }
@@ -102,6 +102,12 @@
          <p class="lead">Start from your worksheet. Talk with your table.</p>
          ${stagesBar()}
          <ol class="qs">${G.warmup.questions.map(q => `<li>${esc(q.q)} <span class="ws">${esc(q.ws)}</span></li>`).join("")}</ol>
+         <div class="row" style="margin-top:18px">${timerBox()}</div>${controls()}`
+      : k === 1
+      ? `<div class="kicker">Warm-up</div><h2 class="big">Key concepts</h2>
+         ${stagesBar()}
+         <div class="concepts">${G.warmup.concepts.map(c => `<div class="concept"><h3>${esc(c.term)}</h3><p>${DS.item(c, () => "source")}</p></div>`).join("")}</div>
+         <ol class="qs cq">${G.warmup.conceptQs.map(q => `<li>${DS.item(q, () => "source")}</li>`).join("")}</ol>
          <div class="row" style="margin-top:18px">${timerBox()}</div>${controls()}`
       : `<div class="kicker">Warm-up</div><h2 class="big">Read your role</h2>
          <p class="lead">Open the entry page on your laptop, type your table number, and read the "Your role" tab.</p>
