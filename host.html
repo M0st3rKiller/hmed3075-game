@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794850556">
-<script src="assets/content.js?v=1794850556"></script>
-<script src="assets/app.js?v=1794850556"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794850873">
+<script src="assets/content.js?v=1794850873"></script>
+<script src="assets/app.js?v=1794850873"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -142,7 +142,7 @@
       const sel = S.sel && S.sel[a.key];
       const L = "ABC";
       const buttons = `<div class="tablebtns">${G.tables.map(t => `<button class="tablebtn ${sel === t.n ? "on" : ""}" style="--c:${t.color}" data-sel="${t.n}">
-          <span class="tn">${t.n}</span><span class="tname">${esc(t.name)}</span><span class="tpick">${ch[t.n] !== undefined ? "Chose " + L[ch[t.n]] : "Not chosen yet"}</span></button>`).join("")}</div>`;
+          <span class="tn">${t.n}</span><span class="tname">${esc(t.name)}</span><span class="tpick">${ch[t.n] !== undefined ? "Recommended " + L[ch[t.n]] : "No recommendation yet"}</span></button>`).join("")}</div>`;
       let panel = `<p class="lead" style="margin-top:18px">Click a table to show its options.</p>`;
       if (sel) {
         const t = G.tables.find(x => x.n === sel);
@@ -159,7 +159,7 @@
         <p>${esc(a.outcome.lead)}</p>
         <p class="rule">${esc(a.outcome.rule)}</p>
         ${a.outcome.close ? `<p>${esc(a.outcome.close)}</p>` : ""}
-        ${done ? "" : `<p class="small muted">Not every table's choice has been recorded.</p>`}
+        ${done ? "" : `<p class="small muted">Not every table's recommendation has been recorded.</p>`}
       </div>`;
     }
     const extra = stageId === "read" ? `<button class="btn" data-a="reveal">${shown ? "Hide unlock word" : "Show unlock word"}</button>` : "";
@@ -175,7 +175,7 @@
       const c1 = S.choices.act1, c2 = S.choices.act2;
       const cards = G.tables.map(t => {
         const a = c1[t.n], b = c2[t.n];
-        const text = a !== undefined && b !== undefined ? G.reflections[t.n][a][b] : "Not every choice was recorded for this table.";
+        const text = a !== undefined && b !== undefined ? G.reflections[t.n][a][b] : "Not every recommendation was recorded for this table.";
         return `<div class="choicecard refl" style="--c:${t.color}">
           <div class="who">${t.n}. ${esc(t.name)}</div>
           <p class="picks">Act I: ${a !== undefined ? L[a] : "?"} &nbsp; Act II: ${b !== undefined ? L[b] : "?"}</p>

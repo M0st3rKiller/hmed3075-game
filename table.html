@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your table · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794850556">
-<script src="assets/content.js?v=1794850556"></script>
-<script src="assets/app.js?v=1794850556"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794850873">
+<script src="assets/content.js?v=1794850873"></script>
+<script src="assets/app.js?v=1794850873"></script>
 </head>
 <body class="tpage">
 <div id="app"></div>
@@ -76,7 +76,7 @@
     const card = `<div class="boxed tight guidebox"><p class="bh">Your decision guide</p>
         <div class="guidegrid">
           <div><h4>Key facts</h4>${facts}
-            <h4>How your choice touches other tables</h4><ul>${c.links.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
+            <h4>How your recommendation touches other tables</h4><ul>${c.links.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
           <div><h4>What you are weighing</h4><p class="weigh">${esc(c.weigh)}</p>
             <h4>What you might want to keep quiet</h4>${hide}
             <h4>Where help might come from</h4>${help}</div>
@@ -94,7 +94,7 @@
       <div class="bottomrow">
         <div>
           <div class="question"><b>Your question</b>${esc(c.question)}</div>
-          <p class="optlabel">Your choice (your spokesperson tells the TA)</p>
+          <p class="optlabel">Your recommendation (your spokesperson tells your boss, the TA)</p>
           <ul class="options">${c.options.map(o => `<li>${esc(o)}</li>`).join("")}</ul>
         </div>
         <div>${next}</div>
@@ -105,7 +105,7 @@
   function endPanel() {
     return `<div class="endscreen">
       <p class="kicker">End of the game</p>
-      <p class="endbig">Your choices are made. The machines are being recalled.</p>
+      <p class="endbig">Your recommendations are in. The machines are being recalled.</p>
       <p class="endbig">Now look up at the big screen to see what really happened.</p>
     </div>`;
   }
