@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your table · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794797276">
-<script src="assets/content.js?v=1794797276"></script>
-<script src="assets/app.js?v=1794797276"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794797490">
+<script src="assets/content.js?v=1794797490"></script>
+<script src="assets/app.js?v=1794797490"></script>
 </head>
 <body class="tpage">
 <div id="app"></div>
@@ -24,7 +24,7 @@
   document.documentElement.style.setProperty("--role", T.color);
 
   const KEY = "ds-table-v2-" + T.n;
-  const ORDER = ["role", "act1", "act2", "debrief"];
+  const ORDER = ["role", "act1", "act2", "end"];
   const st = store.get(KEY, { at: "role" });
   if (!ORDER.includes(st.at)) st.at = "role";
 
@@ -77,7 +77,7 @@
         <h4>What you need, and who has it</h4>${list(c.need)}
       </div>`;
     const prim = `<p class="prim"><b>Primary source.</b> ${item(c.source, num)}</p>`;
-    const next = act.key === "act1" ? unlockBox("Act II: Fallout") : `<div class="unlock-end"><button class="btn primary" data-go="debrief">Go to the debrief</button></div>`;
+    const next = act.key === "act1" ? unlockBox("Act II: Fallout") : `<div class="unlock-end"><button class="btn primary" data-go="end">Finish the game</button></div>`;
     return `<h2 class="acttitle">Act ${act.n === 1 ? "I" : "II"}: ${esc(act.title)}</h2>
       <div class="actgrid">
         <div class="story2 reading">${story}</div>
@@ -94,14 +94,17 @@
       ${srcList(num.order)}`;
   }
 
-  function debriefPanel() {
-    return `<h2>Debrief: what really happened</h2>
-      <ul class="timeline two">${G.debrief.map(d => `<li><b>${esc(d.y)}</b><span>${esc(d.t)}</span></li>`).join("")}</ul>`;
+  function endPanel() {
+    return `<div class="endscreen">
+      <p class="kicker">End of the game</p>
+      <p class="endbig">Your choices are made. The machines are being recalled.</p>
+      <p class="endbig">Now look up at the big screen to see what really happened.</p>
+    </div>`;
   }
 
   function render() {
     const i = ORDER.indexOf(st.at);
-    const body = st.at === "role" ? rolePanel() : st.at === "debrief" ? debriefPanel() : actPanel(G.acts.find(a => a.key === st.at));
+    const body = st.at === "role" ? rolePanel() : st.at === "end" ? endPanel() : actPanel(G.acts.find(a => a.key === st.at));
     const back = i > 0 ? `<button class="backlink" data-go="${ORDER[i - 1]}">Back to ${st.at === "act1" ? "your role" : st.at === "act2" ? "Act I" : "Act II"}</button>` : "";
     app.innerHTML = `<header class="band"><div class="in"><span class="num">${T.n}</span><h1>${esc(T.name)}</h1><span class="lbl">${esc(T.label)}</span></div></header>
       <main class="tp">${back}<section class="tp-panel">${body}</section></main>`;
