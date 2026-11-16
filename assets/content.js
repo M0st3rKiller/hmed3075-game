@@ -353,7 +353,7 @@ window.GAME = {
           links: ["Without the company's data, your only evidence is what patients and researchers send you.", "Doctors are waiting for a signal from the FDA before they tell patients anything."],
           source: {"t": "Device makers must report within 30 days, but late reports are common, and the FDA has accepted them years later.", "src": ["S10"]},
           question: "A handful of reports mention \"contamination.\" Your director has said to let the company handle it. What do you recommend?",
-          options: ["A. Open a formal investigation and inspect the plant", "B. Issue a public safety warning now", "C. Send Philips a letter asking for information, as the director wants"]
+          options: ["A. Open a formal investigation and inspect the plant", "B. Issue a public safety warning now", "C. Send Philips a letter asking for information"]
         },
         5: {
           film: { t: "Diana Zuckerman of the National Center for Health Research says the approval process for the riskiest devices is not good enough. Bayer's statement attacked her as a paid litigation expert.", src: ["F4", "F9"] },
