@@ -283,3 +283,8 @@ body.host .hmain > aside.side { padding-top: 150px; }
 .timer.floating { top: 72px; padding: 6px 20px 10px; }
 .timer.floating .t { font-size: clamp(2.2rem, 4.2vw, 4rem); }
 body.host .hmain > aside.side { padding-top: 125px; }
+
+.guidebox .sub { margin: 8px 0 2px; font-weight: 700; font-size: .92rem; color: var(--steel); }
+.guidebox .sub.up { color: #6FCF97; } .guidebox .sub.down { color: var(--alarm); }
+.guidebox .sub + ul { margin-top: 0; }
+.filmbox ul { margin: 0; padding-left: 1.1em; } .filmbox li { margin-bottom: 6px; }

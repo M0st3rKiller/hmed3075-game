@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your table · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794862322">
-<script src="assets/content.js?v=1794862322"></script>
-<script src="assets/app.js?v=1794862322"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794888975">
+<script src="assets/content.js?v=1794888975"></script>
+<script src="assets/app.js?v=1794888975"></script>
 </head>
 <body class="tpage">
 <div id="app"></div>
@@ -71,20 +71,23 @@
     const c = act.cards[T.n];
     const facts = `<ul class="guide">${c.facts.map(x => `<li>${item(x, num)}<span class="means"><b>What this means for you:</b> ${esc(x.means)}</span></li>`).join("")}</ul>`;
     const hide = `<ul class="guide">${c.hide.map(x => `<li>${item(x, num)}<span class="means"><b>Why:</b> ${esc(x.why)}</span></li>`).join("")}</ul>`;
-    const help = `<ul>${c.help.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+    const ul = arr => `<ul>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
     const story = act.shared.map((sec, i) => `<h3>${i + 1}. ${esc(sec.h)}</h3>${sec.p.map(x => `<p class="${x.strong ? "strong" : ""}">${item(x, num)}</p>`).join("")}`).join("");
     const card = `<div class="boxed tight guidebox"><p class="bh">Your decision guide</p>
         <div class="guidegrid">
-          <div><h4>What your side did at launch</h4><p class="weigh">${item(c.past, num)}</p>
+          <div><h4>Your part in this</h4><p class="weigh">${item(c.past, num)}</p>
             <h4>Key facts</h4>${facts}
-            <h4>How your recommendation touches other tables</h4><ul>${c.links.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
-          <div><h4>What you are weighing</h4><p class="weigh">${esc(c.weigh)}</p>
-            <h4>What you might want to keep quiet</h4>${hide}
-            <h4>Where help might come from</h4>${help}</div>
+            <h4>What you might want to keep quiet</h4>${hide}</div>
+          <div><h4>The pull on you</h4>
+            <p class="sub up">Reasons to act</p>${ul(c.pulls.act)}
+            <p class="sub down">Reasons to hold back</p>${ul(c.pulls.hold)}
+            <h4>The blame game</h4>
+            <p class="sub">Who will blame you</p>${ul(c.blame.you)}
+            <p class="sub">Who you can blame</p>${ul(c.blame.them)}</div>
         </div>
       </div>`;
     const prim = `<p class="prim"><b>Primary source.</b> ${item(c.source, num)}</p>`;
-    const film = c.film ? `<div class="filmbox"><p class="bh">In The Bleeding Edge</p><p>${item(c.film, num)}</p></div>` : "";
+    const film = `<div class="filmbox"><p class="bh">In The Bleeding Edge</p><ul>${c.films.map(x => `<li>${item(x, num)}</li>`).join("")}</ul></div>`;
     const next = `<div class="unlock-end"><button class="btn primary" data-go="end">Finish the game</button></div>`;
     return `<h2 class="acttitle">${esc(act.title)}</h2>
       <div class="actgrid">
