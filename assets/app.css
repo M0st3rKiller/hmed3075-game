@@ -288,3 +288,9 @@ body.host .hmain > aside.side { padding-top: 125px; }
 .guidebox .sub.up { color: #6FCF97; } .guidebox .sub.down { color: var(--alarm); }
 .guidebox .sub + ul { margin-top: 0; }
 .filmbox ul { margin: 0; padding-left: 1.1em; } .filmbox li { margin-bottom: 6px; }
+
+.concept { cursor: pointer; }
+.concept.veiled p { filter: blur(9px); user-select: none; }
+.concept.veiled::after { content: "Click to reveal"; display: block; margin-top: 6px; font-size: .9rem; color: var(--steel); }
+.choicecard.refl .verdict { font-size: clamp(.95rem, 1.12vw, 1.12rem); line-height: 1.38; }
+.choicecard.refl .picks { margin: 2px 0 4px; }

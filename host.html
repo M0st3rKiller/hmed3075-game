@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794972738">
-<script src="assets/content.js?v=1794972738"></script>
-<script src="assets/app.js?v=1794972738"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794973138">
+<script src="assets/content.js?v=1794973138"></script>
+<script src="assets/app.js?v=1794973138"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -18,14 +18,15 @@
 <script>
 (function () {
   const { G, store, esc } = DS;
-  const KEY = "ds-host-v3";
+  const KEY = "ds-host-v4";
   const TABS = [
     { id: "video", name: "Promo video", stages: [{ name: "Video", minutes: 5 }] },
     { id: "warmup", name: "Warm-up", stages: [{ name: "Recap", minutes: 5 }, { name: "Where the system fails", minutes: 4 }, { name: "Read your role", minutes: 3 }] },
-    { id: "game", name: "The game", stages: G.stages },
+    { id: "r1", name: "Round 1", stages: G.acts[0].stages },
+    { id: "r2", name: "Round 2", stages: G.acts[1].stages },
     { id: "debrief", name: "Debrief", stages: [{ name: "How you played", minutes: 3 }, { name: "What really happened", minutes: 3 }] }
   ];
-  const fresh = () => ({ tab: 0, stage: { video: 0, warmup: 0, game: 0, debrief: 0 }, shown: {}, choices: { game: {} }, timer: { left: 300, endAt: null } });
+  const fresh = () => ({ tab: 0, stage: { video: 0, warmup: 0, r1: 0, r2: 0, debrief: 0 }, shown: {}, revealed: {}, choices: { r1: {}, r2: {} }, timer: { left: 300, endAt: null } });
   let S = store.get(KEY, null) || fresh();
   const save = () => store.set(KEY, S);
   const main = document.getElementById("main");
@@ -108,7 +109,7 @@
       <button class="btn" data-a="prev" ${S.tab === 0 ? "disabled" : ""}>Previous section</button>
       <button class="btn" data-a="next" ${S.tab === TABS.length - 1 ? "disabled" : ""}>Next section</button>
     </div>
-    <p class="small muted keys">Keys: left and right arrows move to the previous or next stage. Enter goes to the next section, Backspace to the previous one. Space starts or pauses the timer. 1 to 4 jump to a section.${tab().id === "game" ? " R shows or hides the unlock word." : ""}</p>`;
+    <p class="small muted keys">Keys: left and right arrows move to the previous or next stage. Enter goes to the next section, Backspace to the previous one. Space starts or pauses the timer. 1 to 5 jump to a section.${tab().id.startsWith("r") ? " R shows or hides the unlock word." : ""}${tab().id === "warmup" && stageIdx() === 1 ? " R reveals the next card." : ""}</p>`;
   }
 
   /* ---------- Views ---------- */
@@ -131,7 +132,7 @@
       : k === 1
       ? `<div class="kicker">Warm-up</div><h2 class="big">Where the system fails</h2>
          ${stagesBar()}
-         <div class="concepts">${G.warmup.concepts.map(c => `<div class="concept"><h3>${esc(c.term)}</h3><p>${DS.item(c, () => "source")}</p></div>`).join("")}</div>
+         <div class="concepts">${G.warmup.concepts.map((c, i) => `<div class="concept ${(S.revealed || {})[i] ? "" : "veiled"}" data-a="concept" data-i="${i}" title="Click to reveal"><h3>${esc(c.term)}</h3><p>${DS.item(c, () => "source")}</p></div>`).join("")}</div>
          <ol class="qs cq">${G.warmup.conceptQs.map(q => `<li>${DS.item(q, () => "source")}</li>`).join("")}</ol>
          ${controls()}`
       : `<div class="kicker">Warm-up</div><h2 class="big">Read your role</h2>
@@ -149,7 +150,7 @@
   function actView() {
     const a = G.acts.find(x => x.key === tab().id);
     const k = stageIdx();
-    const stageId = G.stages[k].id;
+    const stageId = a.stages[k].id;
     const shown = !!S.shown[a.key];
     const ch = S.choices[a.key];
     main.className = "hmain single";
@@ -197,13 +198,13 @@
     const head = `<div class="acthead"><div><div class="kicker">Debrief</div><h2 class="big">${k === 0 ? "How you played" : "What really happened"}</h2></div>${timerBox()}</div>${stagesBar()}`;
     if (k === 0) {
       const L = "ABC";
-      const c1 = S.choices.game;
+      const c1 = S.choices.r1, c2 = S.choices.r2;
       const cards = G.tables.map(t => {
-        const a = c1[t.n];
-        const text = a !== undefined ? G.reflections[t.n][a] : "No recommendation was recorded for this table.";
+        const a = c1[t.n], b = c2[t.n];
+        const text = a !== undefined && b !== undefined ? G.reflections[t.n][a][b] : "Not every recommendation was recorded for this table.";
         return `<div class="choicecard refl" style="--c:${t.color}">
           <div class="who">${t.n}. ${esc(t.name)}</div>
-          <p class="picks">Recommended: ${a !== undefined ? L[a] : "?"}</p>
+          <p class="picks">Round 1: ${a !== undefined ? L[a] : "?"} &nbsp; Round 2: ${b !== undefined ? L[b] : "?"}</p>
           <p class="verdict">${esc(text)}</p></div>`;
       }).join("");
       return head + `<div class="choicegrid">${cards}</div>` + controls();
@@ -242,20 +243,22 @@
     if (a === "prev") goTab(S.tab - 1);
     if (a === "next") goTab(S.tab + 1);
     if (a === "nextstage") goStage(stageIdx() + 1);
+    if (a === "concept") { S.revealed = S.revealed || {}; S.revealed[b.dataset.i] = !S.revealed[b.dataset.i]; save(); render(); }
     if (a === "reveal") { S.shown[id] = !S.shown[id]; save(); render(); }
     if (a === "clear" && window.confirm("Clear all recorded choices and start a new class?")) { S = fresh(); save(); render(); }
   });
   document.addEventListener("keydown", e => {
     if (e.target.closest && e.target.closest("input,textarea")) return;
     const id = tab().id;
-    if (e.key >= "1" && e.key <= "4") goTab(+e.key - 1);
+    if (e.key >= "1" && e.key <= "5") goTab(+e.key - 1);
     else if (e.key === "ArrowRight") goStage(stageIdx() + 1);
     else if (e.key === "ArrowLeft") goStage(stageIdx() - 1);
     else if (e.key === "Enter") { e.preventDefault(); goTab(S.tab + 1); }
     else if (e.key === "Backspace") { e.preventDefault(); goTab(S.tab - 1); }
     else if (e.key === " ") { e.preventDefault(); toggleTimer(); }
     else if (e.key === "n" || e.key === "N") goStage(stageIdx() + 1);
-    else if ((e.key === "r" || e.key === "R") && id === "game") { S.shown[id] = !S.shown[id]; save(); render(); }
+    else if ((e.key === "r" || e.key === "R") && id === "warmup" && stageIdx() === 1) { S.revealed = S.revealed || {}; const i = G.warmup.concepts.findIndex((c, i) => !S.revealed[i]); if (i >= 0) { S.revealed[i] = true; save(); render(); } }
+    else if ((e.key === "r" || e.key === "R") && (id === "r1" || id === "r2")) { S.shown[id] = !S.shown[id]; save(); render(); }
   });
 
   render();
