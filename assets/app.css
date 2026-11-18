@@ -294,3 +294,7 @@ body.host .hmain > aside.side { padding-top: 125px; }
 .concept.veiled::after { content: "Click to reveal"; display: block; margin-top: 6px; font-size: .9rem; color: var(--steel); }
 .choicecard.refl .verdict { font-size: clamp(.95rem, 1.12vw, 1.12rem); line-height: 1.38; }
 .choicecard.refl .picks { margin: 2px 0 4px; }
+
+.qlabel { margin: 14px 0 6px; font-weight: 800; color: var(--steel); }
+.question.q2 { margin-top: 16px; }
+.choicecard.refl .verdict { font-size: clamp(.95rem, 1.12vw, 1.12rem); line-height: 1.38; }

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your table · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794973138">
-<script src="assets/content.js?v=1794973138"></script>
-<script src="assets/app.js?v=1794973138"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794973773">
+<script src="assets/content.js?v=1794973773"></script>
+<script src="assets/app.js?v=1794973773"></script>
 </head>
 <body class="tpage">
 <div id="app"></div>
@@ -23,8 +23,8 @@
   document.title = `Table ${T.n}: ${T.name} · DreamStation`;
   document.documentElement.style.setProperty("--role", T.color);
 
-  const KEY = "ds-table-v4-" + T.n;
-  const ORDER = ["role", "r1", "r2", "end"];
+  const KEY = "ds-table-v5-" + T.n;
+  const ORDER = ["role", "game", "end"];
   const st = store.get(KEY, { at: "role" });
   if (!ORDER.includes(st.at)) st.at = "role";
 
@@ -61,7 +61,7 @@
         <h2>How to play</h2>
         <ul class="rules">${G.warmup.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
         <p class="small muted"><span class="tag H">Historical</span> comes from the public record, with a numbered source link. <span class="tag F">Fictional</span> was written for this game.</p>
-        ${unlockBox("Start Round 1")}
+        ${unlockBox("Start the game")}
       </div>
     </div>`;
   }
@@ -69,7 +69,6 @@
   function actPanel(act) {
     const num = numberer();
     const c = act.cards[T.n];
-    if (act.key === "r2") return round2(act, c, num);
     const facts = `<ul class="guide">${c.facts.map(x => `<li>${item(x, num)}${x.means ? `<span class="means"><b>What this means for you:</b> ${esc(x.means)}</span>` : ""}</li>`).join("")}</ul>`;
     const hide = `<ul class="guide">${c.hide.map(x => `<li>${item(x, num)}<span class="means"><b>Why:</b> ${esc(x.why)}</span></li>`).join("")}</ul>`;
     const ul = arr => `<ul>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
@@ -88,7 +87,7 @@
         </div>
       </div>`;
     const film = `<div class="filmbox"><p class="bh">In The Bleeding Edge</p><ul>${c.films.map(x => `<li>${item(x, num)}</li>`).join("")}</ul></div>`;
-    const next = unlockBox("Round 2: The recall");
+    const next = `<div class="unlock-end"><button class="btn primary" data-go="end">Finish the game</button></div>`;
     return `<h2 class="acttitle">${esc(act.title)}</h2>
       <div class="actgrid">
         <div class="story2 reading">${story}</div>
@@ -97,29 +96,13 @@
       ${card}
       <div class="bottomrow">
         <div>
-          <div class="question"><b>Your question</b>${esc(c.question)}</div>
-          <p class="optlabel">Your recommendation (your spokesperson tells your boss, the TA)</p>
+          <p class="optlabel">Two recommendations (your spokesperson tells your boss, the TA)</p>
+          <div class="question"><b>Question 1: The black specks</b>${esc(c.question)}</div>
           <ul class="options">${c.options.map(o => `<li>${esc(o)}</li>`).join("")}</ul>
+          <div class="question q2"><b>Question 2: ${esc(c.q2.topic)}</b>${item(c.q2.ctx, num)} ${esc(c.q2.question)}</div>
+          <ul class="options">${c.q2.options.map(o => `<li>${esc(o)}</li>`).join("")}</ul>
         </div>
         <div>${next}</div>
-      </div>
-      ${srcList(num.order)}`;
-  }
-
-  function round2(act, c, num) {
-    const story = act.shared.map(sec => `<h3>${esc(sec.h)}</h3>${sec.p.map(x => `<p>${item(x, num)}</p>`).join("")}`).join("");
-    return `<h2 class="acttitle">${esc(act.title)}</h2>
-      <div class="actgrid">
-        <div class="reading">${story}</div>
-        <aside class="cardcol"><div class="boxed tight"><p class="bh">For your table</p><ul class="guide">${c.facts.map(x => `<li>${item(x, num)}</li>`).join("")}</ul></div></aside>
-      </div>
-      <div class="bottomrow">
-        <div>
-          <div class="question"><b>Your question</b>${esc(c.question)}</div>
-          <p class="optlabel">Your recommendation (your spokesperson tells your boss, the TA)</p>
-          <ul class="options">${c.options.map(o => `<li>${esc(o)}</li>`).join("")}</ul>
-        </div>
-        <div><div class="unlock-end"><button class="btn primary" data-go="end">Finish the game</button></div></div>
       </div>
       ${srcList(num.order)}`;
   }
@@ -127,7 +110,7 @@
   function endPanel() {
     return `<div class="endscreen">
       <p class="kicker">End of the game</p>
-      <p class="endbig">Your recommendations are in.</p>
+      <p class="endbig">Your recommendations are in. The machines are being recalled.</p>
       <p class="endbig">Now look up at the big screen to see what really happened.</p>
     </div>`;
   }
@@ -135,20 +118,20 @@
   function render() {
     const i = ORDER.indexOf(st.at);
     const body = st.at === "role" ? rolePanel() : st.at === "end" ? endPanel() : actPanel(G.acts.find(a => a.key === st.at));
-    const back = i > 0 ? `<button class="backlink" data-go="${ORDER[i - 1]}">Back to ${st.at === "r1" ? "your role" : st.at === "r2" ? "Round 1" : "Round 2"}</button>` : "";
+    const back = i > 0 ? `<button class="backlink" data-go="${ORDER[i - 1]}">Back to ${st.at === "game" ? "your role" : "the game"}</button>` : "";
     app.innerHTML = `<header class="band"><div class="in"><span class="num">${T.n}</span><h1>${esc(T.name)}</h1><span class="lbl">${esc(T.label)}</span></div></header>
       <main class="tp">${back}<section class="tp-panel">${body}</section></main>`;
 
     app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { st.at = b.dataset.go; store.set(KEY, st); render(); window.scrollTo(0, 0); });
     const f = document.getElementById("uf");
     if (f) {
-      const next = st.at === "role" ? "r1" : "r2";
+      const next = "game";
       f.onsubmit = e => {
         e.preventDefault();
         if (document.getElementById("code").value.trim().toUpperCase() === G.unlock[next]) {
           st.at = next; store.set(KEY, st); render(); window.scrollTo(0, 0);
         } else {
-          document.getElementById("uerr").textContent = "That is not the unlock word. Check the big screen. Check the big screen and try again.";
+          document.getElementById("uerr").textContent = "That word does not open the game. Check the big screen and try again.";
         }
       };
     }

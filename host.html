@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794973138">
-<script src="assets/content.js?v=1794973138"></script>
-<script src="assets/app.js?v=1794973138"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794973773">
+<script src="assets/content.js?v=1794973773"></script>
+<script src="assets/app.js?v=1794973773"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -18,15 +18,14 @@
 <script>
 (function () {
   const { G, store, esc } = DS;
-  const KEY = "ds-host-v4";
+  const KEY = "ds-host-v5";
   const TABS = [
     { id: "video", name: "Promo video", stages: [{ name: "Video", minutes: 5 }] },
     { id: "warmup", name: "Warm-up", stages: [{ name: "Recap", minutes: 5 }, { name: "Where the system fails", minutes: 4 }, { name: "Read your role", minutes: 3 }] },
-    { id: "r1", name: "Round 1", stages: G.acts[0].stages },
-    { id: "r2", name: "Round 2", stages: G.acts[1].stages },
+    { id: "game", name: "The game", stages: G.stages },
     { id: "debrief", name: "Debrief", stages: [{ name: "How you played", minutes: 3 }, { name: "What really happened", minutes: 3 }] }
   ];
-  const fresh = () => ({ tab: 0, stage: { video: 0, warmup: 0, r1: 0, r2: 0, debrief: 0 }, shown: {}, revealed: {}, choices: { r1: {}, r2: {} }, timer: { left: 300, endAt: null } });
+  const fresh = () => ({ tab: 0, stage: { video: 0, warmup: 0, game: 0, debrief: 0 }, shown: {}, revealed: {}, choices: { game: {}, game2: {} }, timer: { left: 300, endAt: null } });
   let S = store.get(KEY, null) || fresh();
   const save = () => store.set(KEY, S);
   const main = document.getElementById("main");
@@ -109,7 +108,7 @@
       <button class="btn" data-a="prev" ${S.tab === 0 ? "disabled" : ""}>Previous section</button>
       <button class="btn" data-a="next" ${S.tab === TABS.length - 1 ? "disabled" : ""}>Next section</button>
     </div>
-    <p class="small muted keys">Keys: left and right arrows move to the previous or next stage. Enter goes to the next section, Backspace to the previous one. Space starts or pauses the timer. 1 to 5 jump to a section.${tab().id.startsWith("r") ? " R shows or hides the unlock word." : ""}${tab().id === "warmup" && stageIdx() === 1 ? " R reveals the next card." : ""}</p>`;
+    <p class="small muted keys">Keys: left and right arrows move to the previous or next stage. Enter goes to the next section, Backspace to the previous one. Space starts or pauses the timer. 1 to 4 jump to a section.${tab().id === "game" ? " R shows or hides the unlock word." : ""}</p>`;
   }
 
   /* ---------- Views ---------- */
@@ -150,9 +149,9 @@
   function actView() {
     const a = G.acts.find(x => x.key === tab().id);
     const k = stageIdx();
-    const stageId = a.stages[k].id;
+    const stageId = G.stages[k].id;
     const shown = !!S.shown[a.key];
-    const ch = S.choices[a.key];
+    const ch = S.choices[a.key], ch2 = S.choices[a.key + "2"] || {};
     main.className = "hmain single";
     const head = `<div class="acthead"><div><div class="kicker">The game</div><h2 class="big">${esc(a.title)}</h2></div>${timerBox()}</div>${stagesBar()}`;
     let body = "";
@@ -168,19 +167,23 @@
       const sel = S.sel && S.sel[a.key];
       const L = "ABC";
       const buttons = `<div class="tablebtns">${G.tables.map(t => `<button class="tablebtn ${sel === t.n ? "on" : ""}" style="--c:${t.color}" data-sel="${t.n}">
-          <span class="tn">${t.n}</span><span class="tname">${esc(t.name)}</span><span class="tpick">${ch[t.n] !== undefined ? "Recommended " + L[ch[t.n]] : "No recommendation yet"}</span></button>`).join("")}</div>`;
+          <span class="tn">${t.n}</span><span class="tname">${esc(t.name)}</span><span class="tpick">${ch[t.n] !== undefined || ch2[t.n] !== undefined ? "Recommended " + (ch[t.n] !== undefined ? L[ch[t.n]] : "?") + ", " + (ch2[t.n] !== undefined ? L[ch2[t.n]] : "?") : "No recommendation yet"}</span></button>`).join("")}</div>`;
       let panel = `<p class="lead" style="margin-top:18px">Click a table to show its options.</p>`;
       if (sel) {
         const t = G.tables.find(x => x.n === sel);
         panel = `<div class="selpanel" style="--c:${t.color}">
           <div class="who">${t.n}. ${esc(t.name)}</div>
+          <p class="qlabel">Question 1: The black specks</p>
           <div class="bigopts">${a.cards[t.n].options.map((o, i) => `<button class="bigopt" aria-pressed="${ch[t.n] === i}" data-t="${t.n}" data-o="${i}">${esc(o)}</button>`).join("")}</div>
           ${ch[t.n] !== undefined ? verdict(a.outcome.lines[t.n][ch[t.n]]) : ""}
+          <p class="qlabel">Question 2: ${esc(a.cards[t.n].q2.topic)}</p>
+          <div class="bigopts">${a.cards[t.n].q2.options.map((o, i) => `<button class="bigopt" aria-pressed="${ch2[t.n] === i}" data-t="${t.n}" data-o="${i}" data-q="2">${esc(o)}</button>`).join("")}</div>
+          ${ch2[t.n] !== undefined ? verdict(a.outcome.lines2[t.n][ch2[t.n]]) : ""}
         </div>`;
       }
       body = buttons + panel;
     } else {
-      const done = G.tables.every(t => ch[t.n] !== undefined);
+      const done = G.tables.every(t => ch[t.n] !== undefined && ch2[t.n] !== undefined);
       body = `<div class="outcomebig">
         <p>${esc(a.outcome.lead)}</p>
         <p class="rule">${esc(a.outcome.rule)}</p>
@@ -198,13 +201,13 @@
     const head = `<div class="acthead"><div><div class="kicker">Debrief</div><h2 class="big">${k === 0 ? "How you played" : "What really happened"}</h2></div>${timerBox()}</div>${stagesBar()}`;
     if (k === 0) {
       const L = "ABC";
-      const c1 = S.choices.r1, c2 = S.choices.r2;
+      const c1 = S.choices.game, c2 = S.choices.game2 || {};
       const cards = G.tables.map(t => {
         const a = c1[t.n], b = c2[t.n];
         const text = a !== undefined && b !== undefined ? G.reflections[t.n][a][b] : "Not every recommendation was recorded for this table.";
         return `<div class="choicecard refl" style="--c:${t.color}">
           <div class="who">${t.n}. ${esc(t.name)}</div>
-          <p class="picks">Round 1: ${a !== undefined ? L[a] : "?"} &nbsp; Round 2: ${b !== undefined ? L[b] : "?"}</p>
+          <p class="picks">Black specks: ${a !== undefined ? L[a] : "?"} &nbsp; ${esc(G.acts[0].cards[t.n].q2.topic)}: ${b !== undefined ? L[b] : "?"}</p>
           <p class="verdict">${esc(text)}</p></div>`;
       }).join("");
       return head + `<div class="choicegrid">${cards}</div>` + controls();
@@ -233,7 +236,8 @@
       save(); return render();
     }
     if (b.dataset.t !== undefined) {
-      const k = tab().id, t = b.dataset.t, o = +b.dataset.o;
+      const k = tab().id + (b.dataset.q === "2" ? "2" : ""), t = b.dataset.t, o = +b.dataset.o;
+      S.choices[k] = S.choices[k] || {};
       if (S.choices[k][t] === o) delete S.choices[k][t]; else S.choices[k][t] = o;
       save(); return render();
     }
@@ -250,7 +254,7 @@
   document.addEventListener("keydown", e => {
     if (e.target.closest && e.target.closest("input,textarea")) return;
     const id = tab().id;
-    if (e.key >= "1" && e.key <= "5") goTab(+e.key - 1);
+    if (e.key >= "1" && e.key <= "4") goTab(+e.key - 1);
     else if (e.key === "ArrowRight") goStage(stageIdx() + 1);
     else if (e.key === "ArrowLeft") goStage(stageIdx() - 1);
     else if (e.key === "Enter") { e.preventDefault(); goTab(S.tab + 1); }
@@ -258,7 +262,7 @@
     else if (e.key === " ") { e.preventDefault(); toggleTimer(); }
     else if (e.key === "n" || e.key === "N") goStage(stageIdx() + 1);
     else if ((e.key === "r" || e.key === "R") && id === "warmup" && stageIdx() === 1) { S.revealed = S.revealed || {}; const i = G.warmup.concepts.findIndex((c, i) => !S.revealed[i]); if (i >= 0) { S.revealed[i] = true; save(); render(); } }
-    else if ((e.key === "r" || e.key === "R") && (id === "r1" || id === "r2")) { S.shown[id] = !S.shown[id]; save(); render(); }
+    else if ((e.key === "r" || e.key === "R") && id === "game") { S.shown[id] = !S.shown[id]; save(); render(); }
   });
 
   render();
