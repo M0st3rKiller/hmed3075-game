@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Host · DreamStation</title>
-<link rel="stylesheet" href="assets/app.css?v=1794974155">
-<script src="assets/content.js?v=1794974155"></script>
-<script src="assets/app.js?v=1794974155"></script>
+<link rel="stylesheet" href="assets/app.css?v=1794975568">
+<script src="assets/content.js?v=1794975568"></script>
+<script src="assets/app.js?v=1794975568"></script>
 </head>
 <body class="host">
 <header class="hbar">
@@ -18,7 +18,7 @@
 <script>
 (function () {
   const { G, store, esc } = DS;
-  const KEY = "ds-host-v5";
+  const KEY = "ds-host-v6";
   const TABS = [
     { id: "video", name: "Promo video", stages: [{ name: "Video", minutes: 5 }] },
     { id: "warmup", name: "Warm-up", stages: [{ name: "Recap", minutes: 5 }, { name: "Where the system fails", minutes: 4 }, { name: "Read your role", minutes: 3 }] },
@@ -202,15 +202,27 @@
     if (k === 0) {
       const L = "ABC";
       const c1 = S.choices.game, c2 = S.choices.game2 || {};
+      const act = G.acts[0];
+      const ok = (lines, t, o) => lines[t][o].startsWith("Adopted");
+      let over = 0, all = true;
       const cards = G.tables.map(t => {
-        const a = c1[t.n], b = c2[t.n];
-        const text = a !== undefined && b !== undefined ? G.reflections[t.n][a][b] : "Not every recommendation was recorded for this table.";
+        const a = c1[t.n], b = c2[t.n], E = G.endings[t.n];
+        if (a === undefined || b === undefined) {
+          all = false;
+          return `<div class="choicecard refl" style="--c:${t.color}"><div class="who">${t.n}. ${esc(t.name)}</div><p class="verdict">Not every recommendation was recorded for this table.</p></div>`;
+        }
+        const adopted = (ok(act.outcome.lines, t.n, a) ? 1 : 0) + (ok(act.outcome.lines2, t.n, b) ? 1 : 0);
+        over += 2 - adopted;
+        const e = E.end[adopted];
         return `<div class="choicecard refl" style="--c:${t.color}">
           <div class="who">${t.n}. ${esc(t.name)}</div>
-          <p class="picks">Black specks: ${a !== undefined ? L[a] : "?"} &nbsp; ${esc(G.acts[0].cards[t.n].q2.topic)}: ${b !== undefined ? L[b] : "?"}</p>
-          <p class="verdict">${esc(text)}</p></div>`;
+          <p class="picks">Recommended ${L[a]} and ${L[b]} &nbsp; ${adopted} of 2 adopted</p>
+          <p class="endtitle">Ending: ${esc(e.title)}</p>
+          <p class="verdict">${esc(E.q1[a])} ${esc(E.q2[b])} <b>${esc(e.t)}</b></p></div>`;
       }).join("");
-      return head + `<div class="choicegrid">${cards}</div>` + controls();
+      const room = G.roomEndings.find(r => over <= r.max);
+      const banner = all ? `<div class="roomend"><p class="endtitle">The room's ending: ${esc(room.title)}</p><p>${over} of your 12 recommendations were overruled. ${esc(room.t)} In every ending, the recall still came in June 2021.</p></div>` : "";
+      return head + `<div class="choicegrid">${cards}</div>` + banner + controls();
     }
     return head + `<ul class="timeline" style="margin-top:12px">${G.debrief.map(d => `<li><b>${esc(d.y)}</b><span>${esc(d.t)}</span></li>`).join("")}</ul>` +
       controls(`<button class="btn" data-a="clear">Clear all records</button>`);

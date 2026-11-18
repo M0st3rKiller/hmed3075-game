@@ -298,3 +298,9 @@ body.host .hmain > aside.side { padding-top: 125px; }
 .qlabel { margin: 14px 0 6px; font-weight: 800; color: var(--steel); }
 .question.q2 { margin-top: 16px; }
 .choicecard.refl .verdict { font-size: clamp(.95rem, 1.12vw, 1.12rem); line-height: 1.38; }
+
+.refl .endtitle, .roomend .endtitle { margin: 2px 0 4px; font-weight: 800; color: var(--fict); font-size: clamp(1.05rem, 1.4vw, 1.3rem); }
+.refl .verdict b { display: block; margin-top: 6px; color: var(--ink); font-weight: 800; }
+.choicecard.refl .verdict { font-weight: 500; }
+.roomend { margin-top: 14px; border: 3px solid var(--fict); background: #221D12; padding: 10px 16px; font-size: clamp(1rem, 1.3vw, 1.25rem); }
+.roomend p { margin: 0; }
