@@ -23,10 +23,10 @@ window.GAME = {
   stageRules: {
     read: [
       "Read the story and your table's card on your device.",
-      "Sum up what your table knows, and plan what you still need."
+      "Sum up what your table knows and what you still need to find out."
     ],
     debate: [
-      "Talk with your table: what is your group trying to do?",
+      "Talk with your table: what does your side want?",
       "Question the other tables: what do they know, and what did they do?",
       "Pick a spokesperson to present your table's recommendation to your boss."
     ]
@@ -91,12 +91,12 @@ window.GAME = {
     statement:
       "This game is adapted from a real case. Philips Respironics and DreamStation are real names. The local people and organizations in the game are fictional. Anything marked Historical comes from the public record. Everything else was written for this discussion. The debrief at the end is entirely real.",
     rules: [
-      "Each table plays the staff of one side, not its decision-makers. Open the entry page and type your table number.",
+      "Each table plays staff on one side of the story, not the people in charge. Open the entry page and type your table number.",
       "One round: read (7 min), discussion within and across tables (15 min), recommend (3 min), outcome (1 min).",
-      "Your table answers two questions, and your boss decides. One spokesperson tells the TA both recommendations. The big screen shows whether each was adopted or overruled.",
+      "Your table makes a recommendation on two questions, and your boss decides. One spokesperson gives both to the TA, and the big screen shows whether each was adopted or overruled.",
       "The game opens when the unlock word appears on the big screen.",
-      "You may share what you know, or not. Sharing is never punished, but it can have consequences.",
-      "Your TA plays every table's boss, plus the insurer and the federal government. Their decisions are announced, not negotiated."
+      "You decide what to share with other tables. Nothing in the rules punishes you for sharing, but other tables may use what you tell them.",
+      "Your TA plays every table's boss, as well as the insurer and the federal government. Their decisions are final."
     ]
   },
 
@@ -104,39 +104,39 @@ window.GAME = {
   tables: [
     {
       n: 1, name: "Philips Respironics", label: "The manufacturer", color: "#2F5D8A",
-      intro: "You work on the DreamStation product team at Philips Respironics, the U.S. sleep and respiratory business of Royal Philips. You recommend. The executives and the board, played by the TA, decide.",
-      interest: "Sell more machines and keep them on the market.",
-      dilemma: "The longer a problem stays quiet, the higher the eventual cost."
+      intro: "You work on the DreamStation product team at Philips Respironics, the U.S. sleep and respiratory business of Royal Philips. You can make recommendations, but the executives and the board make the decisions. Your TA plays them.",
+      interest: "You want DreamStation to sell well and stay on the market.",
+      dilemma: "Every month a problem stays hidden, it gets more expensive to fix."
     },
     {
       n: 2, name: "Twin Lakes Sleep Specialists", label: "The physicians", color: "#3E7C59",
-      intro: "You are staff physicians at a local sleep clinic. You diagnose sleep apnea and prescribe CPAP. You recommend. The clinic's managing partners, played by the TA, set clinic policy.",
-      interest: "Make treatment work. Patients have to actually wear the machine, and insurance pays only if they do. You also rely on good referral relationships and want to avoid liability.",
-      dilemma: "You need a machine patients will wear, but you have no way to judge whether the machine itself is safe."
+      intro: "You are staff physicians at a local sleep clinic, where you diagnose sleep apnea and prescribe CPAP. You can make recommendations, but the clinic's managing partners set its policy. Your TA plays them.",
+      interest: "You want treatment to work. That means patients have to wear the machine, and insurance only pays if they do. You also depend on good relations with suppliers and want to stay out of court.",
+      dilemma: "You need a machine your patients will wear, but you have no way of knowing whether the machine itself is safe."
     },
     {
       n: 3, name: "North Star Sleep Apnea Circle", label: "The patients", color: "#9A4A3A",
-      intro: "You are volunteer organizers of a local support group for people with sleep apnea, and CPAP users yourselves. You recommend. The Circle's board, played by the TA, decides.",
-      interest: "Get a machine that keeps you alive and lets you sleep.",
-      dilemma: "You need it to stay healthy, and you are afraid it might be making you sick."
+      intro: "You are volunteers who run a local support group for people with sleep apnea, and you use CPAP yourselves. You can make recommendations, but the group's board decides what it tells members. Your TA plays the board.",
+      interest: "You want a machine that lets you sleep and keeps you healthy.",
+      dilemma: "You need the machine to stay healthy, and you are starting to fear it is making you sick."
     },
     {
       n: 4, name: "CDRH Staff", label: "The reviewers", color: "#4B5563",
-      intro: "You are ordinary reviewers at the FDA's Center for Devices and Radiological Health. You read submissions and adverse event reports. You recommend. Your leadership, played by the TA, sets your workload and has the final say.",
-      interest: "Get your work done and do the right thing.",
-      dilemma: "The work never ends, your bosses decide what counts as urgent, and you are not sure whose side they are on."
+      intro: "You are reviewers at the FDA's Center for Devices and Radiological Health. You read companies' submissions and reports of problems with devices. You can make recommendations, but your leadership sets your workload and makes the final call. Your TA plays your leadership.",
+      interest: "You want to do your job well and protect the public.",
+      dilemma: "There is always more work than time, your bosses decide what is urgent, and you are not sure whose side they are on."
     },
     {
       n: 5, name: "University of Twin Lakes Medical School", label: "The researchers", color: "#5B4B8A",
-      intro: "You are junior researchers in the sleep lab of the local medical school. You recommend. The department chair and the dean's office, played by the TA, decide what the lab studies and says in public.",
-      interest: "Find out what is true.",
-      dilemma: "You cannot get the data, and you keep wondering whether you are seeing things."
+      intro: "You are junior researchers in the sleep lab of the local medical school. You can make recommendations, but the department chair and the dean's office decide what the lab studies and what it says in public. Your TA plays them.",
+      interest: "You want to find out what is true.",
+      dilemma: "You cannot get the data you need, and you are not sure your findings will hold up."
     },
     {
       n: 6, name: "Lakeside Home Medical", label: "The equipment supplier", color: "#7A5C1E",
-      intro: "You are sales and service staff at a local medical equipment supplier. Patients rent and buy CPAP machines from you, and you download their usage data for insurers. The store also sells ozone CPAP cleaners (fictional). You recommend. The owner, played by the TA, decides.",
-      interest: "Sell and rent machines and supplies. You only get paid if patients meet the insurer's usage rule.",
-      dilemma: "You need good relations with the doctors who refer patients, and you are, in effect, Philips' local outsourcing."
+      intro: "You work in sales and service at a local medical equipment supplier. Patients rent and buy CPAP machines from you, and you download their usage data for insurers. The store also sells ozone cleaners for CPAP machines. You can make recommendations, but the owner makes the decisions. Your TA plays the owner.",
+      interest: "You want to rent and sell machines and supplies. You only get paid when patients meet the insurer's usage rule.",
+      dilemma: "You depend on the doctors who send you patients, and on Philips, which supplies most of what you sell."
     }
   ],
 
@@ -151,9 +151,9 @@ window.GAME = {
           films: [{"t": "Bayer refused to be interviewed, then attacked the film with a \"fact check\" (worksheet Q6).", "src": ["F3", "F9"]}, {"t": "A week before the film came out, Bayer pulled Essure, citing \"declining sales.\"", "src": ["F10"]}],
           past: {"t": "You skipped the long-term test to launch before a rival."},
           facts: [{"t": "Your own tests show the foam breaks down, faster with ozone cleaners."}, {"t": "Two internal reviews rated the risk \"unacceptable.\" A third said harm was \"improbable.\"", "tag": "H", "src": ["S12", "S21"]}],
-          pulls: {"act": ["Millions breathe this foam nightly.", "Your names are on the emails."], "hold": ["A recall costs billions.", "A recall leaves patients with no machine."]},
-          hide: [{"t": "You have reported far fewer complaints than you received.", "why": "Late reports bring penalties.", "tag": "H", "src": ["S8", "S10"]}],
-          blame: {"you": ["Everyone: you skipped the test."], "them": ["Patients who used ozone cleaners."]},
+          pulls: {"act": ["Millions of people breathe through this foam every night.", "Your names are on the internal emails."], "hold": ["A recall would cost billions.", "A recall would leave patients with no machine at all."]},
+          hide: [{"t": "You have reported far fewer complaints than you received.", "why": "Late reports can bring penalties.", "tag": "H", "src": ["S8", "S10"]}],
+          blame: {"you": ["Everyone will say you skipped the test."], "them": ["You can blame patients who used ozone cleaners."]},
           source: {"t": "Your foam supplier, in a 2016 email: it \"would not recommend use of polyester foam in such an environment.\"", "src": ["S6"]},
           question: "Complaints about black specks are piling up, and your own tests show the foam breaks down. What do you recommend to the executives?",
           options: ["A. Announce there is no proof of harm, and point to ozone cleaners", "B. Swap the foam during routine servicing, with no announcement", "C. File every overdue complaint with the FDA now"],
@@ -163,9 +163,9 @@ window.GAME = {
           films: [{"t": "Dr. Stephen Tower, a surgeon, put a metal hip in himself. He blames it for his mental breakdown.", "src": ["F11", "F2"]}, {"t": "Device companies paid doctors $2 billion in 2016. Tower says doctors are pushed toward new devices.", "src": ["F2", "F3"]}],
           past: {"t": "Your clinic made DreamStation its default without seeing a safety study."},
           facts: [{"t": "Patients bring you tubing with black specks, and report headaches and coughs."}, {"t": "Untreated sleep apnea raises the risk of heart attack, stroke and car crashes."}],
-          pulls: {"act": ["Patients trust you.", "You prescribed it."], "hold": ["Stopping treatment is dangerous too.", "The partners fear lawsuits."]},
-          hide: [{"t": "You never saw any safety data.", "why": "Patients may blame you."}],
-          blame: {"you": ["Patients: you said it was safe."], "them": ["Philips and the FDA said so first."]},
+          pulls: {"act": ["Your patients trust you.", "You are the one who prescribed it."], "hold": ["Stopping treatment is dangerous too.", "The partners are afraid of lawsuits."]},
+          hide: [{"t": "You never saw any safety data.", "why": "Patients may hold you responsible."}],
+          blame: {"you": ["Patients will say you told them it was safe."], "them": ["You can point out that Philips and the FDA said so first."]},
           source: {"t": "Philips' recall notice told patients not to stop or change prescribed therapy without consulting their physicians.", "src": ["S13"]},
           question: "A patient puts speckled tubing on your desk and asks: do I use this tonight? What should the clinic tell every patient?",
           options: ["A. Tell patients to keep using it: untreated apnea is the bigger risk", "B. Tell patients to stop tonight, until the particles are tested", "C. Lay out both risks and let each patient choose"],
@@ -175,9 +175,9 @@ window.GAME = {
           films: [{"t": "Angie Firmalino's Facebook group of Essure patients grew to tens of thousands and pressured the FDA.", "src": ["F6"]}, {"t": "These women got Essure because doctors recommended it, then lobbied Congress for years to ban it.", "src": ["F1", "F14"]}],
           past: {"t": "You petitioned Philips for a quiet machine, and Philips used your petition in ads."},
           facts: [{"t": "Twenty members sent photos of black specks.", "tag": "F"}, {"t": "Members who stop using their machines cannot sleep, drive or work safely."}],
-          pulls: {"act": ["Members are breathing it.", "Nobody else is collecting these stories."], "hold": ["Members need their machines.", "The board fears being sued for bad advice."]},
-          hide: [{"t": "Many members used ozone cleaners.", "why": "Philips could blame them."}],
-          blame: {"you": ["Philips: your members used ozone cleaners."], "them": ["Everyone who said it was safe."]},
+          pulls: {"act": ["Your members are the ones breathing it.", "Nobody else is collecting these stories."], "hold": ["Your members need their machines.", "The board is afraid of being sued for bad advice."]},
+          hide: [{"t": "Many members used ozone cleaners.", "why": "Philips could blame them instead of the foam."}],
+          blame: {"you": ["Philips will say your members used ozone cleaners."], "them": ["You can blame everyone who said it was safe."]},
           source: {"t": "Complaints sent to Philips described \"black particles\" or \"dirt and dust\" inside machines.", "src": ["S14"]},
           question: "Members keep finding black specks, and no one can say what they are. What should the board tell members?",
           options: ["A. Tell members to keep using the machines until there is proof", "B. Tell members to stop, or dig out their old loud machines", "C. File FDA reports as a group and hire a lawyer"],
@@ -187,9 +187,9 @@ window.GAME = {
           films: [{"t": "Former FDA chief David Kessler says the reporting system fails because reporting is voluntary.", "src": ["F7"]}, {"t": "The film shows FDA officials who later took jobs at the companies they regulated.", "src": ["F13"]}],
           past: {"t": "Your office approved the foam in one day, without a test."},
           facts: [{"t": "Philips filed only 30 foam reports in ten years.", "tag": "H", "src": ["S9"]}, {"t": "A few early reports said \"contamination.\" Nobody followed up.", "tag": "H", "src": ["S10"]}],
-          pulls: {"act": ["You are the only ones paid to check.", "The warnings were in your files."], "hold": ["Your director says to wait, and may have an industry job offer.", "An investigation takes months."]},
-          hide: [{"t": "Your office never asked for a test.", "why": "It shows you missed it."}],
-          blame: {"you": ["The public: you cleared it."], "them": ["Philips hid the data."]},
+          pulls: {"act": ["You are the only people paid to check.", "The warning signs were already in your files."], "hold": ["Your director says to wait, and is rumored to have an industry job offer.", "An investigation would take months."]},
+          hide: [{"t": "Your office never asked for a test.", "why": "It shows you missed it from the start."}],
+          blame: {"you": ["The public will say you cleared it."], "them": ["You can say Philips kept the data from you."]},
           source: {"t": "Device makers must report within 30 days, but late reports are common, and the FDA has accepted them years later.", "src": ["S10"]},
           question: "A few reports say \"contamination,\" and your director says to let the company handle it. What do you recommend?",
           options: ["A. Open a formal investigation and inspect the plant", "B. Issue a public safety warning now", "C. Send Philips a letter asking for information"],
@@ -199,9 +199,9 @@ window.GAME = {
           films: [{"t": "Researcher Diana Zuckerman criticized device approval. Bayer attacked her as a paid expert witness.", "src": ["F4", "F9"]}, {"t": "Dr. Rita Redberg explains how the 510(k) path let dangerous metal hips onto the market.", "src": ["F2", "F4"]}],
           past: {"t": "Your lab praised the quiet machine in the paper. Philips put the quote in its brochure."},
           facts: [{"t": "Your lab says the specks are broken-down foam."}, {"t": "You tested only twelve machines, and Philips will not share its data."}],
-          pulls: {"act": ["Yours is the only independent evidence.", "Your name is on the product."], "hold": ["Twelve machines is a small sample.", "Your university fears a lawsuit."]},
-          hide: [{"t": "How small your sample is.", "why": "Philips would dismiss you."}],
-          blame: {"you": ["Readers who trusted your praise."], "them": ["Philips would not share data."]},
+          pulls: {"act": ["Yours is the only independent evidence.", "Your lab's name is already on the product."], "hold": ["Twelve machines is a small sample.", "Your university is afraid of a lawsuit."]},
+          hide: [{"t": "How small your sample is.", "why": "Philips would use it to dismiss your findings."}],
+          blame: {"you": ["Readers who trusted your praise will blame you."], "them": ["You can say Philips would not share its data."]},
           source: {"t": "A Philips engineer, in a 2018 email unsealed in court: \"The material sheds and is pulled into the ventilator air path.\"", "src": ["S7"]},
           question: "Your lab says the specks are degraded foam, based on twelve machines. What do you recommend to the chair?",
           options: ["A. Publish the result now as a preliminary finding", "B. Give the lab report to the patients' group", "C. Send it confidentially to the FDA and keep testing"],
@@ -211,9 +211,9 @@ window.GAME = {
           films: [{"t": "On training for the da Vinci robot: if surgeons needed nine weeks of it, nobody would buy the machine.", "src": ["F2"]}, {"t": "Insurers paid to put Essure in far more easily than to take it out.", "src": ["F8"]}],
           past: {"t": "Philips gave you free data on which doctors prescribe CPAP, and you used it to sell.", "tag": "H", "src": ["S5"], "note": "In 2022 Respironics paid $24 million to settle these allegations."},
           facts: [{"t": "Speckled machines keep coming back to your counter."}, {"t": "Philips stopped shipping, but says you may keep selling your stock.", "tag": "H", "src": ["S11"]}],
-          pulls: {"act": ["You face your customers.", "You saw the specks first."], "hold": ["200 unsold machines.", "You also sell ozone cleaners."]},
-          hide: [{"t": "You saw specks long before anyone complained.", "why": "You look complicit."}],
-          blame: {"you": ["Patients: you sold them the machine."], "them": ["Philips told you to keep selling."]},
+          pulls: {"act": ["You are the ones who hand patients the machine.", "You saw the specks before anyone else."], "hold": ["There are 200 unsold machines in the warehouse.", "You also sell the ozone cleaners Philips is starting to blame."]},
+          hide: [{"t": "You saw specks long before anyone complained.", "why": "It could make you look complicit."}],
+          blame: {"you": ["Patients will say you sold them the machine."], "them": ["You can say Philips told you to keep selling."]},
           source: {"t": "In April 2021 Philips stopped shipping the machines from its factories but approved continued sales of distributors' inventory.", "src": ["S11"]},
           question: "Speckled machines keep coming back, and Philips says you may keep selling. What should the owner do with the 200 in stock?",
           options: ["A. Stop selling, and call every patient and doctor", "B. Report the specks to Philips only, and sell the stock", "C. Pull the stock quietly and say nothing"],
